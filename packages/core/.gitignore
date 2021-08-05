@@ -1,9 +1,9 @@
 # Dependencies
-node_modules
+/node_modules
 
 # Hardhat
-cache
-artifacts
+/cache
+/artifacts
 
 # Secrets
 .env
