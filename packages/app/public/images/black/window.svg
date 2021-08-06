@@ -1,0 +1,15 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#000000" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line-supplement">
+    <line x1="35.9004" x2="35.9004" y1="14.7127" y2="57.1676" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0249"/>
+    <line x1="14.7206" x2="57.2826" y1="35.9583" y2="35.9583" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0249"/>
+  </g>
+  <g id="line">
+    <line x1="61" x2="10.9583" y1="61" y2="61" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="10.958 57.168 10.958 10.958 61 10.958 61 57.168"/>
+  </g>
+</svg>
+</svg>
