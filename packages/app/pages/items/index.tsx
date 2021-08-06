@@ -10,7 +10,7 @@ type Props = {
 const WithStaticProps = ({ items }: Props) => (
     <div>
     {items.map((item) => (
-        <img width="150" src={`/images/black/${item}.svg`} />
+        <img title={item} width="150" src={`/images/black/${item}.svg`} />
       ))}
 
     </div>
