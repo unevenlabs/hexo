@@ -28,6 +28,12 @@ contract Hexo is ERC721, Ownable {
 
     /// Events
 
+    event PriceChanged(uint256 price);
+    event BaseURIChanged(string baseURI);
+    event TokenURIChanged(uint256 tokenId, string tokenURI);
+    event ColorAdded(string color);
+    event ObjectAdded(string object);
+    event FundsClaimed(uint256 amount, address to);
     event ItemBought(string color, string object, address buyer, uint256 price);
 
     /// Constructor
@@ -51,26 +57,37 @@ contract Hexo is ERC721, Ownable {
 
     function changePrice(uint256 _price) external onlyOwner {
         price = _price;
+        emit PriceChanged(_price);
     }
 
     function changeBaseURI(string calldata _baseURI) external onlyOwner {
         baseURI = _baseURI;
+        emit BaseURIChanged(_baseURI);
     }
 
-    function addColors(bytes32[] calldata _colorHashes) external onlyOwner {
-        for (uint256 i = 0; i < _colorHashes.length; i++) {
-            colors[_colorHashes[i]] = 1;
+    function addColors(string[] calldata _colors) external onlyOwner {
+        for (uint256 i = 0; i < _colors.length; i++) {
+            string memory color = _colors[i];
+            bytes32 colorHash = keccak256(bytes(color));
+            require(colors[colorHash] == 0, "Color already added");
+            colors[colorHash] = 1;
+            emit ColorAdded(color);
         }
     }
 
-    function addObjects(bytes32[] calldata _objectHashes) external onlyOwner {
-        for (uint256 i = 0; i < _objectHashes.length; i++) {
-            objects[_objectHashes[i]] = 1;
+    function addObjects(string[] calldata _objects) external onlyOwner {
+        for (uint256 i = 0; i < _objects.length; i++) {
+            string memory object = _objects[i];
+            bytes32 objectHash = keccak256(bytes(object));
+            require(objects[objectHash] == 0, "Object already added");
+            objects[objectHash] = 1;
+            emit ObjectAdded(object);
         }
     }
 
     function claim(address payable _to, uint256 _amount) external onlyOwner {
         _to.sendValue(_amount);
+        emit FundsClaimed(_amount, _to);
     }
 
     /// User actions
@@ -105,6 +122,7 @@ contract Hexo is ERC721, Ownable {
     function setTokenURI(uint256 _tokenId, string calldata _tokenURI) external {
         require(ownerOf(_tokenId) == msg.sender, "Unauthorized");
         tokenURIs[_tokenId] = _tokenURI;
+        emit TokenURIChanged(_tokenId, _tokenURI);
     }
 
     /// Overrides

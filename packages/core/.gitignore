@@ -5,6 +5,10 @@
 /cache
 /artifacts
 
+# Coverage
+/coverage
+coverage.json
+
 # Secrets
 .env
 

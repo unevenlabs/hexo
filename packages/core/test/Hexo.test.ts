@@ -90,18 +90,22 @@ describe("Hexo", () => {
     expect(await hexo.ownerOf(BigNumber.from(id("reddragon")))).to.be.equal(
       alice.address
     );
+    expect(await ens.owner(namehash(["reddragon", "hexo", "eth"]))).to.be.equal(
+      alice.address
+    );
     expect(await hexo.ownerOf(BigNumber.from(id("greenturtle")))).to.be.equal(
       alice.address
     );
+    expect(
+      await ens.owner(namehash(["greenturtle", "hexo", "eth"]))
+    ).to.be.equal(alice.address);
   });
 
   it("cannot buy for lower price", async () => {
     await expect(
-      hexo
-        .connect(alice)
-        .buy(["red", "green"], ["dragon", "turtle"], {
-          value: price.mul(2).sub(1),
-        })
+      hexo.connect(alice).buy(["red", "green"], ["dragon", "turtle"], {
+        value: price.mul(2).sub(1),
+      })
     ).to.be.revertedWith("Insufficient amount");
   });
 
@@ -110,6 +114,12 @@ describe("Hexo", () => {
 
     await expect(
       hexo.connect(alice).buy(["red"], ["dragon"], { value: price })
+    ).to.be.revertedWith("ERC721: token already minted");
+
+    await expect(
+      hexo
+        .connect(alice)
+        .buy(["green", "green"], ["turtle", "turtle"], { value: price.mul(2) })
     ).to.be.revertedWith("ERC721: token already minted");
   });
 
@@ -121,6 +131,19 @@ describe("Hexo", () => {
     await expect(
       hexo.connect(alice).buy(["red"], ["object"], { value: price })
     ).to.be.revertedWith("Object not added");
+
+    await expect(
+      hexo.connect(alice).buy(["dragon"], ["red"], { value: price })
+    ).to.be.revertedWith("Color not added");
+  });
+
+  it("invalid buy", async () => {
+    await expect(hexo.connect(alice).buy(["red"], [])).to.be.revertedWith(
+      "Invalid inputs"
+    );
+    await expect(
+      hexo.connect(alice).buy([], ["dragon", "turtle"])
+    ).to.be.revertedWith("Invalid inputs");
   });
 
   it("transferring changes ENS subdomain ownership", async () => {
@@ -156,14 +179,42 @@ describe("Hexo", () => {
     );
   });
 
-  it("contract admin can claim earnings", async () => {
+  it("admin can claim earnings", async () => {
     await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
     await hexo.connect(bob).buy(["green"], ["turtle"], { value: price });
+
+    expect(
+      hexo.connect(alice).claim(alice.address, price.mul(2))
+    ).to.be.revertedWith("Ownable: caller is not the owner");
 
     const balanceBefore = await carol.getBalance();
     await hexo.connect(deployer).claim(carol.address, price.mul(2));
     const balanceAfter = await carol.getBalance();
 
     expect(balanceAfter.sub(balanceBefore)).to.be.equal(price.mul(2));
+  });
+
+  it("admin can add new colors and objects", async () => {
+    await expect(hexo.connect(alice).addColors(["color"])).to.be.revertedWith(
+      "Ownable: caller is not the owner"
+    );
+    await expect(hexo.connect(alice).addObjects(["object"])).to.be.revertedWith(
+      "Ownable: caller is not the owner"
+    );
+
+    await expect(
+      hexo.connect(alice).buy(["color"], ["object"], { value: price })
+    ).to.be.revertedWith("Color not added");
+    await hexo.connect(deployer).addColors(["color"]);
+
+    await expect(
+      hexo.connect(alice).buy(["color"], ["object"], { value: price })
+    ).to.be.revertedWith("Object not added");
+    await hexo.connect(deployer).addObjects(["object"]);
+
+    await hexo.connect(alice).buy(["color"], ["object"], { value: price });
+    expect(await hexo.ownerOf(BigNumber.from(id("colorobject")))).to.be.equal(
+      alice.address
+    );
   });
 });
