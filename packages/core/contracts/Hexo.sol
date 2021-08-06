@@ -13,8 +13,8 @@ contract Hexo is ERC721, Ownable {
     /// Fields
 
     uint256 public price;
-    mapping(bytes32 => bool) public colors;
-    mapping(bytes32 => bool) public objects;
+    mapping(bytes32 => uint256) public colors;
+    mapping(bytes32 => uint256) public objects;
     mapping(uint256 => bytes32) public tokenIdToHexoLabel;
 
     string private baseURI;
@@ -28,7 +28,7 @@ contract Hexo is ERC721, Ownable {
 
     /// Events
 
-    event ItemBought(string color, string object, address buyer);
+    event ItemBought(string color, string object, address buyer, uint256 price);
 
     /// Constructor
 
@@ -38,13 +38,13 @@ contract Hexo is ERC721, Ownable {
         price = _price;
         baseURI = _baseURI;
 
-        colors[keccak256("red")] = true;
-        colors[keccak256("green")] = true;
-        colors[keccak256("blue")] = true;
+        colors[keccak256("red")] = 1;
+        colors[keccak256("green")] = 1;
+        colors[keccak256("blue")] = 1;
 
-        objects[keccak256("dragon")] = true;
-        objects[keccak256("turtle")] = true;
-        objects[keccak256("penguin")] = true;
+        objects[keccak256("dragon")] = 1;
+        objects[keccak256("turtle")] = 1;
+        objects[keccak256("penguin")] = 1;
     }
 
     /// Owner actions
@@ -57,19 +57,15 @@ contract Hexo is ERC721, Ownable {
         baseURI = _baseURI;
     }
 
-    function addColors(string[] calldata _colors) external onlyOwner {
-        for (uint256 i = 0; i < _colors.length; i++) {
-            bytes32 colorHash = keccak256(bytes(_colors[i]));
-            require(!colors[colorHash], "Color already added");
-            colors[colorHash] = true;
+    function addColors(bytes32[] calldata _colorHashes) external onlyOwner {
+        for (uint256 i = 0; i < _colorHashes.length; i++) {
+            colors[_colorHashes[i]] = 1;
         }
     }
 
-    function addObjects(string[] calldata _objects) external onlyOwner {
-        for (uint256 i = 0; i < _objects.length; i++) {
-            bytes32 objectHash = keccak256(bytes(_objects[i]));
-            require(!objects[objectHash], "Object already added");
-            objects[objectHash] = true;
+    function addObjects(bytes32[] calldata _objectHashes) external onlyOwner {
+        for (uint256 i = 0; i < _objectHashes.length; i++) {
+            objects[_objectHashes[i]] = 1;
         }
     }
 
@@ -79,25 +75,31 @@ contract Hexo is ERC721, Ownable {
 
     /// User actions
 
-    function buy(string calldata _color, string calldata _object)
+    function buy(string[] calldata _colors, string[] calldata _objects)
         external
         payable
     {
-        require(msg.value == price, "Insufficient amount");
+        require(_colors.length == _objects.length, "Invalid inputs");
+        require(msg.value == price * _colors.length, "Insufficient amount");
 
-        bytes32 colorHash = keccak256(bytes(_color));
-        require(colors[colorHash], "Color not added");
-        bytes32 objectHash = keccak256(bytes(_object));
-        require(objects[objectHash], "Object not added");
+        for (uint256 i = 0; i < _colors.length; i++) {
+            string memory color = _colors[i];
+            string memory object = _objects[i];
 
-        bytes memory hexoName = abi.encodePacked(_color, _object);
-        bytes32 hexoLabel = keccak256(hexoName);
+            bytes32 colorHash = keccak256(bytes(color));
+            require(colors[colorHash] == 1, "Color not added");
+            bytes32 objectHash = keccak256(bytes(object));
+            require(objects[objectHash] == 1, "Object not added");
 
-        uint256 tokenId = uint256(hexoLabel);
-        tokenIdToHexoLabel[tokenId] = hexoLabel;
-        _safeMint(msg.sender, tokenId);
+            bytes memory hexoName = abi.encodePacked(color, object);
+            bytes32 hexoLabel = keccak256(hexoName);
 
-        emit ItemBought(_color, _object, msg.sender);
+            uint256 tokenId = uint256(hexoLabel);
+            tokenIdToHexoLabel[tokenId] = hexoLabel;
+            _safeMint(msg.sender, tokenId);
+
+            emit ItemBought(color, object, msg.sender, price);
+        }
     }
 
     function setTokenURI(uint256 _tokenId, string calldata _tokenURI) external {

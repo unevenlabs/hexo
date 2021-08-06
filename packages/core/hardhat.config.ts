@@ -2,6 +2,7 @@ import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 
 import "@nomiclabs/hardhat-waffle";
+import "hardhat-gas-reporter";
 
 import { HardhatUserConfig } from "hardhat/types";
 
@@ -26,6 +27,9 @@ const config: HardhatUserConfig = {
         blockNumber: Number(process.env.BLOCK_NUMBER),
       },
     },
+  },
+  gasReporter: {
+    enabled: process.env.REPORT_GAS ? true : false,
   },
 };
 

@@ -73,7 +73,7 @@ describe("Hexo", () => {
   });
 
   it("buy", async () => {
-    await hexo.connect(alice).buy("red", "dragon", { value: price });
+    await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
 
     const tokenId = BigNumber.from(id("reddragon"));
     expect(await hexo.ownerOf(tokenId)).to.be.equal(alice.address);
@@ -82,32 +82,49 @@ describe("Hexo", () => {
     expect(await ens.owner(node)).to.be.equal(alice.address);
   });
 
+  it("buy multiple items in a single transaction", async () => {
+    await hexo
+      .connect(alice)
+      .buy(["red", "green"], ["dragon", "turtle"], { value: price.mul(2) });
+
+    expect(await hexo.ownerOf(BigNumber.from(id("reddragon")))).to.be.equal(
+      alice.address
+    );
+    expect(await hexo.ownerOf(BigNumber.from(id("greenturtle")))).to.be.equal(
+      alice.address
+    );
+  });
+
   it("cannot buy for lower price", async () => {
     await expect(
-      hexo.connect(alice).buy("red", "dragon", { value: price.sub(1) })
+      hexo
+        .connect(alice)
+        .buy(["red", "green"], ["dragon", "turtle"], {
+          value: price.mul(2).sub(1),
+        })
     ).to.be.revertedWith("Insufficient amount");
   });
 
   it("cannot buy the same item twice", async () => {
-    await hexo.connect(alice).buy("red", "dragon", { value: price });
+    await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
 
     await expect(
-      hexo.connect(alice).buy("red", "dragon", { value: price })
+      hexo.connect(alice).buy(["red"], ["dragon"], { value: price })
     ).to.be.revertedWith("ERC721: token already minted");
   });
 
   it("cannot buy items that were not added", async () => {
     await expect(
-      hexo.connect(alice).buy("color", "dragon", { value: price })
+      hexo.connect(alice).buy(["color"], ["dragon"], { value: price })
     ).to.be.revertedWith("Color not added");
 
     await expect(
-      hexo.connect(alice).buy("red", "object", { value: price })
+      hexo.connect(alice).buy(["red"], ["object"], { value: price })
     ).to.be.revertedWith("Object not added");
   });
 
   it("transferring changes ENS subdomain ownership", async () => {
-    await hexo.connect(alice).buy("red", "dragon", { value: price });
+    await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
 
     const node = namehash(["reddragon", "hexo", "eth"]);
     await ens.connect(alice).setOwner(node, bob.address);
@@ -121,8 +138,8 @@ describe("Hexo", () => {
   });
 
   it("owner of an item can set the token URI", async () => {
-    await hexo.connect(alice).buy("red", "dragon", { value: price });
-    await hexo.connect(bob).buy("green", "turtle", { value: price });
+    await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
+    await hexo.connect(bob).buy(["green"], ["turtle"], { value: price });
 
     const tokenIdAlice = BigNumber.from(id("reddragon"));
     expect(await hexo.tokenURI(tokenIdAlice)).to.be.equal(
@@ -140,8 +157,8 @@ describe("Hexo", () => {
   });
 
   it("contract admin can claim earnings", async () => {
-    await hexo.connect(alice).buy("red", "dragon", { value: price });
-    await hexo.connect(bob).buy("green", "turtle", { value: price });
+    await hexo.connect(alice).buy(["red"], ["dragon"], { value: price });
+    await hexo.connect(bob).buy(["green"], ["turtle"], { value: price });
 
     const balanceBefore = await carol.getBalance();
     await hexo.connect(deployer).claim(carol.address, price.mul(2));
