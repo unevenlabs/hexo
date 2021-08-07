@@ -6,6 +6,7 @@ import "@ensdomains/ens/contracts/ENS.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract Hexo is ERC721, Ownable {
     using Address for address payable;
@@ -13,8 +14,8 @@ contract Hexo is ERC721, Ownable {
     /// Fields
 
     uint256 public price;
-    mapping(bytes32 => uint256) public colors;
-    mapping(bytes32 => uint256) public objects;
+    bytes32 public colorsMerkleRoot;
+    bytes32 public objectsMerkleRoot;
     mapping(uint256 => bytes32) public tokenIdToHexoLabel;
 
     string private baseURI;
@@ -22,6 +23,7 @@ contract Hexo is ERC721, Ownable {
 
     address public constant ens =
         address(0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e);
+
     // namehash("hexo.eth")
     bytes32 public constant hexoRootNode =
         0xf55a38be8aab2a9e033746f5d0c4af6122e4dc9e896858445fa8e2e46abce36c;
@@ -31,26 +33,24 @@ contract Hexo is ERC721, Ownable {
     event PriceChanged(uint256 price);
     event BaseURIChanged(string baseURI);
     event TokenURIChanged(uint256 tokenId, string tokenURI);
-    event ColorAdded(string color);
-    event ObjectAdded(string object);
+    event ColorsMerkleRootChanged(bytes32 colorsMerkleRoot);
+    event ObjectsMerkleRootChanged(bytes32 objectsMerkleRoot);
     event FundsClaimed(uint256 amount, address to);
     event ItemBought(string color, string object, address buyer, uint256 price);
 
     /// Constructor
 
-    constructor(uint256 _price, string memory _baseURI)
-        ERC721("Hexo Codes", "HEXO")
-    {
+    constructor(
+        bytes32 _colorsMerkleRoot,
+        bytes32 _objectsMerkleRoot,
+        uint256 _price,
+        string memory _baseURI
+    ) ERC721("Hexo Codes", "HEXO") {
+        colorsMerkleRoot = _colorsMerkleRoot;
+        objectsMerkleRoot = _objectsMerkleRoot;
+
         price = _price;
         baseURI = _baseURI;
-
-        colors[keccak256("red")] = 1;
-        colors[keccak256("green")] = 1;
-        colors[keccak256("blue")] = 1;
-
-        objects[keccak256("dragon")] = 1;
-        objects[keccak256("turtle")] = 1;
-        objects[keccak256("penguin")] = 1;
     }
 
     /// Owner actions
@@ -65,24 +65,20 @@ contract Hexo is ERC721, Ownable {
         emit BaseURIChanged(_baseURI);
     }
 
-    function addColors(string[] calldata _colors) external onlyOwner {
-        for (uint256 i = 0; i < _colors.length; i++) {
-            string memory color = _colors[i];
-            bytes32 colorHash = keccak256(bytes(color));
-            require(colors[colorHash] == 0, "Color already added");
-            colors[colorHash] = 1;
-            emit ColorAdded(color);
-        }
+    function changeColorsMerkleRoot(bytes32 _colorsMerkleRoot)
+        external
+        onlyOwner
+    {
+        colorsMerkleRoot = _colorsMerkleRoot;
+        emit ColorsMerkleRootChanged(_colorsMerkleRoot);
     }
 
-    function addObjects(string[] calldata _objects) external onlyOwner {
-        for (uint256 i = 0; i < _objects.length; i++) {
-            string memory object = _objects[i];
-            bytes32 objectHash = keccak256(bytes(object));
-            require(objects[objectHash] == 0, "Object already added");
-            objects[objectHash] = 1;
-            emit ObjectAdded(object);
-        }
+    function changeObjectsMerkleRoot(bytes32 _objectsMerkleRoot)
+        external
+        onlyOwner
+    {
+        objectsMerkleRoot = _objectsMerkleRoot;
+        emit ObjectsMerkleRootChanged(_objectsMerkleRoot);
     }
 
     function claim(address payable _to, uint256 _amount) external onlyOwner {
@@ -92,25 +88,41 @@ contract Hexo is ERC721, Ownable {
 
     /// User actions
 
-    function buy(string[] calldata _colors, string[] calldata _objects)
-        external
-        payable
-    {
-        require(_colors.length == _objects.length, "Invalid inputs");
-        require(msg.value == price * _colors.length, "Insufficient amount");
+    function buy(
+        string[] calldata _colors,
+        bytes32[][] calldata _colorProofs,
+        string[] calldata _objects,
+        bytes32[][] calldata _objectProofs
+    ) external payable {
+        require(_colors.length == _colorProofs.length, "Invalid input");
+        require(_objects.length == _objectProofs.length, "Invalid input");
+        require(_colors.length == _objects.length, "Invalid input");
 
-        for (uint256 i = 0; i < _colors.length; i++) {
+        uint256 numItems = _colors.length;
+        require(msg.value == price * numItems, "Insufficient amount");
+
+        for (uint256 i = 0; i < numItems; i++) {
             string memory color = _colors[i];
+            require(
+                MerkleProof.verify(
+                    _colorProofs[i],
+                    colorsMerkleRoot,
+                    keccak256(bytes(color))
+                ),
+                "Invalid color proof"
+            );
+
             string memory object = _objects[i];
+            require(
+                MerkleProof.verify(
+                    _objectProofs[i],
+                    objectsMerkleRoot,
+                    keccak256(bytes(object))
+                ),
+                "Invalid object proof"
+            );
 
-            bytes32 colorHash = keccak256(bytes(color));
-            require(colors[colorHash] == 1, "Color not added");
-            bytes32 objectHash = keccak256(bytes(object));
-            require(objects[objectHash] == 1, "Object not added");
-
-            bytes memory hexoName = abi.encodePacked(color, object);
-            bytes32 hexoLabel = keccak256(hexoName);
-
+            bytes32 hexoLabel = keccak256(abi.encodePacked(color, object));
             uint256 tokenId = uint256(hexoLabel);
             tokenIdToHexoLabel[tokenId] = hexoLabel;
             _safeMint(msg.sender, tokenId);
