@@ -2,11 +2,13 @@
 
 pragma solidity ^0.8.0;
 
-import "@ensdomains/ens/contracts/ENS.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+
+import "./interfaces/IAddrResolver.sol";
+import "./interfaces/IENS.sol";
 
 contract Hexo is ERC721, Ownable {
     using Address for address payable;
@@ -21,8 +23,10 @@ contract Hexo is ERC721, Ownable {
     string private baseURI;
     mapping(uint256 => string) private tokenURIs;
 
-    address public constant ens =
+    address public constant ensRegistry =
         address(0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e);
+    address public constant ensPublicResolver =
+        address(0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41);
 
     // namehash("hexo.eth")
     bytes32 public constant hexoRootNode =
@@ -159,6 +163,20 @@ contract Hexo is ERC721, Ownable {
         uint256 _tokenId
     ) internal override {
         bytes32 hexoLabel = tokenIdToHexoLabel[_tokenId];
-        ENS(ens).setSubnodeOwner(hexoRootNode, hexoLabel, _to);
+        // Temporarily set this contract as the owner, giving it permission to set up the resolver
+        IENS(ensRegistry).setSubnodeRecord(
+            hexoRootNode,
+            hexoLabel,
+            address(this),
+            ensPublicResolver,
+            0
+        );
+        // Set the transfer recipient as the address the hexo subdomain resolves to
+        IAddrResolver(ensPublicResolver).setAddr(
+            keccak256(abi.encodePacked(hexoRootNode, hexoLabel)),
+            _to
+        );
+        // Give hexo subdomain ownership to the transfer recipient
+        IENS(ensRegistry).setSubnodeOwner(hexoRootNode, hexoLabel, _to);
     }
 }

@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
-import { BigNumber, BigNumberish, Contract } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { ethers, network } from "hardhat";
 import MerkleTree from "merkletreejs";
 
@@ -20,7 +20,8 @@ describe("Hexo", () => {
   let carol: SignerWithAddress;
   let peter: SignerWithAddress;
 
-  let ens: Contract;
+  let ensRegistry: Contract;
+  let ensPublicResolver: Contract;
   let hexo: Contract;
 
   let price: BigNumber;
@@ -74,8 +75,16 @@ describe("Hexo", () => {
     });
 
     // Initialize ENS registry
-    const ensAddress = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
-    ens = await ethers.getContractAt("ENS", ensAddress);
+    const ensRegistryAddress = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
+    ensRegistry = await ethers.getContractAt("IENS", ensRegistryAddress);
+
+    // Initialize ENS public resolver
+    const ensPublicResolverAddress =
+      "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41";
+    ensPublicResolver = await ethers.getContractAt(
+      "IAddrResolver",
+      ensPublicResolverAddress
+    );
 
     price = parseEther("0.08");
     baseURI = "https://hexo.eth/token";
@@ -96,7 +105,9 @@ describe("Hexo", () => {
     });
 
     // Transfer "hexo.eth" ownership from Peter to Hexo contract
-    await ens.connect(peter).setOwner(namehash(["hexo", "eth"]), hexo.address);
+    await ensRegistry
+      .connect(peter)
+      .setOwner(namehash(["hexo", "eth"]), hexo.address);
   });
 
   afterEach(async () => {
@@ -121,7 +132,11 @@ describe("Hexo", () => {
     expect(await hexo.ownerOf(tokenId)).to.be.equal(alice.address);
 
     const node = namehash(["reddragon", "hexo", "eth"]);
-    expect(await ens.owner(node)).to.be.equal(alice.address);
+    expect(await ensRegistry.owner(node)).to.be.equal(alice.address);
+    expect(await ensRegistry.resolver(node)).to.be.equal(
+      ensPublicResolver.address
+    );
+    expect(await ensPublicResolver.addr(node)).to.be.equal(alice.address);
   });
 
   it("buy multiple items in a single transaction", async () => {
@@ -130,14 +145,14 @@ describe("Hexo", () => {
     expect(await hexo.ownerOf(BigNumber.from(id("reddragon")))).to.be.equal(
       alice.address
     );
-    expect(await ens.owner(namehash(["reddragon", "hexo", "eth"]))).to.be.equal(
-      alice.address
-    );
+    expect(
+      await ensRegistry.owner(namehash(["reddragon", "hexo", "eth"]))
+    ).to.be.equal(alice.address);
     expect(await hexo.ownerOf(BigNumber.from(id("greenturtle")))).to.be.equal(
       alice.address
     );
     expect(
-      await ens.owner(namehash(["greenturtle", "hexo", "eth"]))
+      await ensRegistry.owner(namehash(["greenturtle", "hexo", "eth"]))
     ).to.be.equal(alice.address);
   });
 
@@ -182,18 +197,32 @@ describe("Hexo", () => {
     );
   });
 
-  it("transferring changes ENS subdomain ownership", async () => {
+  it("transferring correctly changes ENS ownership and resolution", async () => {
     await buy(alice, ["red"], ["dragon"]);
 
     const node = namehash(["reddragon", "hexo", "eth"]);
-    await ens.connect(alice).setOwner(node, bob.address);
-    expect(await ens.owner(node)).to.be.equal(bob.address);
+    await ensRegistry.connect(alice).setOwner(node, bob.address);
+    expect(await ensRegistry.owner(node)).to.be.equal(bob.address);
+    expect(await ensPublicResolver.addr(node)).to.be.equal(alice.address);
+
+    await ensPublicResolver.connect(bob).setAddr(node, bob.address);
+    expect(await ensPublicResolver.addr(node)).to.be.equal(bob.address);
+    await ensRegistry
+      .connect(bob)
+      .setResolver(node, ethers.constants.AddressZero);
+    expect(await ensRegistry.resolver(node)).to.be.equal(
+      ethers.constants.AddressZero
+    );
 
     const tokenId = BigNumber.from(id("reddragon"));
     await hexo
       .connect(alice)
       .transferFrom(alice.address, carol.address, tokenId);
-    expect(await ens.owner(node)).to.be.equal(carol.address);
+    expect(await ensRegistry.owner(node)).to.be.equal(carol.address);
+    expect(await ensRegistry.resolver(node)).to.be.equal(
+      ensPublicResolver.address
+    );
+    expect(await ensPublicResolver.addr(node)).to.be.equal(carol.address);
   });
 
   it("owner of an item can set the token URI", async () => {
@@ -242,14 +271,10 @@ describe("Hexo", () => {
       "Invalid color proof"
     );
 
-    console.log("1");
-
     const colorsMerkleTree = constructMerkleTree(["color"]);
     await hexo
       .connect(deployer)
       .changeColorsMerkleRoot(colorsMerkleTree.getHexRoot());
-
-    console.log("2");
 
     await expect(
       buy(alice, ["color"], ["object"], { colorsMerkleTree })
