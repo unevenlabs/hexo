@@ -1,0 +1,14 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#800080" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line">
+    <polygon fill="none" stroke="#800080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="61,60.9583 11,60.9583 13,28.5 59,28.5"/>
+    <rect x="21.9545" y="31.943" width="9.2099" height="9.2099" fill="none" stroke="#800080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <rect x="42.8843" y="31.943" width="9.2099" height="9.2099" fill="none" stroke="#800080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <path fill="none" stroke="#800080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M24.5192,25.1873c0-8.5667,1.31-15.5115,11.4851-15.5115s11.4851,6.9447,11.4851,15.5115"/>
+    <polygon fill="none" stroke="#800080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="61,60.9583 11,60.9583 13,28.5 59,28.5"/>
+  </g>
+</svg>
+</svg>

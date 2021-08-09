@@ -12,8 +12,7 @@ const WithStaticProps = ({ items }: Props) => (
     {items.map((item) => (
         <span>
         <img title={item} width="150" src={`/images/black/${item}.svg`} />
-        <img title={item} width="150" src={`/images/red/${item}.svg`} />
-        <img title={item} width="150" src={`/images/blue/${item}.svg`} />
+        <img title={item} width="150" src={`/images/white/${item}.svg`} />
         </span>
       ))}
 
