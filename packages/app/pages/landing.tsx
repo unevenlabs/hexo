@@ -246,7 +246,7 @@ export default function Example() {
                 <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
               </div>
             ))}
-          </dl>
+          </dl> 
       </div>
         <div className="mt-10 pb-12 bg-white sm:pb-16">
         <div className="relative">
