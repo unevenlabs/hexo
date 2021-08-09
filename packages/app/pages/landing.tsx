@@ -16,6 +16,9 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 import { CheckIcon } from '@heroicons/react/outline'
+import { GetStaticProps } from 'next'
+
+import { objectList } from '../utils/objects'
 
 const features = [
   {
@@ -39,6 +42,9 @@ const features = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
+
+const items: any = objectList
 
 export default function Example() {
   return (
@@ -119,20 +125,7 @@ export default function Example() {
                         </Popover.Button>
                       </div>
                     </div>
-                    <div className="mt-6">
-                      <nav className="grid gap-y-8">
-                        {features.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                          >
-                            <item.icon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
-                            <span className="ml-3 text-base font-medium text-gray-900">{item.name}</span>
-                          </a>
-                        ))}
-                      </nav>
-                    </div>
+                    
                   </div>
                   <div className="py-6 px-5 space-y-6">
                     <div className="grid grid-cols-2 gap-y-4 gap-x-8">
@@ -228,55 +221,97 @@ export default function Example() {
             </div>
       
         </div>
-        <div className="bg-gray-50 pt-12 sm:pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Standard ERC-721, with some fun bonuses
-          </h2>
-        </div>
+      </div>  
+      <div className="bg-gray-50 pt-12 sm:pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Standard ERC-721, with some fun bonuses
+            </h2>
+          </div>
 
-        <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
-            {features.map((feature) => (
-              <div key={feature.name} className="relative">
-                <dt>
-                  <CheckIcon className="absolute h-6 w-6 text-green-500" aria-hidden="true" />
-                  <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
-                </dt>
-                <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
-              </div>
-            ))}
-          </dl> 
+          <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+              {features.map((feature) => (
+                <div key={feature.name} className="relative">
+                  <dt>
+                    <CheckIcon className="absolute h-6 w-6 text-green-500" aria-hidden="true" />
+                    <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
+                  </dt>
+                  <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
+                </div>
+              ))}
+            </dl> 
+        </div>
       </div>
-        <div className="mt-10 pb-12 bg-white sm:pb-16">
+      <div className="mt-10 pb-12 bg-white sm:pb-16">
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-4">
-                <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
-                  <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Colors</dt>
-                  <dd className="order-1 text-5xl font-extrabold text-indigo-600">11</dd>
-                </div>
-                <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                  <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Objects</dt>
-                  <dd className="order-1 text-5xl font-extrabold text-indigo-600">303</dd>
-                </div>
-                <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-                  <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Total Supply</dt>
-                  <dd className="order-1 text-5xl font-extrabold text-indigo-600">3333</dd>
-                </div>
-                <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-                  <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Minted</dt>
-                  <dd className="order-1 text-5xl font-extrabold text-indigo-600">0</dd>
-                </div>
-              </dl>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto">
+                <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-4">
+                  <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+                    <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Colors</dt>
+                    <dd className="order-1 text-5xl font-extrabold text-indigo-600">11</dd>
+                  </div>
+                  <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
+                    <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Objects</dt>
+                    <dd className="order-1 text-5xl font-extrabold text-indigo-600">303</dd>
+                  </div>
+                  <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+                    <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Total Supply</dt>
+                    <dd className="order-1 text-5xl font-extrabold text-indigo-600">3333</dd>
+                  </div>
+                  <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+                    <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Minted</dt>
+                    <dd className="order-1 text-5xl font-extrabold text-indigo-600">0</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div>
+              <span className="relative z-0 inline-flex shadow-sm rounded-md">
+                <button
+                  type="button"
+                  className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  Available
+                </button>
+                <button
+                  type="button"
+                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  Unavilable
+                </button>
+                <button
+                  type="button"
+                  className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  Mine
+                </button>
+              </span>
+            </div>
+            <div>
+            <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+              {items.map((item) => (
+                <div className="relative mx-auto rounded-lg shadow-xl w-5/12">
+                  <img className="object-cover rounded-lg bg-white" src={`images/red/${item}.svg`} alt="" />
+                </div>
+              ))}
+            </dl> 
+            </div>
           </div>
         </div>
       </div>
-      </div>
-    </div>
+      
   )
 }
