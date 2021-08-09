@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+import "./LibMetadata.sol";
 import "./interfaces/IAddrResolver.sol";
 import "./interfaces/IENS.sol";
 
@@ -174,6 +175,11 @@ contract Hexo is ERC721, Ownable {
         }
     }
 
+    function setImageURI(uint256 _tokenId, string calldata imageURI_) external {
+        require(msg.sender == ownerOf(_tokenId), "Unauthorized");
+        imageURIs[_tokenId] = imageURI_;
+    }
+
     /// Views
 
     function imageURI(uint256 _tokenId)
@@ -181,39 +187,22 @@ contract Hexo is ERC721, Ownable {
         view
         returns (string memory uri)
     {
+        require(_exists(_tokenId), "Inexistent token");
+
         uri = imageURIs[_tokenId];
         if (bytes(uri).length == 0) {
             uri = string(abi.encodePacked(baseImageURI, _tokenId.toString()));
         }
     }
 
-    // function getMetadata(uint256 _tokenId)
-    //     external
-    //     view
-    //     returns (string memory metadata)
-    // {
-    //     require(_exists(_tokenId), "Inexistent token");
-
-    //     // Name
-    //     metadata = string(
-    //         abi.encodePacked('{\n  "name": "Hexo #', hexoNames[_tokenId])
-    //     );
-    //     metadata = string(abi.encodePacked(metadata, '",\n'));
-
-    //     // Description
-    //     metadata = string(
-    //         abi.encodePacked(metadata, '  "description": "Generation ')
-    //     );
-    //     metadata = string(abi.encodePacked(metadata, uint256(0).toString()));
-    //     metadata = string(abi.encodePacked(metadata, '",\n'));
-
-    //     // Image URI
-    //     metadata = string(abi.encodePacked(metadata, '  "image": "'));
-    //     metadata = string(abi.encodePacked(metadata, imageURI(_tokenId)));
-    //     metadata = string(abi.encodePacked(metadata, '",\n'));
-
-    //     metadata = string(abi.encodePacked(metadata, "  \n}"));
-    // }
+    function metadata(uint256 _tokenId) external view returns (string memory) {
+        require(_exists(_tokenId), "Inexistent token");
+        return
+            LibMetadata.constructMetadata(
+                hexoNames[_tokenId],
+                imageURI(_tokenId)
+            );
+    }
 
     /// Overrides
 

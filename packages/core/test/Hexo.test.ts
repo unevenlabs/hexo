@@ -61,11 +61,20 @@ describe("Hexo", () => {
     baseImageURI = "https://hexo.codes/image/";
     price = parseEther("0.08");
 
+    // Deploy LibMetadata library
+    const libMetadata = await deployContract({
+      name: "LibMetadata",
+      from: deployer,
+    });
+
     // Deploy Hexo contract
     hexo = await deployContract({
       name: "Hexo",
       from: deployer,
       args: [baseURI, baseImageURI, price],
+      libraries: {
+        LibMetadata: libMetadata.address,
+      },
     });
 
     // Add initial colors and objects
@@ -334,6 +343,46 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .buyItems(["red"], ["dragon"], { value: newPrice });
+    });
+  });
+
+  describe("misc", () => {
+    it("retrieve on-chain metadata", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+
+      const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
+      expect(reddragonMetadata.name).to.be.equal("Hexo #reddragon");
+      expect(reddragonMetadata.description).to.be.equal("Generation 0");
+      expect(reddragonMetadata.image).to.be.equal(baseImageURI + reddragonId);
+    });
+
+    it("owner can set custom image URI", async () => {
+      await hexo
+        .connect(alice)
+        .buyItems(["red", "green"], ["dragon", "turtle"], {
+          value: price.mul(2),
+        });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+      const greenturtleId = BigNumber.from(id("greenturtle"));
+
+      const customImageURI = "https://my-custom-image-uri";
+      await expect(
+        hexo.connect(bob).setImageURI(reddragonId, customImageURI)
+      ).to.be.revertedWith("Unauthorized");
+      await hexo.connect(alice).setImageURI(reddragonId, customImageURI);
+
+      const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
+      expect(reddragonMetadata.image).to.be.equal(customImageURI);
+
+      const greenturtleMetadata = JSON.parse(
+        await hexo.metadata(greenturtleId)
+      );
+      expect(greenturtleMetadata.image).to.be.equal(
+        baseImageURI + greenturtleId
+      );
     });
   });
 });
