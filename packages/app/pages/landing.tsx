@@ -19,60 +19,21 @@ import { CheckIcon } from '@heroicons/react/outline'
 
 const features = [
   {
-    name: 'Analytics',
-    href: '#',
-    description: 'Get a better understanding of where your traffic is coming from.',
-    icon: ChartBarIcon,
-  },
+    name: 'On-chain Metadata!',
+    description: 'Premium JSON served straight from the contract.',
+  },  
   {
-    name: 'Engagement',
-    href: '#',
-    description: 'Speak directly to your customers in a more meaningful way.',
-    icon: CursorClickIcon,
+    name: 'reddragon.hexo.eth',
+    description: 'Every Hexo comes with an ENS name and one-click reverse record setup',
   },
-  { name: 'Security', href: '#', description: "Your customers' data will be safe and secure.", icon: ShieldCheckIcon },
+  { 
+    name: 'Look Ma, I\'m a DAO!', 
+    description: 'Vote on new colors / objects to add, or new default images, in the Snapshot voting portal' },
+
   {
-    name: 'Integrations',
-    href: '#',
-    description: "Connect with third-party tools that you're already using.",
-    icon: ViewGridIcon,
-  },
-  {
-    name: 'Automations',
-    href: '#',
-    description: 'Build strategic funnels that will drive your customers to convert',
-    icon: RefreshIcon,
-  },
-]
-const callsToAction = [
-  { name: 'Watch Demo', href: '#', icon: PlayIcon },
-  { name: 'Contact Sales', href: '#', icon: PhoneIcon },
-]
-const resources = [
-  {
-    name: 'Help Center',
-    description: 'Get all of your questions answered in our forums or contact support.',
-    href: '#',
-    icon: SupportIcon,
-  },
-  {
-    name: 'Guides',
-    description: 'Learn how to maximize our platform to get the most out of it.',
-    href: '#',
-    icon: BookmarkAltIcon,
-  },
-  {
-    name: 'Events',
-    description: 'See what meet-ups and other events we might be planning near you.',
-    href: '#',
-    icon: CalendarIcon,
-  },
-  { name: 'Security', description: 'Understand how we take your privacy seriously.', href: '#', icon: ShieldCheckIcon },
-]
-const recentPosts = [
-  { id: 1, name: 'Boost your conversion rate', href: '#' },
-  { id: 2, name: 'How to use search engine optimization to drive traffic to your site', href: '#' },
-  { id: 3, name: 'Improve your customer experience', href: '#' },
+    name: 'Updateable images!',
+    description: 'Owners can override the (deliverately basic) default image with their own.',
+  }
 ]
 
 function classNames(...classes) {
@@ -89,13 +50,11 @@ export default function Example() {
               <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                 <div className="flex justify-start lg:w-0 lg:flex-1">
                   <a href="#">
-                    <span className="block float-left mr-2 mt-1 text-2xl  text-gray-900">Hexo</span> 
                     <img
                       className="h-8 w-auto sm:h-10 float-left"
                       src="images/logo.svg"
                       alt=""
                     />
-                    <span className="block float-left ml-2 mt-1 text-2xl  text-gray-900">Codes</span>
                   </a>
                 </div>
                 <div className="-mr-2 -my-2 md:hidden">
@@ -184,15 +143,6 @@ export default function Example() {
                       <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
                         Docs
                       </a>
-                      {resources.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="text-base font-medium text-gray-900 hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      ))}
                     </div>
                     <div>
                       <a
@@ -215,12 +165,12 @@ export default function Example() {
             <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
               <h1>
                 <span className="mt-1 block text-4xl tracking-tight font-extrabold sm:text-5xl xl:text-6xl">
-                  <span className="block text-gray-900">Your new ID for the</span>
-                  <span className="block text-indigo-600">Metaverse</span>
+                  <span className="block text-gray-900">Hi, what's your</span>
+                  <span className="block text-indigo-600">Hexo Code?</span>
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-              Hexo uses unique combos of basic colors and objects to create universally recognizable NFT identities. 
+              Unique combos of basic colors and objects that form universally recognizable NFT identities. 
               </p>
               <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
               <div className="rounded-md shadow">
@@ -260,9 +210,9 @@ export default function Example() {
       <div className="bg-white">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div className="max-w-3xl mx-auto mb-10 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">Choose your own image</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900">Infinite possible JPEGs</h2>
             <p className="mt-4 text-lg text-gray-500">
-              With a Hexo, you own an entire namespace, and can visualize however you want.
+              With a Hexo, you don't just own a single image. You own a namespace that can be visually represented however you want.
             </p>
           </div>
           <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
@@ -276,7 +226,17 @@ export default function Example() {
                 <img className="object-cover rounded-lg bg-white" src="images/3ddragon.png" alt="" />
               </div>
             </div>
-          <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+      
+        </div>
+        <div className="bg-gray-50 pt-12 sm:pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Standard ERC-721, with some fun bonuses
+          </h2>
+        </div>
+
+        <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
             {features.map((feature) => (
               <div key={feature.name} className="relative">
                 <dt>
@@ -287,8 +247,7 @@ export default function Example() {
               </div>
             ))}
           </dl>
-      
-        </div>
+      </div>
         <div className="mt-10 pb-12 bg-white sm:pb-16">
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
@@ -313,6 +272,7 @@ export default function Example() {
                 </div>
               </dl>
             </div>
+          </div>
           </div>
         </div>
       </div>
