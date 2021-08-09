@@ -5,23 +5,27 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./interfaces/IAddrResolver.sol";
 import "./interfaces/IENS.sol";
 
 contract Hexo is ERC721, Ownable {
     using Address for address payable;
+    using Strings for uint256;
 
     /// Fields
 
+    string public baseURI;
+    string public baseImageURI;
     uint256 public price;
-    bytes32 public colorsMerkleRoot;
-    bytes32 public objectsMerkleRoot;
-    mapping(uint256 => bytes32) public tokenIdToHexoLabel;
+    mapping(bytes32 => uint256) public colors;
+    mapping(bytes32 => uint256) public objects;
+    mapping(uint256 => string) public hexoNames;
 
-    string private baseURI;
-    mapping(uint256 => string) private tokenURIs;
+    mapping(uint256 => string) private imageURIs;
+
+    /// Constants
 
     address public constant ensRegistry =
         address(0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e);
@@ -34,149 +38,186 @@ contract Hexo is ERC721, Ownable {
 
     /// Events
 
-    event PriceChanged(uint256 price);
     event BaseURIChanged(string baseURI);
-    event TokenURIChanged(uint256 tokenId, string tokenURI);
-    event ColorsMerkleRootChanged(bytes32 colorsMerkleRoot);
-    event ObjectsMerkleRootChanged(bytes32 objectsMerkleRoot);
-    event FundsClaimed(uint256 amount, address to);
+    event BaseImageURIChanged(string baseImageURI);
+    event PriceChanged(uint256 price);
+    event ColorsAdded(bytes32[] colorHashes);
+    event ObjectsAdded(bytes32[] objectHashes);
+    event ProfitsPulled(uint256 amount, address to);
+
     event ItemBought(string color, string object, address buyer, uint256 price);
+    event SubdomainClaimed(string color, string object, address claimer);
 
     /// Constructor
 
     constructor(
-        bytes32 _colorsMerkleRoot,
-        bytes32 _objectsMerkleRoot,
-        uint256 _price,
-        string memory _baseURI
+        string memory baseURI_,
+        string memory baseImageURI_,
+        uint256 price_
     ) ERC721("Hexo Codes", "HEXO") {
-        colorsMerkleRoot = _colorsMerkleRoot;
-        objectsMerkleRoot = _objectsMerkleRoot;
-
-        price = _price;
-        baseURI = _baseURI;
+        baseURI = baseURI_;
+        baseImageURI = baseImageURI_;
+        price = price_;
     }
 
     /// Owner actions
 
-    function changePrice(uint256 _price) external onlyOwner {
-        price = _price;
-        emit PriceChanged(_price);
+    function changeBaseURI(string calldata baseURI_) external onlyOwner {
+        baseURI = baseURI_;
+        emit BaseURIChanged(baseURI_);
     }
 
-    function changeBaseURI(string calldata _baseURI) external onlyOwner {
-        baseURI = _baseURI;
-        emit BaseURIChanged(_baseURI);
-    }
-
-    function changeColorsMerkleRoot(bytes32 _colorsMerkleRoot)
+    function changeBaseImageURI(string calldata baseImageURI_)
         external
         onlyOwner
     {
-        colorsMerkleRoot = _colorsMerkleRoot;
-        emit ColorsMerkleRootChanged(_colorsMerkleRoot);
+        baseImageURI = baseImageURI_;
+        emit BaseImageURIChanged(baseImageURI_);
     }
 
-    function changeObjectsMerkleRoot(bytes32 _objectsMerkleRoot)
+    function changePrice(uint256 price_) external onlyOwner {
+        price = price_;
+        emit PriceChanged(price_);
+    }
+
+    function addColors(bytes32[] calldata _colorHashes) external onlyOwner {
+        for (uint256 i = 0; i < _colorHashes.length; i++) {
+            colors[_colorHashes[i]] = 1;
+        }
+        emit ColorsAdded(_colorHashes);
+    }
+
+    function addObjects(bytes32[] calldata _objectHashes) external onlyOwner {
+        for (uint256 i = 0; i < _objectHashes.length; i++) {
+            objects[_objectHashes[i]] = 1;
+        }
+        emit ObjectsAdded(_objectHashes);
+    }
+
+    function pullProfits(uint256 _amount, address payable _to)
         external
         onlyOwner
     {
-        objectsMerkleRoot = _objectsMerkleRoot;
-        emit ObjectsMerkleRootChanged(_objectsMerkleRoot);
-    }
-
-    function claim(address payable _to, uint256 _amount) external onlyOwner {
         _to.sendValue(_amount);
-        emit FundsClaimed(_amount, _to);
+        emit ProfitsPulled(_amount, _to);
     }
 
     /// User actions
 
-    function buy(
-        string[] calldata _colors,
-        bytes32[][] calldata _colorProofs,
-        string[] calldata _objects,
-        bytes32[][] calldata _objectProofs
-    ) external payable {
-        require(_colors.length == _colorProofs.length, "Invalid input");
-        require(_objects.length == _objectProofs.length, "Invalid input");
+    function buyItems(string[] calldata _colors, string[] calldata _objects)
+        external
+        payable
+    {
         require(_colors.length == _objects.length, "Invalid input");
 
         uint256 numItems = _colors.length;
         require(msg.value == price * numItems, "Insufficient amount");
 
         for (uint256 i = 0; i < numItems; i++) {
-            string memory color = _colors[i];
             require(
-                MerkleProof.verify(
-                    _colorProofs[i],
-                    colorsMerkleRoot,
-                    keccak256(bytes(color))
-                ),
-                "Invalid color proof"
+                colors[keccak256(bytes(_colors[i]))] == 1,
+                "Color not added"
+            );
+            require(
+                objects[keccak256(bytes(_objects[i]))] == 1,
+                "Object not added"
             );
 
-            string memory object = _objects[i];
-            require(
-                MerkleProof.verify(
-                    _objectProofs[i],
-                    objectsMerkleRoot,
-                    keccak256(bytes(object))
-                ),
-                "Invalid object proof"
+            string memory hexoName = string(
+                abi.encodePacked(_colors[i], _objects[i])
             );
+            uint256 tokenId = uint256(keccak256(bytes(hexoName)));
+            hexoNames[tokenId] = hexoName;
 
-            bytes32 hexoLabel = keccak256(abi.encodePacked(color, object));
-            uint256 tokenId = uint256(hexoLabel);
-            tokenIdToHexoLabel[tokenId] = hexoLabel;
             _safeMint(msg.sender, tokenId);
 
-            emit ItemBought(color, object, msg.sender, price);
+            emit ItemBought(_colors[i], _objects[i], msg.sender, price);
         }
     }
 
-    function setTokenURI(uint256 _tokenId, string calldata _tokenURI) external {
-        require(ownerOf(_tokenId) == msg.sender, "Unauthorized");
-        tokenURIs[_tokenId] = _tokenURI;
-        emit TokenURIChanged(_tokenId, _tokenURI);
+    function claimSubdomains(
+        string[] calldata _colors,
+        string[] calldata _objects
+    ) external {
+        require(_colors.length == _objects.length, "Invalid input");
+
+        uint256 numItems = _colors.length;
+        for (uint256 i = 0; i < numItems; i++) {
+            bytes32 hexoLabel = keccak256(
+                abi.encodePacked(_colors[i], _objects[i])
+            );
+            require(msg.sender == ownerOf(uint256(hexoLabel)), "Unauthorized");
+
+            // Temporarily set this contract as the owner, giving it permission to set up the resolver
+            IENS(ensRegistry).setSubnodeRecord(
+                hexoRootNode,
+                hexoLabel,
+                address(this),
+                ensPublicResolver,
+                0
+            );
+
+            // Set the transfer recipient as the address the hexo subdomain resolves to
+            IAddrResolver(ensPublicResolver).setAddr(
+                keccak256(abi.encodePacked(hexoRootNode, hexoLabel)),
+                msg.sender
+            );
+
+            // Give hexo subdomain ownership to the transfer recipient
+            IENS(ensRegistry).setSubnodeOwner(
+                hexoRootNode,
+                hexoLabel,
+                msg.sender
+            );
+
+            emit SubdomainClaimed(_colors[i], _objects[i], msg.sender);
+        }
     }
+
+    /// Views
+
+    function imageURI(uint256 _tokenId)
+        public
+        view
+        returns (string memory uri)
+    {
+        uri = imageURIs[_tokenId];
+        if (bytes(uri).length == 0) {
+            uri = string(abi.encodePacked(baseImageURI, _tokenId.toString()));
+        }
+    }
+
+    // function getMetadata(uint256 _tokenId)
+    //     external
+    //     view
+    //     returns (string memory metadata)
+    // {
+    //     require(_exists(_tokenId), "Inexistent token");
+
+    //     // Name
+    //     metadata = string(
+    //         abi.encodePacked('{\n  "name": "Hexo #', hexoNames[_tokenId])
+    //     );
+    //     metadata = string(abi.encodePacked(metadata, '",\n'));
+
+    //     // Description
+    //     metadata = string(
+    //         abi.encodePacked(metadata, '  "description": "Generation ')
+    //     );
+    //     metadata = string(abi.encodePacked(metadata, uint256(0).toString()));
+    //     metadata = string(abi.encodePacked(metadata, '",\n'));
+
+    //     // Image URI
+    //     metadata = string(abi.encodePacked(metadata, '  "image": "'));
+    //     metadata = string(abi.encodePacked(metadata, imageURI(_tokenId)));
+    //     metadata = string(abi.encodePacked(metadata, '",\n'));
+
+    //     metadata = string(abi.encodePacked(metadata, "  \n}"));
+    // }
 
     /// Overrides
 
-    function tokenURI(uint256 _tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
-        string memory uri = tokenURIs[_tokenId];
-        return bytes(uri).length > 0 ? uri : super.tokenURI(_tokenId);
-    }
-
     function _baseURI() internal view override returns (string memory) {
         return baseURI;
-    }
-
-    function _beforeTokenTransfer(
-        address,
-        address _to,
-        uint256 _tokenId
-    ) internal override {
-        bytes32 hexoLabel = tokenIdToHexoLabel[_tokenId];
-        // Temporarily set this contract as the owner, giving it permission to set up the resolver
-        IENS(ensRegistry).setSubnodeRecord(
-            hexoRootNode,
-            hexoLabel,
-            address(this),
-            ensPublicResolver,
-            0
-        );
-        // Set the transfer recipient as the address the hexo subdomain resolves to
-        IAddrResolver(ensPublicResolver).setAddr(
-            keccak256(abi.encodePacked(hexoRootNode, hexoLabel)),
-            _to
-        );
-        // Give hexo subdomain ownership to the transfer recipient
-        IENS(ensRegistry).setSubnodeOwner(hexoRootNode, hexoLabel, _to);
     }
 }

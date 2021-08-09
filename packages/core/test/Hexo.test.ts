@@ -2,15 +2,14 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-wit
 import { expect } from "chai";
 import { BigNumber, Contract } from "ethers";
 import { ethers, network } from "hardhat";
-import MerkleTree from "merkletreejs";
 
 import { deployContract } from "../src/deployment";
-import { constructMerkleTree } from "../src/merkletree";
 import { namehash } from "../src/utils";
 
 import colors from "../data/colors.json";
 import objects from "../data/objects.json";
 
+const { AddressZero } = ethers.constants;
 const { id, parseEther } = ethers.utils;
 
 describe("Hexo", () => {
@@ -24,37 +23,9 @@ describe("Hexo", () => {
   let ensPublicResolver: Contract;
   let hexo: Contract;
 
-  let price: BigNumber;
   let baseURI: string;
-
-  let colorsMerkleTree: MerkleTree;
-  let objectsMerkleTree: MerkleTree;
-
-  const buy = async (
-    buyer: SignerWithAddress,
-    colors: string[],
-    objects: string[],
-    options?: any
-  ) => {
-    return hexo.connect(buyer).buy(
-      colors,
-      colors.map((color) =>
-        (options?.colorsMerkleTree || colorsMerkleTree).getHexProof(
-          ethers.utils.id(color)
-        )
-      ),
-      objects,
-      objects.map((object) =>
-        (options?.objectsMerkleTree || objectsMerkleTree).getHexProof(
-          ethers.utils.id(object)
-        )
-      ),
-      {
-        value:
-          options?.value || price.mul(Math.max(colors.length, objects.length)),
-      }
-    );
-  };
+  let baseImageURI: string;
+  let price: BigNumber;
 
   beforeEach(async () => {
     // Initialize accounts
@@ -86,23 +57,20 @@ describe("Hexo", () => {
       ensPublicResolverAddress
     );
 
+    baseURI = "https://hexo.codes/token/";
+    baseImageURI = "https://hexo.codes/image/";
     price = parseEther("0.08");
-    baseURI = "https://hexo.eth/token";
-
-    colorsMerkleTree = constructMerkleTree(colors);
-    objectsMerkleTree = constructMerkleTree(objects);
 
     // Deploy Hexo contract
     hexo = await deployContract({
       name: "Hexo",
       from: deployer,
-      args: [
-        colorsMerkleTree.getHexRoot(),
-        objectsMerkleTree.getHexRoot(),
-        price,
-        baseURI,
-      ],
+      args: [baseURI, baseImageURI, price],
     });
+
+    // Add initial colors and objects
+    await hexo.connect(deployer).addColors(colors.map(id));
+    await hexo.connect(deployer).addObjects(objects.map(id));
 
     // Transfer "hexo.eth" ownership from Peter to Hexo contract
     await ensRegistry
@@ -125,176 +93,247 @@ describe("Hexo", () => {
     });
   });
 
-  it("buy", async () => {
-    await buy(alice, ["red"], ["dragon"]);
+  describe("buy", () => {
+    it("buy single item", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
 
-    const tokenId = BigNumber.from(id("reddragon"));
-    expect(await hexo.ownerOf(tokenId)).to.be.equal(alice.address);
-
-    const node = namehash(["reddragon", "hexo", "eth"]);
-    expect(await ensRegistry.owner(node)).to.be.equal(alice.address);
-    expect(await ensRegistry.resolver(node)).to.be.equal(
-      ensPublicResolver.address
-    );
-    expect(await ensPublicResolver.addr(node)).to.be.equal(alice.address);
-  });
-
-  it("buy multiple items in a single transaction", async () => {
-    await buy(alice, ["red", "green"], ["dragon", "turtle"]);
-
-    expect(await hexo.ownerOf(BigNumber.from(id("reddragon")))).to.be.equal(
-      alice.address
-    );
-    expect(
-      await ensRegistry.owner(namehash(["reddragon", "hexo", "eth"]))
-    ).to.be.equal(alice.address);
-    expect(await hexo.ownerOf(BigNumber.from(id("greenturtle")))).to.be.equal(
-      alice.address
-    );
-    expect(
-      await ensRegistry.owner(namehash(["greenturtle", "hexo", "eth"]))
-    ).to.be.equal(alice.address);
-  });
-
-  it("cannot buy for lower price", async () => {
-    await expect(
-      buy(alice, ["red", "green"], ["dragon", "turtle"], {
-        value: price.mul(2).sub(1),
-      })
-    ).to.be.revertedWith("Insufficient amount");
-  });
-
-  it("cannot buy the same item twice", async () => {
-    await buy(alice, ["red"], ["dragon"]);
-
-    await expect(buy(alice, ["red"], ["dragon"])).to.be.revertedWith(
-      "ERC721: token already minted"
-    );
-
-    await expect(
-      buy(alice, ["green", "green"], ["turtle", "turtle"])
-    ).to.be.revertedWith("ERC721: token already minted");
-  });
-
-  it("cannot buy items that were not added", async () => {
-    await expect(buy(alice, ["color"], ["dragon"])).to.be.revertedWith(
-      "Invalid color proof"
-    );
-
-    await expect(buy(alice, ["red"], ["object"])).to.be.revertedWith(
-      "Invalid object proof"
-    );
-
-    await expect(buy(alice, ["dragon"], ["red"])).to.be.revertedWith(
-      "Invalid color proof"
-    );
-  });
-
-  it("invalid buy", async () => {
-    await expect(buy(alice, ["red"], [])).to.be.revertedWith("Invalid input");
-    await expect(buy(alice, [], ["dragon", "turtle"])).to.be.revertedWith(
-      "Invalid input"
-    );
-  });
-
-  it("transferring correctly changes ENS ownership and resolution", async () => {
-    await buy(alice, ["red"], ["dragon"]);
-
-    const node = namehash(["reddragon", "hexo", "eth"]);
-    await ensRegistry.connect(alice).setOwner(node, bob.address);
-    expect(await ensRegistry.owner(node)).to.be.equal(bob.address);
-    expect(await ensPublicResolver.addr(node)).to.be.equal(alice.address);
-
-    await ensPublicResolver.connect(bob).setAddr(node, bob.address);
-    expect(await ensPublicResolver.addr(node)).to.be.equal(bob.address);
-    await ensRegistry
-      .connect(bob)
-      .setResolver(node, ethers.constants.AddressZero);
-    expect(await ensRegistry.resolver(node)).to.be.equal(
-      ethers.constants.AddressZero
-    );
-
-    const tokenId = BigNumber.from(id("reddragon"));
-    await hexo
-      .connect(alice)
-      .transferFrom(alice.address, carol.address, tokenId);
-    expect(await ensRegistry.owner(node)).to.be.equal(carol.address);
-    expect(await ensRegistry.resolver(node)).to.be.equal(
-      ensPublicResolver.address
-    );
-    expect(await ensPublicResolver.addr(node)).to.be.equal(carol.address);
-  });
-
-  it("owner of an item can set the token URI", async () => {
-    await buy(alice, ["red"], ["dragon"]);
-    await buy(bob, ["green"], ["turtle"]);
-
-    const tokenIdAlice = BigNumber.from(id("reddragon"));
-    expect(await hexo.tokenURI(tokenIdAlice)).to.be.equal(
-      baseURI + tokenIdAlice.toString()
-    );
-
-    const tokenURIAlice = "https://alice.eth/my-token";
-    await hexo.connect(alice).setTokenURI(tokenIdAlice, tokenURIAlice);
-    expect(await hexo.tokenURI(tokenIdAlice)).to.be.equal(tokenURIAlice);
-
-    const tokenIdBob = BigNumber.from(id("greenturtle"));
-    expect(await hexo.tokenURI(tokenIdBob)).to.be.equal(
-      baseURI + tokenIdBob.toString()
-    );
-  });
-
-  it("admin can claim earnings", async () => {
-    await buy(alice, ["red"], ["dragon"]);
-    await buy(bob, ["green"], ["turtle"]);
-
-    await expect(
-      hexo.connect(alice).claim(alice.address, price.mul(2))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-
-    const balanceBefore = await carol.getBalance();
-    await hexo.connect(deployer).claim(carol.address, price.mul(2));
-    const balanceAfter = await carol.getBalance();
-
-    expect(balanceAfter.sub(balanceBefore)).to.be.equal(price.mul(2));
-  });
-
-  it("admin can set new merkle roots for colors and objects", async () => {
-    await expect(
-      hexo.connect(alice).changeColorsMerkleRoot(ethers.utils.randomBytes(32))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-    await expect(
-      hexo.connect(alice).changeObjectsMerkleRoot(ethers.utils.randomBytes(32))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-
-    await expect(buy(alice, ["color"], ["object"])).to.be.revertedWith(
-      "Invalid color proof"
-    );
-
-    const colorsMerkleTree = constructMerkleTree(["color"]);
-    await hexo
-      .connect(deployer)
-      .changeColorsMerkleRoot(colorsMerkleTree.getHexRoot());
-
-    await expect(
-      buy(alice, ["color"], ["object"], { colorsMerkleTree })
-    ).to.be.revertedWith("Invalid object proof");
-
-    const objectsMerkleTree = constructMerkleTree(["object"]);
-    await hexo
-      .connect(deployer)
-      .changeObjectsMerkleRoot(objectsMerkleTree.getHexRoot());
-
-    await expect(
-      buy(alice, ["red"], ["dragon"], { colorsMerkleTree })
-    ).to.be.revertedWith("Invalid color proof");
-
-    await buy(alice, ["color"], ["object"], {
-      colorsMerkleTree,
-      objectsMerkleTree,
+      const reddragonId = BigNumber.from(id("reddragon"));
+      expect(await hexo.ownerOf(reddragonId)).to.be.equal(alice.address);
     });
-    expect(await hexo.ownerOf(BigNumber.from(id("colorobject")))).to.be.equal(
-      alice.address
-    );
+
+    it("buy multiple items", async () => {
+      await hexo
+        .connect(alice)
+        .buyItems(["red", "green"], ["dragon", "turtle"], {
+          value: price.mul(2),
+        });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+      expect(await hexo.ownerOf(reddragonId)).to.be.equal(alice.address);
+
+      const greenturtleId = BigNumber.from(id("greenturtle"));
+      expect(await hexo.ownerOf(greenturtleId)).to.be.equal(alice.address);
+    });
+
+    it("cannot buy for lower price", async () => {
+      await expect(
+        hexo
+          .connect(alice)
+          .buyItems(["red"], ["dragon"], { value: price.sub(1) })
+      ).to.be.revertedWith("Insufficient amount");
+
+      await expect(
+        hexo.connect(alice).buyItems(["red", "green"], ["dragon", "turtle"], {
+          value: price.mul(2).sub(1),
+        })
+      ).to.be.revertedWith("Insufficient amount");
+    });
+
+    it("cannot buy the same item twice", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+
+      await expect(
+        hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price })
+      ).to.be.revertedWith("ERC721: token already minted");
+    });
+
+    it("cannot buy items that were not added", async () => {
+      await expect(
+        hexo.connect(alice).buyItems(["color"], ["dragon"], { value: price })
+      ).to.be.revertedWith("Color not added");
+
+      await expect(
+        hexo.connect(alice).buyItems(["red"], ["object"], { value: price })
+      ).to.be.revertedWith("Object not added");
+
+      await expect(
+        hexo.connect(alice).buyItems(["dragon"], ["red"], { value: price })
+      ).to.be.revertedWith("Color not added");
+    });
+
+    it("properly handles invalid inputs", async () => {
+      await expect(
+        hexo.connect(alice).buyItems(["red"], [])
+      ).to.be.revertedWith("Invalid input");
+      await expect(
+        hexo.connect(alice).buyItems([], ["dragon", "turtle"])
+      ).to.be.revertedWith("Invalid input");
+    });
+  });
+
+  describe("claim", () => {
+    it("claim single item", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
+
+      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+      expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
+        alice.address
+      );
+      expect(await ensRegistry.resolver(reddragonNamehash)).to.be.equal(
+        ensPublicResolver.address
+      );
+      expect(await ensPublicResolver.addr(reddragonNamehash)).to.be.equal(
+        alice.address
+      );
+    });
+
+    it("claim multiple items", async () => {
+      await hexo
+        .connect(alice)
+        .buyItems(["red", "green"], ["dragon", "turtle"], {
+          value: price.mul(2),
+        });
+      await hexo
+        .connect(alice)
+        .claimSubdomains(["red", "green"], ["dragon", "turtle"]);
+
+      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+      expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
+        alice.address
+      );
+      expect(await ensRegistry.resolver(reddragonNamehash)).to.be.equal(
+        ensPublicResolver.address
+      );
+      expect(await ensPublicResolver.addr(reddragonNamehash)).to.be.equal(
+        alice.address
+      );
+
+      const greenturtleNamehash = namehash(["greenturtle", "hexo", "eth"]);
+      expect(await ensRegistry.owner(greenturtleNamehash)).to.be.equal(
+        alice.address
+      );
+      expect(await ensRegistry.resolver(greenturtleNamehash)).to.be.equal(
+        ensPublicResolver.address
+      );
+      expect(await ensPublicResolver.addr(greenturtleNamehash)).to.be.equal(
+        alice.address
+      );
+    });
+
+    it("owner can reset subdomain ownership and resolution", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+
+      await ensRegistry
+        .connect(alice)
+        .setOwner(reddragonNamehash, carol.address);
+      await ensRegistry
+        .connect(carol)
+        .setResolver(reddragonNamehash, AddressZero);
+
+      await hexo
+        .connect(alice)
+        .transferFrom(alice.address, bob.address, reddragonId);
+      await hexo.connect(bob).claimSubdomains(["red"], ["dragon"]);
+
+      expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
+        bob.address
+      );
+      expect(await ensPublicResolver.addr(reddragonNamehash)).to.be.equal(
+        bob.address
+      );
+    });
+
+    it("properly handles unauthorized attempts", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await expect(
+        hexo.connect(bob).claimSubdomains(["red"], ["dragon"])
+      ).to.be.revertedWith("Unauthorized");
+    });
+
+    it("properly handles inexistent items", async () => {
+      await expect(
+        hexo.connect(bob).claimSubdomains(["dragon"], ["dragon"])
+      ).to.be.revertedWith("ERC721: owner query for nonexistent token");
+    });
+  });
+
+  describe("admin", () => {
+    it("pull profits", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo
+        .connect(alice)
+        .buyItems(["green"], ["turtle"], { value: price });
+
+      await expect(
+        hexo.connect(alice).pullProfits(price.mul(2), alice.address)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      const balanceBefore = await carol.getBalance();
+      await hexo.connect(deployer).pullProfits(price.mul(2), carol.address);
+      const balanceAfter = await carol.getBalance();
+
+      expect(balanceAfter.sub(balanceBefore)).to.be.equal(price.mul(2));
+    });
+
+    it("add new colors and objects", async () => {
+      const colorHash = id("color");
+      const objectHash = id("object");
+
+      await expect(
+        hexo.connect(alice).addColors([colorHash])
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+      await expect(
+        hexo.connect(alice).addObjects([objectHash])
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      await hexo.connect(deployer).addColors([colorHash]);
+      await hexo.connect(deployer).addObjects([objectHash]);
+
+      await hexo
+        .connect(alice)
+        .buyItems(["color"], ["object"], { value: price });
+    });
+
+    it("change base URI", async () => {
+      const newBaseURI = "https://new-base-uri/token/";
+
+      await expect(
+        hexo.connect(alice).changeBaseURI(newBaseURI)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      await hexo.connect(deployer).changeBaseURI(newBaseURI);
+      expect(await hexo.baseURI()).to.be.equal(newBaseURI);
+    });
+
+    it("change base image URI", async () => {
+      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+
+      const newBaseImageURI = "https://new-base-image-uri/image/";
+
+      await expect(
+        hexo.connect(alice).changeBaseImageURI(newBaseImageURI)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      await hexo.connect(deployer).changeBaseImageURI(newBaseImageURI);
+      expect(await hexo.imageURI(reddragonId)).to.be.equal(
+        newBaseImageURI + reddragonId.toString()
+      );
+    });
+
+    it("change price", async () => {
+      const oldPrice = price;
+      const newPrice = price.mul(2);
+
+      await expect(
+        hexo.connect(alice).changePrice(newPrice)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      await hexo.connect(deployer).changePrice(newPrice);
+      expect(await hexo.price()).to.be.equal(newPrice);
+
+      await expect(
+        hexo.connect(alice).buyItems(["red"], ["dragon"], { value: oldPrice })
+      ).to.be.revertedWith("Insufficient amount");
+      await hexo
+        .connect(alice)
+        .buyItems(["red"], ["dragon"], { value: newPrice });
+    });
   });
 });

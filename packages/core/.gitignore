@@ -11,7 +11,3 @@ coverage.json
 
 # Secrets
 .env
-
-# Codegen
-objects.sol
-colors.sol
