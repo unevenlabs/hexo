@@ -57,9 +57,9 @@ describe("Hexo", () => {
       ensPublicResolverAddress
     );
 
+    price = parseEther("0.08");
     baseURI = "https://hexo.codes/token/";
     baseImageURI = "https://hexo.codes/image/";
-    price = parseEther("0.08");
 
     // Deploy LibMetadata library
     const libMetadata = await deployContract({
@@ -71,7 +71,7 @@ describe("Hexo", () => {
     hexo = await deployContract({
       name: "Hexo",
       from: deployer,
-      args: [baseURI, baseImageURI, price],
+      args: [price, baseURI, baseImageURI],
       libraries: {
         LibMetadata: libMetadata.address,
       },
@@ -370,9 +370,9 @@ describe("Hexo", () => {
 
       const customImageURI = "https://my-custom-image-uri";
       await expect(
-        hexo.connect(bob).setImageURI(reddragonId, customImageURI)
+        hexo.connect(bob).changeImageURI(reddragonId, customImageURI)
       ).to.be.revertedWith("Unauthorized");
-      await hexo.connect(alice).setImageURI(reddragonId, customImageURI);
+      await hexo.connect(alice).changeImageURI(reddragonId, customImageURI);
 
       const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
       expect(reddragonMetadata.image).to.be.equal(customImageURI);

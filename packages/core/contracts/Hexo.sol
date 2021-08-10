@@ -17,9 +17,10 @@ contract Hexo is ERC721, Ownable {
 
     /// Fields
 
+    uint256 public price;
     string public baseURI;
     string public baseImageURI;
-    uint256 public price;
+
     mapping(bytes32 => uint256) public colors;
     mapping(bytes32 => uint256) public objects;
     mapping(uint256 => string) public hexoNames;
@@ -39,29 +40,35 @@ contract Hexo is ERC721, Ownable {
 
     /// Events
 
+    event PriceChanged(uint256 price);
     event BaseURIChanged(string baseURI);
     event BaseImageURIChanged(string baseImageURI);
-    event PriceChanged(uint256 price);
     event ColorsAdded(bytes32[] colorHashes);
     event ObjectsAdded(bytes32[] objectHashes);
     event ProfitsPulled(uint256 amount, address to);
 
     event ItemBought(string color, string object, address buyer, uint256 price);
     event SubdomainClaimed(string color, string object, address claimer);
+    event ImageURIChanged(uint256 tokenId, string imageURI);
 
     /// Constructor
 
     constructor(
+        uint256 price_,
         string memory baseURI_,
-        string memory baseImageURI_,
-        uint256 price_
+        string memory baseImageURI_
     ) ERC721("Hexo Codes", "HEXO") {
+        price = price_;
         baseURI = baseURI_;
         baseImageURI = baseImageURI_;
-        price = price_;
     }
 
     /// Owner actions
+
+    function changePrice(uint256 price_) external onlyOwner {
+        price = price_;
+        emit PriceChanged(price_);
+    }
 
     function changeBaseURI(string calldata baseURI_) external onlyOwner {
         baseURI = baseURI_;
@@ -74,11 +81,6 @@ contract Hexo is ERC721, Ownable {
     {
         baseImageURI = baseImageURI_;
         emit BaseImageURIChanged(baseImageURI_);
-    }
-
-    function changePrice(uint256 price_) external onlyOwner {
-        price = price_;
-        emit PriceChanged(price_);
     }
 
     function addColors(bytes32[] calldata _colorHashes) external onlyOwner {
@@ -175,9 +177,12 @@ contract Hexo is ERC721, Ownable {
         }
     }
 
-    function setImageURI(uint256 _tokenId, string calldata imageURI_) external {
+    function changeImageURI(uint256 _tokenId, string calldata _imageURI)
+        external
+    {
         require(msg.sender == ownerOf(_tokenId), "Unauthorized");
-        imageURIs[_tokenId] = imageURI_;
+        imageURIs[_tokenId] = _imageURI;
+        emit ImageURIChanged(_tokenId, _imageURI);
     }
 
     /// Views
