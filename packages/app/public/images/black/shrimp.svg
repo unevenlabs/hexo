@@ -1,0 +1,14 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#000000" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line">
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M35,35c0,0,5.8876-1.5516,7.1287-8.4407"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M24.6709,16.3015c-4.0163,5.373,0.7272,7.2437,0.7272,7.2437S31.0871,20.7714,41,25c8.8152,3.7604,7.8405,3.7845,7.8405,3.7845 c-1.5957,8.8574-9.6463,8.4232-9.6463,8.4232s-3.7165-2.8711-8.2553-2.588c-4.5388,0.2831-6.7024-10.2677-6.7024-10.2677 s-7.1641-5.355-4.3092-9.9212"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M41.6585,41.5005c0,0,10.3483-3.8329,9.897-10.5591c0,0,4.8221,4.4093,0.7054,10.7604c0,0-4.9497,4.2761-9.7694,1.8737 L41.6585,41.5005z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M41,53c0,0,9.8333,0.6667,12.4167-7.6667C53.4167,45.3333,52,48,43,48L41,53z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M34,55c0,0-5-1-5-4c0-2.8125,7.9101,0.5273,8.8989,2.6038C37.9648,53.7422,38,53.875,38,54c0,2-1,6-7,7S34,55,34,55z"/>
+  </g>
+</svg>
+</svg>

@@ -1,0 +1,12 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#0000FF" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line">
+    <polyline fill="none" stroke="#0000FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="45.797 23.608 54.99 35.597 56.128 47.239 54.469 56 26.692 56 16 32.86 16.813 28.219 19.252 25.222 37.558 16 41.377 16.807 44.02 20.917 39.008 24.27"/>
+    <polyline fill="none" stroke="#0000FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="47.359 56 40.298 45.797 16.813 28.219"/>
+    <polyline fill="none" stroke="#0000FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="54.99 35.597 51.095 43.659 40.298 45.797"/>
+  </g>
+</svg>
+</svg>

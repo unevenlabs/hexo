@@ -1,0 +1,14 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#000000" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">  <g id="line" stroke-miterlimit="10">
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 7.95v5.121c-27.56 0-51.04 23.42-51.04 50.98h-5.063c0-30.99 25.11-56.1 56.1-56.1z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 13.07v5.12c-24.4 0-45.86 21.46-45.86 45.86h-5.174c0-27.56 23.47-50.98 51.03-50.98z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 18.19v5.121c-21.51 0-40.74 19.25-40.74 40.74h-5.121c0-24.4 21.46-45.86 45.86-45.86z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 23.31v5.121c-18.88 0-35.61 16.83-35.61 35.62h-5.131c0-21.48 19.23-40.74 40.74-40.74z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 28.43v5.12c-16.34 0-30.5 14.22-30.5 30.5h-5.11c0-18.78 16.73-35.62 35.61-35.62z"/>
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="m64.05 33.55v5.121c-14.02 0-25.38 11.36-25.38 25.38h-5.121c0-16.28 14.16-30.5 30.5-30.5z"/>
+  </g>
+</svg>
+</svg>

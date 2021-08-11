@@ -1,0 +1,304 @@
+303,v,iffy,emoji,black,annotation,shortname,hexcode,group,subgroups,tags,openmoji_tags,openmoji_author,openmoji_date,skintone,skintone_combination,skintone_base_emoji,skintone_base_hexcode,unicode,order
+,1,,💀,,skull,skull,1F480,smileys-emotion,face-negative,"death, face, fairy tale, monster",skull,Mariella Steeb,2018-04-18,,,,,0.6,101
+,1,,💩,,pile of poo,poo,1F4A9,smileys-emotion,face-costume,"dung, face, monster, poo, poop",,Mariella Steeb,2018-04-18,,,,,0.6,104
+,1,,🤡,,clown face,clown,1F921,smileys-emotion,face-costume,"clown, face",,Emily Jäger,2018-04-18,,,,,3,105
+,1,,👻,,ghost,ghost,1F47B,smileys-emotion,face-costume,"creature, face, fairy tale, fantasy, monster",ghost,Mariella Steeb,2018-04-18,,,,,0.6,108
+,1,,👽️,,alien,alien,1F47D,smileys-emotion,face-costume,"creature, extraterrestrial, face, fantasy, ufo",alien,Mariella Steeb,2018-04-18,,,,,0.6,109
+,1,,🤖,,robot,robot,1F916,smileys-emotion,face-costume,"face, monster",,Mariella Steeb,2018-04-18,,,,,1,111
+,1,,💣️,,bomb,bomb,1F4A3,smileys-emotion,emotion,comic,explosion,Laura Humpfer,2018-04-18,,,,,0.6,159
+,1,,👊,,oncoming fist,fist,1F44A,people-body,hand-fingers-closed,"clenched, fist, hand, punch","clenched, fist, hand, punch, fist, oncoming fist, Brofist, Bro, Bump,",Julian Grüneberg,2018-04-18,,single,👊,1F44A,0.6,306
+,1,,💪,,flexed biceps,muscle,1F4AA,people-body,body-parts,"biceps, comic, flex, muscle","Flexed Biceps, Biceps, Flexed, flex, muscle, Feats of Strength, strength, feats, Strong, lisa schulz, julian grüneberg",Julian Grüneberg,2018-04-18,,single,💪,1F4AA,0.6,374
+,1,,🦶,,foot,foot,1F9B6,people-body,body-parts,"kick, stomp",,Daniel Utz,2020-03-11,,single,🦶,1F9B6,11,388
+,1,,👂️,,ear,ear,1F442,people-body,body-parts,body,"ear, hear, listen",Julian Grüneberg,2018-04-18,,single,👂️,1F442,0.6,394
+,1,,👃,,nose,nose,1F443,people-body,body-parts,body,"nose, smell",Julian Grüneberg,2018-04-18,,single,👃,1F443,0.6,406
+,1,,🧠,,brain,brain,1F9E0,people-body,body-parts,intelligent,"brain, intelligent, clever",Julian Grüneberg,2018-04-18,,,,,5,412
+,1,,🦷,,tooth,tooth,1F9B7,people-body,body-parts,dentist,,Laura Schießer,2019-05-06,,,,,11,415
+,1,,🦴,,bone,bone,1F9B4,people-body,body-parts,skeleton,,Laura Schießer,2019-05-06,,,,,11,416
+,1,,👀,,eyes,eyes,1F440,people-body,body-parts,"eye, face","eye, face, eyes",Julian Grüneberg,2018-04-18,,,,,0.6,417
+,1,,👅,,tongue,tongue,1F445,people-body,body-parts,body,"tongue, kiss, lick, licking",Julian Grüneberg,2018-04-18,,,,,0.6,420
+,1,,👄,,mouth,mouth,1F444,people-body,body-parts,lips,"lips, kiss, mouth",Julian Grüneberg,2018-04-18,,,,,0.6,421
+,1,,👶,,baby,baby,1F476,people-body,person,young,"human, person",Johanna Wellnitz,2018-04-18,,single,👶,1F476,0.6,422
+,1,,🧑‍🚀,,astronaut,astronaut,1F9D1-200D-1F680,people-body,person-role,rocket,,Benedikt Groß,2020-01-15,,single,🧑‍🚀,1F9D1-200D-1F680,12.1,1220
+,1,,🥷,,ninja,ninja,1F977,people-body,person-role,"fighter, hidden, stealth",,Liz Bravo,2020-10-07,,single,🥷,1F977,13,1351
+,1,1,👼,,baby angel,angel,1F47C,people-body,person-fantasy,"angel, baby, face, fairy tale, fantasy",,Anne Frauendorf,2018-11-16,,single,👼,1F47C,0.6,1531
+,1,,🎅,,Santa Claus,santa,1F385,people-body,person-fantasy,"celebration, christmas, claus, father, santa, santa claus","christmas, holiday, jolly, happy, saint nicholas, santa claus, xmas, celebration",Lisa Thiel,2018-04-18,,single,🎅,1F385,0.6,1537
+,1,1,🦸,,superhero,hero,1F9B8,people-body,person-fantasy,"good, hero, heroine, superpower",,Nadine Bartel,2019-05-06,,single,🦸,1F9B8,11,1555
+,1,,🧙‍♂️,,man mage,wizard,1F9D9-200D-2642-FE0F,people-body,person-fantasy,"sorcerer, wizard",,Nadine Bartel,2019-05-06,,single,🧙‍♂️,1F9D9-200D-2642-FE0F,5,1621
+,1,,🧙‍♀️,,woman mage,witch,1F9D9-200D-2640-FE0F,people-body,person-fantasy,"sorceress, witch",,Nadine Bartel,2019-05-06,,single,🧙‍♀️,1F9D9-200D-2640-FE0F,5,1633
+,1,,🧚,,fairy,fairy,1F9DA,people-body,person-fantasy,"oberon, puck, titania",,Nadine Bartel,2019-05-06,,single,🧚,1F9DA,5,1645
+,1,,🧛,,vampire,vampire,1F9DB,people-body,person-fantasy,"dracula, undead",,Nadine Bartel,2019-05-06,,single,🧛,1F9DB,5,1675
+,1,,🧜‍♀️,,mermaid,mermaid,1F9DC-200D-2640-FE0F,people-body,person-fantasy,merwoman,,Sina Chlod,2018-11-16,,single,🧜‍♀️,1F9DC-200D-2640-FE0F,5,1723
+,1,,🧝,,elf,elf,1F9DD,people-body,person-fantasy,magical,"magical, mystic, bow, arrow, pointy ears",Lisa Thiel,2018-04-18,,single,🧝,1F9DD,5,1735
+,1,,🧞,,genie,genie,1F9DE,people-body,person-fantasy,djinn,"djinn, magic lamp, wish, magic",Lisa Thiel,2018-04-18,,,,,5,1765
+,1,,🧟,,zombie,zombie,1F9DF,people-body,person-fantasy,"undead, walking dead","undead, walking dead, brain, decayed",Lisa Thiel,2018-04-18,,,,,5,1770
+,1,,🐵,,monkey face,monkey,1F435,animals-nature,animal-mammal,"face, monkey","jungle, ape, evolution, primate, africa",Sofie Ascherl,2018-04-18,,,,,0.6,3079
+,1,,🦍,,gorilla,gorilla,1F98D,animals-nature,animal-mammal,gorilla,"monkey, primate, evolution",Sofie Ascherl,2018-04-18,,,,,3,3081
+,1,,🐶,,dog face,dog,1F436,animals-nature,animal-mammal,"dog, face, pet","friend, puppy, doggy",Sofie Ascherl,2018-04-18,,,,,0.6,3083
+,1,,🐺,,wolf,wolf,1F43A,animals-nature,animal-mammal,face,"pack, wild, free, forest, dog",Sofie Ascherl,2018-04-18,,,,,0.6,3088
+,1,,🐱,,cat face,cat,1F431,animals-nature,animal-mammal,"cat, face, pet","pet, kitty, kitten, miau",Sofie Ascherl,2018-04-18,,,,,0.6,3091
+,1,,🐅,,tiger,tiger,1F405,animals-nature,animal-mammal,tiger,"stripes, strong, cat, wild",Sofie Ascherl,2018-04-18,,,,,1,3096
+,1,,🐎,,horse,horse,1F40E,animals-nature,animal-mammal,"equestrian, racehorse, racing","riding, sport",Sofie Ascherl,2018-04-18,,,,,0.6,3099
+,1,,🦄,,unicorn,unicorn,1F984,animals-nature,animal-mammal,face,"fabulous, magical, rainbow, schwäbisch, gmünd",Sofie Ascherl,2018-04-18,,,,,1,3100
+,1,,🦓,,zebra,zebra,1F993,animals-nature,animal-mammal,stripe,"horse, black, white",Sofie Ascherl,2018-04-18,,,,,5,3101
+,1,,🦌,,deer,deer,1F98C,animals-nature,animal-mammal,deer,"forest, hunt, antler",Sofie Ascherl,2018-04-18,,,,,3,3102
+,1,,🐮,,cow face,cow,1F42E,animals-nature,animal-mammal,"cow, face","farm, milk, beef, grass, dairy, horns, cheese",Sofie Ascherl,2018-04-18,,,,,0.6,3104
+,1,,🐷,,pig face,pig,1F437,animals-nature,animal-mammal,"face, pig","pork, farm, pink, meat, oink",Sofie Ascherl,2018-04-18,,,,,0.6,3108
+,1,,🐑,,ewe,sheep,1F411,animals-nature,animal-mammal,"female, sheep","horns, grass, hooves, wool, farm",Sofie Ascherl,2018-04-18,,,,,0.6,3113
+,1,,🐫,,two-hump camel,camel,1F42B,animals-nature,animal-mammal,"bactrian, camel, hump","desert, oasis, sahara, sun, hot, hump",Sofie Ascherl,2018-04-18,,,,,0.6,3116
+,1,,🦒,,giraffe,giraffe,1F992,animals-nature,animal-mammal,spots,"long, neck, trees, big",Sofie Ascherl,2018-04-18,,,,,5,3118
+,1,,🐘,,elephant,elephant,1F418,animals-nature,animal-mammal,elephant,"big, wrinkles, trunk, töröö",Sofie Ascherl,2018-04-18,,,,,0.6,3119
+,1,,🐁,,mouse,mouse,1F401,animals-nature,animal-mammal,mouse,"small, cute, whiskers, tiny, rodent",Sofie Ascherl,2018-04-18,,,,,1,3124
+,1,,🐇,,rabbit,rabbit,1F407,animals-nature,animal-mammal,"bunny, pet","rodent, teeth, cute, ears, bunny, hopping, easter",Sofie Ascherl,2018-04-18,,,,,1,3128
+,1,,🦇,,bat,bat,1F987,animals-nature,animal-mammal,vampire,"batman, dracula",Sofie Ascherl,2018-04-18,,,,,3,3133
+,1,,🐻,,bear,bear,1F43B,animals-nature,animal-mammal,face,"brown, salmon, river, thick",Sofie Ascherl,2018-04-18,,,,,0.6,3134
+,1,,🐨,,koala,koala,1F428,animals-nature,animal-mammal,bear,"grey, fluffy, eucalyptus, australia, clingy",Sofie Ascherl,2018-04-18,,,,,0.6,3137
+,1,,🐼,,panda,panda,1F43C,animals-nature,animal-mammal,face,"kawaii, cute, japan",Sofie Ascherl,2018-04-18,,,,,0.6,3138
+,1,,🦦,,otter,otter,1F9A6,animals-nature,animal-mammal,"fishing, playful",,Yasmin Abdullahi,2019-05-07,,,,,12,3140
+,1,,🦘,,kangaroo,kangaroo,1F998,animals-nature,animal-mammal,"australia, joey, jump, marsupial",,Laura Schießer,2019-05-06,,,,,11,3142
+,1,,🦃,,turkey,turkey,1F983,animals-nature,animal-bird,bird,,Selina Bauder,2018-04-18,,,,,1,3145
+,1,,🐔,,chicken,chicken,1F414,animals-nature,animal-bird,bird,egg,Selina Bauder,2018-04-18,,,,,0.6,3146
+,1,,🦅,,eagle,eagle,1F985,animals-nature,animal-bird,bird,fly,Selina Bauder,2018-04-18,,,,,3,3155
+,1,,🦆,,duck,duck,1F986,animals-nature,animal-bird,bird,"water, fly",Selina Bauder,2018-04-18,,,,,3,3156
+,1,,🦢,,swan,swan,1F9A2,animals-nature,animal-bird,"bird, cygnet, ugly duckling",,Laura Schießer,2019-05-06,,,,,11,3157
+,1,,🦉,,owl,owl,1F989,animals-nature,animal-bird,"bird, wise",,Selina Bauder,2018-04-18,,,,,3,3158
+,1,,🪶,,feather,feather,1FAB6,animals-nature,animal-bird,"bird, flight, light, plumage",,Liz Bravo,2020-03-26,,,,,13,3160
+,1,,🦩,,flamingo,flamingo,1F9A9,animals-nature,animal-bird,"flamboyant, tropical",flamingo,Mariella Steeb,2018-04-18,,,,,12,3161
+,1,,🦚,,peacock,peacock,1F99A,animals-nature,animal-bird,"bird, ostentatious, peahen, proud",,Laura Schießer,2019-05-06,,,,,11,3162
+,1,,🦜,,parrot,parrot,1F99C,animals-nature,animal-bird,"bird, pirate, talk",,Ricarda Krejci,2019-05-07,,,,,11,3163
+,1,,🐸,,frog,frog,1F438,animals-nature,animal-amphibian,face,"jump, green",Selina Bauder,2018-04-18,,,,,0.6,3164
+,1,,🐊,,crocodile,crocodile,1F40A,animals-nature,animal-reptile,crocodile,dinosaur,Selina Bauder,2018-04-18,,,,,1,3165
+,1,,🐢,,turtle,turtle,1F422,animals-nature,animal-reptile,"terrapin, tortoise","slow, water, sand",Selina Bauder,2018-04-18,,,,,0.6,3166
+,1,,🐍,,snake,snake,1F40D,animals-nature,animal-reptile,"bearer, ophiuchus, serpent, zodiac","wriggle, fast,",Selina Bauder,2018-04-18,,,,,0.6,3168
+,1,,🐲,,dragon face,dragon,1F432,animals-nature,animal-reptile,"dragon, face, fairy tale","fire, fly",Selina Bauder,2018-04-18,,,,,0.6,3169
+,1,,🐳,,spouting whale,whale,1F433,animals-nature,animal-marine,"face, spouting, whale","cetacean, swim, animal, water",Kris Kowal,2020-04-04,,,,,0.6,3173
+,1,,🐬,,dolphin,dolphin,1F42C,animals-nature,animal-marine,flipper,"cetacean, swim, animal, water",Kris Kowal,2020-04-04,,,,,0.6,3175
+,1,,🐟️,,fish,fish,1F41F,animals-nature,animal-marine,"pisces, zodiac","swim, animal, water",Selina Bauder,2018-04-18,,,,,0.6,3177
+,1,,🦈,,shark,shark,1F988,animals-nature,animal-marine,fish,"swim, animal, water",Selina Bauder,2018-04-18,,,,,3,3180
+,1,,🐙,,octopus,octopus,1F419,animals-nature,animal-marine,octopus,"swim, animal, water",Selina Bauder,2018-04-18,,,,,0.6,3181
+,1,,🐌,,snail,snail,1F40C,animals-nature,animal-bug,snail,,Selina Bauder,2018-04-18,,,,,0.6,3183
+,1,,🦋,,butterfly,butterfly,1F98B,animals-nature,animal-bug,"insect, pretty",,Selina Bauder,2018-04-18,,,,,3,3184
+,1,,🐜,,ant,ant,1F41C,animals-nature,animal-bug,insect,,Selina Bauder,2018-04-18,,,,,0.6,3186
+,1,,🪲,,beetle,beetle,1FAB2,animals-nature,animal-bug,"bug, insect",,Liz Bravo,2020-09-26,,,,,13,3188
+,1,,🕷️,,spider,spider,1F577,animals-nature,animal-bug,insect,,Selina Bauder,2018-04-18,,,,,0.7,3193
+,1,,🦂,,scorpion,scorpion,1F982,animals-nature,animal-bug,"scorpio, zodiac",,Selina Bauder,2018-04-18,,,,,1,3196
+,1,,🪰,,fly,fly,1FAB0,animals-nature,animal-bug,"disease, maggot, pest, rotting",,Liz Bravo,2020-03-07,,,,,13,3198
+,1,,🌹,,rose,rose,1F339,animals-nature,plant-flower,flower,"rose, red, nature, present, valentines day",Hilda Kalyoncu,2018-04-18,,,,,0.6,3206
+,1,,🌻,,sunflower,sunflower,1F33B,animals-nature,plant-flower,"flower, sun","sun, flower, yellow, summer",Hilda Kalyoncu,2018-04-18,,,,,0.6,3209
+,1,,🪴,,potted plant,plant,1FAB4,animals-nature,plant-other,"boring, grow, house, nurturing, plant, useless",,Liz Bravo,2020-03-26,,,,,13,3213
+,1,,🌳,,deciduous tree,tree,1F333,animals-nature,plant-other,"deciduous, shedding, tree","green, tree, huge, plant",Hilda Kalyoncu,2018-04-18,,,,,1,3215
+,1,,🌵,,cactus,cactus,1F335,animals-nature,plant-other,plant,"desert, sun, warm, hot, texas, plant",Liz Bravo,2020-12-22,,,,,0.6,3217
+,1,,🍀,,four leaf clover,clover,1F340,animals-nature,plant-other,"4, clover, four, four-leaf clover, leaf","luck, four, leaf, green, plant",Hilda Kalyoncu,2018-04-18,,,,,0.6,3222
+,1,,🍁,,maple leaf,maple,1F341,animals-nature,plant-other,"falling, leaf, maple","autumn, colorful",Hilda Kalyoncu,2018-04-18,,,,,0.6,3223
+,1,,🍇,,grapes,grapes,1F347,food-drink,food-fruit,"fruit, grape",,Hend Hourani,2018-11-16,,,,,0.6,3226
+,1,,🍉,,watermelon,watermelon,1F349,food-drink,food-fruit,fruit,"melon, red",Marius Schnabel,2018-04-18,,,,,0.6,3228
+,1,,🍋,,lemon,lemon,1F34B,food-drink,food-fruit,"citrus, fruit",yellow,Marius Schnabel,2018-04-18,,,,,1,3230
+,1,,🍌,,banana,banana,1F34C,food-drink,food-fruit,fruit,yellow,Marius Schnabel,2018-04-18,,,,,0.6,3231
+,1,,🍍,,pineapple,pineapple,1F34D,food-drink,food-fruit,fruit,tropical,Marius Schnabel,2018-04-18,,,,,0.6,3232
+,1,,🍎,,red apple,apple,1F34E,food-drink,food-fruit,"apple, fruit, red",,Liz Bravo,2021-05-04,,,,,0.6,3234
+,1,,🍐,,pear,pear,1F350,food-drink,food-fruit,fruit,green,Marius Schnabel,2018-04-18,,,,,1,3236
+,1,,🍑,,peach,peach,1F351,food-drink,food-fruit,fruit,"pink, red",Marius Schnabel,2018-04-18,,,,,0.6,3237
+,1,,🍒,,cherries,cherries,1F352,food-drink,food-fruit,"berries, cherry, fruit, red",,Marius Schnabel,2018-04-18,,,,,0.6,3238
+,1,,🍓,,strawberry,strawberry,1F353,food-drink,food-fruit,"berry, fruit",,Liz Bravo,2021-05-04,,,,,0.6,3239
+,1,,🫐,,blueberries,blueberries,1FAD0,food-drink,food-fruit,"berry, bilberry, blue, blueberry",,Liz Bravo,2020-03-03,,,,,13,3240
+,1,,🍅,,tomato,tomato,1F345,food-drink,food-fruit,"fruit, vegetable",red,Marius Schnabel,2018-04-18,,,,,0.6,3242
+,1,,🫒,,olive,olive,1FAD2,food-drink,food-fruit,food,,Liz Bravo,2020-03-07,,,,,13,3243
+,1,,🥑,,avocado,avocado,1F951,food-drink,food-vegetable,"food, fruit",avocado,Marius Schnabel,2018-04-18,,,,,3,3245
+,1,,🍆,,eggplant,eggplant,1F346,food-drink,food-vegetable,"aubergine, vegetable",purple,Marius Schnabel,2018-04-18,,,,,0.6,3246
+,1,,🥕,,carrot,carrot,1F955,food-drink,food-vegetable,"food, vegetable",,Marius Schnabel,2018-04-18,,,,,3,3248
+,1,,🌽,,ear of corn,corn,1F33D,food-drink,food-vegetable,"corn, ear, maize, maze",yellow,Marius Schnabel,2018-04-18,,,,,0.6,3249
+,1,,🍄,,mushroom,mushroom,1F344,food-drink,food-vegetable,toadstool,mushroom,Marius Schnabel,2018-04-18,,,,,0.6,3258
+,1,,🥜,,peanuts,peanuts,1F95C,food-drink,food-vegetable,"food, nut, peanut, vegetable",,Marius Schnabel,2018-04-18,,,,,3,3259
+,1,,🥐,,croissant,croissant,1F950,food-drink,food-prepared,"bread, breakfast, food, french, roll",,Miriam Vollmeier,2018-04-18,,,,,3,3262
+,1,,🥖,,baguette bread,baguette,1F956,food-drink,food-prepared,"baguette, bread, food, french",,Miriam Vollmeier,2018-04-18,,,,,3,3263
+,1,,🥨,,pretzel,pretzel,1F968,food-drink,food-prepared,twisted,,Miriam Vollmeier,2018-04-18,,,,,5,3265
+,1,,🥞,,pancakes,pancakes,1F95E,food-drink,food-prepared,"breakfast, crêpe, food, hotcake, pancake",,Ricarda Krejci,2019-05-07,,,,,3,3267
+,1,,🧇,,waffle,waffle,1F9C7,food-drink,food-prepared,"breakfast, indecisive, iron","breakfast, indecisive, iron",Liz Bravo,2021-04-28,,,,,12,3268
+,1,,🧀,,cheese wedge,cheese,1F9C0,food-drink,food-prepared,cheese,,Miriam Vollmeier,2018-04-18,,,,,1,3269
+,1,,🥩,,cut of meat,steak,1F969,food-drink,food-prepared,"chop, lambchop, porkchop, steak",,Miriam Vollmeier,2018-04-18,,,,,5,3272
+,1,,🥓,,bacon,bacon,1F953,food-drink,food-prepared,"breakfast, food, meat",,Miriam Vollmeier,2018-04-18,,,,,3,3273
+,1,,🍔,,hamburger,hamburger,1F354,food-drink,food-prepared,burger,,Miriam Vollmeier,2018-04-18,,,,,0.6,3274
+,1,,🍟,,french fries,fries,1F35F,food-drink,food-prepared,"french, fries",,Miriam Vollmeier,2018-04-18,,,,,0.6,3275
+,1,,🍕,,pizza,pizza,1F355,food-drink,food-prepared,"cheese, slice",,Miriam Vollmeier,2018-04-18,,,,,0.6,3276
+,1,,🌭,,hot dog,hotdog,1F32D,food-drink,food-prepared,"frankfurter, hotdog, sausage",,Miriam Vollmeier,2018-04-18,,,,,1,3277
+,1,,🥪,,sandwich,sandwich,1F96A,food-drink,food-prepared,bread,,Miriam Vollmeier,2018-04-18,,,,,5,3278
+,1,,🌮,,taco,taco,1F32E,food-drink,food-prepared,mexican,,Miriam Vollmeier,2018-04-18,,,,,1,3279
+,1,,🥚,,egg,egg,1F95A,food-drink,food-prepared,"breakfast, food",,Miriam Vollmeier,2018-04-18,,,,,3,3284
+,1,,🍣,,sushi,sushi,1F363,food-drink,food-asian,sushi,,Miriam Vollmeier,2018-04-18,,,,,0.6,3304
+,1,,🦀,,crab,crab,1F980,food-drink,food-marine,"cancer, zodiac","cancer, zodiac",Liz Bravo,2021-04-28,,,,,1,3312
+,1,,🦞,,lobster,lobster,1F99E,food-drink,food-marine,"bisque, claws, seafood",,Ricarda Krejci,2019-05-07,,,,,11,3313
+,1,,🦐,,shrimp,shrimp,1F990,food-drink,food-marine,"food, shellfish, small","swim, animal, water, food",Selina Bauder,2018-04-18,,,,,3,3314
+,1,,🦪,,oyster,oyster,1F9AA,food-drink,food-marine,"diving, pearl",shell,Liz Bravo,2021-04-28,,,,,12,3316
+,1,,🍦,,soft ice cream,icecream,1F366,food-drink,food-sweet,"cream, dessert, ice, icecream, soft, sweet",,Miriam Vollmeier,2018-04-18,,,,,0.6,3317
+,1,1,🍩,,doughnut,doughnut,1F369,food-drink,food-sweet,"breakfast, dessert, donut, sweet",,Miriam Vollmeier,2018-04-18,,,,,0.6,3320
+,1,,🍪,,cookie,cookie,1F36A,food-drink,food-sweet,"dessert, sweet",,Miriam Vollmeier,2018-04-18,,,,,0.6,3321
+,1,,🎂,,birthday cake,cake,1F382,food-drink,food-sweet,"birthday, cake, celebration, dessert, pastry, sweet",,Miriam Vollmeier,2018-04-18,,,,,0.6,3322
+,1,,🥧,,pie,pie,1F967,food-drink,food-sweet,"filling, pastry",,Miriam Vollmeier,2018-04-18,,,,,5,3325
+,1,,🍬,,candy,candy,1F36C,food-drink,food-sweet,"dessert, sweet",,Miriam Vollmeier,2018-04-18,,,,,0.6,3327
+,1,,🍭,,lollipop,lollipop,1F36D,food-drink,food-sweet,"candy, dessert, sweet",,Carlin MacKenzie,2020-05-20,,,,,0.6,3328
+,1,,🍼,,baby bottle,bottle,1F37C,food-drink,drink,"baby, bottle, drink, milk","baby, drink, sweet",Laura Humpfer,2018-04-18,,,,,1,3331
+,1,,🍷,,wine glass,wine,1F377,food-drink,drink,"bar, beverage, drink, glass, wine","classic, drink, beverage, alcohol",Laura Humpfer,2018-04-18,,,,,0.6,3338
+,1,,🍸️,,cocktail glass,cocktail,1F378,food-drink,drink,"bar, cocktail, drink, glass","classic, alcohol, elegant, party",Laura Humpfer,2018-04-18,,,,,0.6,3339
+,1,,🍺,,beer mug,beer,1F37A,food-drink,drink,"bar, beer, drink, mug","beer, german, alcohol, bavaria, party",Laura Humpfer,2018-04-18,,,,,0.6,3341
+,1,,🥢,,chopsticks,chopsticks,1F962,food-drink,dishware,hashi,"sticks, eat, chopstick",Jonas Roßner,2018-04-18,,,,,5,3350
+,1,,🥄,,spoon,spoon,1F944,food-drink,dishware,tableware,"metal, spoon, eat",Jonas Roßner,2018-04-18,,,,,3,3354
+,1,,🔪,,kitchen knife,knife,1F52A,food-drink,dishware,"cooking, hocho, knife, tool, weapon",eat,Jonas Roßner,2018-04-18,,,,,0.6,3355
+,1,,🌍️,,globe showing Europe-Africa,globe,1F30D,travel-places,place-map,"africa, earth, europe, globe, globe showing europe-africa, world","geographic, continent, global, planet",Martin Wehl,2018-04-18,,,,,0.7,3357
+,1,,🗺️,,world map,map,1F5FA,travel-places,place-map,"map, world","geographic, continent, global, planet, earth",Martin Wehl,2018-04-18,,,,,0.7,3362
+,1,,🧭,,compass,compass,1F9ED,travel-places,place-map,"magnetic, navigation, orienteering","wayfinding, direction",Kai Magnus Müller,2018-04-18,,,,,11,3364
+,1,,🏔️,,snow-capped mountain,mountain,1F3D4,travel-places,place-geographic,"cold, mountain, snow","landscape, nature, hiking, climbing, white, outdoor, adventure",Martin Wehl,2018-04-18,,,,,0.7,3366
+,1,,🌋,,volcano,volcano,1F30B,travel-places,place-geographic,"eruption, mountain","vulcano, landscape, nature, fire, smoke, hot",Guemil Project,2019-01-14,,,,,0.6,3369
+,1,,🏜️,,desert,desert,1F3DC,travel-places,place-geographic,desert,"nature, hot, sun, sand, dry",Martin Wehl,2018-04-18,,,,,0.7,3376
+,1,,🏝️,,desert island,island,1F3DD,travel-places,place-geographic,"desert, island","sun, lonely, sand, water, stranded, palm, nature",Martin Wehl,2018-04-18,,,,,0.7,3378
+,1,,🪨,,rock,rock,1FAA8,travel-places,place-building,"boulder, heavy, solid, stone",,Liz Bravo,2020-10-07,,,,,13,3388
+,1,,🪵,,wood,wood,1FAB5,travel-places,place-building,"log, lumber, timber",,Liz Bravo,2020-09-26,,,,,13,3389
+,1,,🛖,,hut,hut,1F6D6,travel-places,place-building,"house, roundhouse, yurt",,Liz Bravo,2020-09-26,,,,,13,3390
+,1,,🏠️,,house,house,1F3E0,travel-places,place-building,home,building,Martin Wehl,2018-04-18,,,,,0.6,3395
+,1,,🏰,,castle,castle,1F3F0,travel-places,place-building,european,"building, culture, historical, war",Martin Wehl,2018-04-18,,,,,0.6,3409
+,1,,⛪️,,church,church,26EA,travel-places,place-religious,"christian, cross, religion","religious, pray, cross, building, god, mess, faith",Martin Wehl,2018-04-18,,,,,0.6,3413
+,1,,🚆,,train,train,1F686,travel-places,transport-ground,railway,,Nadja Grün,2018-11-16,,,,,1,3442
+,1,,🚗,,automobile,car,1F697,travel-places,transport-ground,car,"car, travel, automobile, vehicle, transportation",Ronja Bäurlen,2018-04-18,,,,,0.6,3460
+,1,,🚛,,articulated lorry,truck,1F69B,travel-places,transport-ground,"lorry, semi, truck","delivery truck, truck, car, transportation, travel, trucker, truck driver",Ronja Bäurlen,2018-04-18,,,,,1,3465
+,1,,🚜,,tractor,tractor,1F69C,travel-places,transport-ground,vehicle,"tractor, towing, vehicle, farm, farming, field, acre",Ronja Bäurlen,2018-04-18,,,,,1,3466
+,1,,🏍️,,motorcycle,motorcycle,1F3CD,travel-places,transport-ground,racing,"motorsports, vehicle",Johanna Wellnitz,2018-04-18,,,,,0.7,3470
+,1,,🚲️,,bicycle,bicycle,1F6B2,travel-places,transport-ground,bike,"bike, vehicle, bicycle",Ronja Bäurlen,2018-04-18,,,,,0.6,3475
+,1,,🛴,,kick scooter,scooter,1F6F4,travel-places,transport-ground,"kick, scooter","kick, scooter, city roller",Ronja Bäurlen,2018-04-18,,,,,3,3476
+,1,,🛹,,skateboard,skateboard,1F6F9,travel-places,transport-ground,board,,Jonas Dunkel,2019-05-07,,,,,11,3477
+,1,,⚓️,,anchor,anchor,2693,travel-places,transport-water,"ship, tool","boat, ship, travel, sea, atlantic, ocean, water, tool, anchor, metal",Ronja Bäurlen,2018-04-18,,,,,0.6,3492
+,1,,⛵️,,sailboat,boat,26F5,travel-places,transport-water,"boat, resort, sea, yacht","boat, passengers, ship, travel, sea, atlantic, ocean, water, yacht, resort, sail, sailboat",Ronja Bäurlen,2018-04-18,,,,,0.6,3493
+,1,,✈️,,airplane,plane,2708,travel-places,transport-air,aeroplane,"fly, airplane, aeroplane, air, sky, travel, departure, arrive",Ronja Bäurlen,2018-04-18,,,,,0.6,3504
+,1,,🪂,,parachute,parachute,1FA82,travel-places,transport-air,"hang-glide, parasail, skydive",,Evelyn Soos,2019-05-04,,,,,12,3509
+,1,,🚁,,helicopter,helicopter,1F681,travel-places,transport-air,vehicle,"helicopter, air, transportation, sky, fly, flying",Ronja Bäurlen,2018-04-18,,,,,1,3511
+,1,,🛰️,,satellite,satellite,1F6F0,travel-places,transport-air,space,"space, galaxy, satellite",Ronja Bäurlen,2018-04-18,,,,,0.7,3516
+,1,,🚀,,rocket,rocket,1F680,travel-places,transport-air,space,"rocket, space, galaxy, adventure, alien, transportation",Kris Kowal,2020-01-20,,,,,0.6,3517
+,1,,🛸,,flying saucer,ufo,1F6F8,travel-places,transport-air,ufo,"alien, UFO, space, planets, adventures",Ronja Bäurlen,2018-04-18,,,,,5,3518
+,1,,🧳,,luggage,luggage,1F9F3,travel-places,hotel,"packing, travel",,Jonas Dunkel,2019-05-07,,,,,11,3521
+,1,,⌛️,,hourglass done,hourglass,231B,travel-places,time,"sand, timer","countdown, hourglass",Rana Cakir,2018-04-18,,,,,0.6,3522
+,1,,⌚️,,watch,watch,231A,travel-places,time,clock,"watch, time,",Rana Cakir,2018-04-18,,,,,0.6,3524
+,1,,⏰,,alarm clock,clock,23F0,travel-places,time,"alarm, clock",,Rana Cakir,2018-04-18,,,,,0.6,3525
+,1,,🌙,,crescent moon,moon,1F319,travel-places,sky-weather,"crescent, moon","crescent moon, full moon, night, night sky, moon, celestial body, crescent, planet, far away",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3564
+,1,,🌡️,,thermometer,thermometer,1F321,travel-places,sky-weather,weather,"temperatures, room temperatures, degrees, heat, warming, fever, cold, celsius, measure, sick",Vanessa Boutzikoudi,2018-04-18,,,,,0.7,3569
+,1,,☀️,,sun,sun,2600,travel-places,sky-weather,"bright, rays, sunny","sun, sunrise, warm, sunbeams, feel good, beach, tanning, fire, fireball, hot, heavenly body",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3571
+,1,,🪐,,ringed planet,planet,1FA90,travel-places,sky-weather,"saturn, saturnine","saturn, saturnine",Liz Bravo,2021-04-28,,,,,12,3574
+,1,,⭐️,,star,star,2B50,travel-places,sky-weather,star,"star, shine, small planet, sky, yellow, sparkle, far away",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3575
+,1,,☁️,,cloud,cloud,2601,travel-places,sky-weather,weather,"cloud, cloudy, rain, gray, misty, diffuse, sky, dream, fleecy clouds",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3580
+,1,,🌧️,,cloud with rain,rain,1F327,travel-places,sky-weather,"cloud, rain","cloud, rain, raindrops, falling, down, wet, cool, cloudy, weather, stormy",Vanessa Boutzikoudi,2018-04-18,,,,,0.7,3591
+,1,,🌪️,,tornado,tornado,1F32A,travel-places,sky-weather,"cloud, whirlwind","tornado, wind, blow, sky, dangerous, severe weather, storm, hurricane, typhoon, cyclone",Vanessa Boutzikoudi,2018-04-18,,,,,0.7,3597
+,1,,🌈,,rainbow,rainbow,1F308,travel-places,sky-weather,rain,"rainbow, color, colorful, colors formed in the sky, sunbeams, sunlight, facet, sparkle, unicorn",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3603
+,1,,☂️,,umbrella,umbrella,2602,travel-places,sky-weather,"clothing, rain","purple, umbrella, rain, wet, drop, raindrops",Vanessa Boutzikoudi,2018-04-18,,,,,0.7,3606
+,1,1,⚡️,,high voltage,lightning,26A1,travel-places,sky-weather,"danger, electric, lightning, voltage, zap","lightning, high voltage, storm, current, voltage, volts, lights, light",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3610
+,1,,❄️,,snowflake,snowflake,2744,travel-places,sky-weather,"cold, snow","snowflake, snow, ice, icy, wintry, snow storm, white, cold, frosty, season, weather, melting",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3612
+,1,,☃️,,snowman,snowman,2603,travel-places,sky-weather,"cold, snow",,Lois Proksch,2018-11-16,,,,,0.7,3614
+,1,1,🔥,,fire,fire,1F525,travel-places,sky-weather,"flame, tool","fire, burn, hot, high temperature, flame, glow, flame, tool",Guemil Project,2019-01-14,,,,,0.6,3618
+,1,1,🌊,,water wave,wave,1F30A,travel-places,sky-weather,"ocean, water, wave","wave, water, salty, sea, wet, cold, sun, beach, vacation, air, surf, sough, listen",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3620
+,1,,🎈,,balloon,balloon,1F388,activities,event,celebration,"balloon, birthday, party, decoration",Laura Humpfer,2018-04-18,,,,,0.6,3627
+,1,,🎁,,wrapped gift,gift,1F381,activities,event,"box, celebration, gift, present, wrapped","present, birthday, christmas",Laura Humpfer,2018-04-18,,,,,0.6,3638
+,1,,🎫,,ticket,ticket,1F3AB,activities,event,admission,,Laura Humpfer,2018-04-18,,,,,0.6,3643
+,1,,🏆️,,trophy,trophy,1F3C6,activities,award-medal,prize,"Trophy, Championship, Winner, Gold Cup, award",Julian Grüneberg,2018-04-18,,,,,0.6,3646
+,1,,⚽️,,soccer ball,football,26BD,activities,sport,"ball, football, soccer","soccer, ball, football, game, ball game, team sports",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3651
+,1,,⚾️,,baseball,baseball,26BE,activities,sport,ball,"baseball, white, ball, american, game, ball game, team sports",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3652
+,1,,🏀,,basketball,basketball,1F3C0,activities,sport,"ball, hoop","basketball, orange ball, team sport, sport, canadian sport, game",Vanessa Boutzikoudi,2018-04-18,,,,,0.6,3654
+,1,,🪁,,kite,kite,1FA81,activities,game,"fly, soar",,Evelyn Soos,2019-05-04,,,,,12,3681
+,1,1,🎲,,game die,dice,1F3B2,activities,game,"dice, die, game","board game, isometric",Lisa Schulz,2018-04-18,,,,,0.6,3690
+,1,,🧩,,puzzle piece,puzzle,1F9E9,activities,game,"clue, interlocking, jigsaw, piece, puzzle",,Nicole Kornhaas,2019-05-06,,,,,11,3691
+,1,,🧸,,teddy bear,teddy,1F9F8,activities,game,"plaything, plush, stuffed, toy",,Liz Bravo,2020-12-22,,,,,11,3692
+,1,,♠️,,spade suit,spade,2660,activities,game,"card, game",,Nicole Kornhaas,2019-05-06,,,,,0.6,3696
+,1,,♥️,,heart suit,heart,2665,activities,game,"card, game",,Nicole Kornhaas,2019-05-06,,,,,0.6,3698
+,1,,♦️,,diamond suit,diamond,2666,activities,game,"card, game",,Nicole Kornhaas,2019-05-06,,,,,0.6,3700
+,1,,♣️,,club suit,club,2663,activities,game,"card, game",,Nicole Kornhaas,2019-05-06,,,,,0.6,3702
+,1,,🃏,,joker,joker,1F0CF,activities,game,"card, game, wildcard",,Nicole Kornhaas,2019-05-06,,,,,0.6,3705
+,1,,👕,,t-shirt,shirt,1F455,objects,clothing,"clothing, shirt, tshirt",,Jonas Roßner,2018-04-18,,,,,0.6,3723
+,1,,👖,,jeans,jeans,1F456,objects,clothing,"clothing, pants, trousers",,Jonas Roßner,2018-04-18,,,,,0.6,3724
+,1,,🧤,,gloves,gloves,1F9E4,objects,clothing,hand,,Laura Schießer,2019-05-06,,,,,5,3726
+,1,,🧦,,socks,socks,1F9E6,objects,clothing,stocking,,Laura Schießer,2019-05-06,,,,,5,3728
+,1,,👗,,dress,dress,1F457,objects,clothing,clothing,"beautiful, dress, woman",Jonas Roßner,2018-04-18,,,,,0.6,3729
+,1,,🩲,,briefs,briefs,1FA72,objects,clothing,"bathing suit, one-piece, swimsuit, underwear",,Sam Eckert,2019-05-06,,,,,12,3733
+,1,,🩳,,shorts,shorts,1FA73,objects,clothing,"bathing suit, pants, underwear",,Sam Eckert,2019-05-06,,,,,12,3734
+,1,,👙,,bikini,bikini,1F459,objects,clothing,"clothing, swim","summer,",Jonas Roßner,2018-04-18,,,,,0.6,3735
+,1,,👜,,handbag,bag,1F45C,objects,clothing,"bag, clothing, purse",,Jonas Roßner,2018-04-18,,,,,0.6,3738
+,1,,👞,,man’s shoe,shoe,1F45E,objects,clothing,"clothing, man, shoe",,Jonas Roßner,2018-04-18,,,,,0.6,3744
+,1,,🥾,,hiking boot,boot,1F97E,objects,clothing,"backpacking, boot, camping, hiking",,Laura Schießer,2019-05-06,,,,,11,3746
+,1,,👑,,crown,crown,1F451,objects,clothing,"clothing, king, queen","crone, gold,",Jonas Roßner,2018-04-18,,,,,0.6,3752
+,1,,💄,,lipstick,lipstick,1F484,objects,clothing,"cosmetics, makeup",,Anne Frauendorf,2018-11-16,,,,,0.6,3761
+,1,,💍,,ring,ring,1F48D,objects,clothing,diamond,"expensive, jewelry",Jonas Roßner,2018-04-18,,,,,0.6,3762
+,1,,🔔,,bell,bell,1F514,objects,sound,bell,sound,Rana Cakir,2018-04-18,,,,,0.6,3771
+,1,,🎵,,musical note,note,1F3B5,objects,music,"music, note","song, melody, sounds, tone",Sina Schulz,2018-04-18,,,,,0.6,3774
+,1,,🎤,,microphone,microphone,1F3A4,objects,music,"karaoke, mic","sound, loud, stage, speech, singing, karaoke, mic, microphone, tone",Sina Schulz,2018-04-18,,,,,0.6,3782
+,1,,🎧️,,headphone,headphone,1F3A7,objects,music,earbud,"music, headphones",Sina Schulz,2018-04-18,,,,,0.6,3783
+,1,,📻️,,radio,radio,1F4FB,objects,music,video,"radio, stereo radio, analog radio",Sina Schulz,2018-04-18,,,,,0.6,3784
+,1,,🎷,,saxophone,saxophone,1F3B7,objects,musical-instrument,"instrument, music, sax","saxophone, sax, jazz, instrument",Sina Schulz,2018-04-18,,,,,0.6,3785
+,1,,🪗,,accordion,accordion,1FA97,objects,musical-instrument,"accordian, concertina, squeeze box",,Liz Bravo,2020-07-21,,,,,13,3786
+,1,,🎸,,guitar,guitar,1F3B8,objects,musical-instrument,"instrument, music","guitar, e-guitar, instrumental, acoustic, chords,",Sina Schulz,2018-04-18,,,,,0.6,3787
+,1,,🎹,,musical keyboard,piano,1F3B9,objects,musical-instrument,"instrument, keyboard, music, piano","keyboard, piano keys, chords",Sina Schulz,2018-04-18,,,,,0.6,3788
+,1,,🎺,,trumpet,trumpet,1F3BA,objects,musical-instrument,"instrument, music","trumpet, horns, music, woodwind instrument",Sina Schulz,2018-04-18,,,,,0.6,3789
+,1,,🎻,,violin,violin,1F3BB,objects,musical-instrument,"instrument, music","string, violin, fiddle, bow",Sina Schulz,2018-04-18,,,,,0.6,3790
+,1,,🪕,,banjo,banjo,1FA95,objects,musical-instrument,"music, stringed",,Sam Eckert,2019-05-06,,,,,12,3791
+,1,,🥁,,drum,drum,1F941,objects,musical-instrument,"drumsticks, music","drum, drumsticks, music, beat",Sina Schulz,2018-04-18,,,,,3,3792
+,1,,📱,,mobile phone,phone,1F4F1,objects,phone,"cell, mobile, phone, telephone","smartphone, message, voice, communication",Martin Wehl,2018-04-18,,,,,0.6,3794
+,1,,🔋,,battery,battery,1F50B,objects,computer,battery,"electricity, energy, electric",Jonas Roßner,2018-04-18,,,,,0.6,3801
+,1,,🔌,,electric plug,plug,1F50C,objects,computer,"electric, electricity, plug",,Jonas Roßner,2018-04-18,,,,,0.6,3802
+,1,,💻️,,laptop,laptop,1F4BB,objects,computer,"computer, pc, personal","old, retro",Jonas Roßner,2018-04-18,,,,,0.6,3803
+,1,,⌨️,,keyboard,keyboard,2328,objects,computer,computer,"key, write, electric",Carlin MacKenzie,2020-05-12,,,,,1,3809
+,1,,🕯️,,candle,candle,1F56F,objects,light-video,light,"fire, bright, shine",Sina Schulz,2018-04-18,,,,,0.7,3833
+,1,,💡,,light bulb,bulb,1F4A1,objects,light-video,"bulb, comic, electric, idea, light","shine, light, bulb, power, on, electric, idea",Sina Schulz,2018-04-18,,,,,0.6,3834
+,1,,🔦,,flashlight,flashlight,1F526,objects,light-video,"electric, light, tool, torch","bright, shine, light, flashlight, gadget",Sina Schulz,2018-04-18,,,,,0.6,3835
+,1,,✉️,,envelope,envelope,2709,objects,mail,"email, letter","post, message",Marius Schnabel,2018-04-18,,,,,0.6,3868
+,1,,✏️,,pencil,pencil,270F,objects,writing,pencil,,Rana Cakir,2018-04-18,,,,,0.6,3883
+,1,,🖊️,,pen,pen,1F58A,objects,writing,ballpoint,,Rana Cakir,2018-04-18,,,,,0.7,3889
+,1,,🖌️,,paintbrush,paintbrush,1F58C,objects,writing,painting,"colors, pain, brush",Rana Cakir,2018-04-18,,,,,0.7,3891
+,1,,📅,,calendar,calendar,1F4C5,objects,office,date,"calendar, day view, pages, analog",Sina Schulz,2018-04-18,,,,,0.6,3900
+,1,,📎,,paperclip,paperclip,1F4CE,objects,office,paperclip,"office, paperclip, organisation",Sina Schulz,2018-04-18,,,,,0.6,3913
+,1,,📏,,straight ruler,ruler,1F4CF,objects,office,"ruler, straight edge","ruler, straight, line, measure, detail",Sina Schulz,2018-04-18,,,,,0.6,3916
+,1,,✂️,,scissors,scissors,2702,objects,office,"cutting, tool","scissors, cut, cutting, tool, work, paper, material",Sina Schulz,2018-04-18,,,,,0.6,3919
+,1,,🔒️,,locked,lock,1F512,objects,lock,closed,"locker, padlock",Lisa Schulz,2018-04-18,,,,,0.6,3926
+,1,,🔑,,key,key,1F511,objects,lock,"lock, password",closing,Lisa Schulz,2018-04-18,,,,,0.6,3930
+,1,,🔨,,hammer,hammer,1F528,objects,tool,tool,"toolbox, metal, wood",Hilda Kalyoncu,2018-04-18,,,,,0.6,3933
+,1,,🪓,,axe,axe,1FA93,objects,tool,"chop, hatchet, split, wood",,Sam Eckert,2019-05-06,,,,,12,3934
+,1,,🔫,,water pistol,gun,1F52B,objects,tool,"gun, handgun, pistol, revolver, tool, water, weapon","gun, weapon, pistol",Hilda Kalyoncu,2018-04-18,,,,,0.6,3945
+,1,,🪃,,boomerang,boomerang,1FA83,objects,tool,"australia, rebound, repercussion",,Liz Bravo,2020-03-26,,,,,13,3946
+,1,,🛡️,,shield,shield,1F6E1,objects,tool,weapon,"protection, fight, middle ages",Hilda Kalyoncu,2018-04-18,,,,,0.7,3949
+,1,,🪚,,carpentry saw,saw,1FA9A,objects,tool,"carpenter, lumber, saw, tool",,Liz Bravo,2020-03-28,,,,,13,3950
+,1,,🔧,,wrench,wrench,1F527,objects,tool,"spanner, tool","toolbox, silver",Hilda Kalyoncu,2018-04-18,,,,,0.6,3951
+,1,,⚙️,,gear,gear,2699,objects,tool,"cog, cogwheel, tool","tool, metal, silver",Hilda Kalyoncu,2018-04-18,,,,,1,3955
+,1,,🪝,,hook,hook,1FA9D,objects,tool,"catch, crook, curve, ensnare, selling point","fishing, catch",Liz Bravo,2020-04-11,,,,,13,3964
+,1,,🧲,,magnet,magnet,1F9F2,objects,tool,"attraction, horseshoe, magnetic",,Tonia Reinhardt,2019-05-07,,,,,11,3966
+,1,,🪜,,ladder,ladder,1FA9C,objects,tool,"climb, rung, step",,Liz Bravo,2020-09-26,,,,,13,3967
+,1,,🧬,,dna,dna,1F9EC,objects,science,"biologist, evolution, gene, genetics, life",,Tonia Reinhardt,2019-05-07,,,,,11,3972
+,1,,🔭,,telescope,telescope,1F52D,objects,science,"science, tool","stars, sky, space",Sina Schulz,2018-04-18,,,,,1,3974
+,1,,💊,,pill,pill,1F48A,objects,medical,"doctor, medicine, sick",health,Marius Schnabel,2018-04-18,,,,,0.6,3978
+,1,,🚪,,door,door,1F6AA,objects,household,door,,Lisa Schulz,2018-04-18,,,,,0.6,3981
+,1,,🪞,,mirror,mirror,1FA9E,objects,household,"reflection, reflector, speculum",,Liz Bravo,2020-03-26,,,,,13,3983
+,1,,🪟,,window,window,1FA9F,objects,household,"frame, fresh air, opening, transparent, view",,Liz Bravo,2020-07-21,,,,,13,3984
+,1,,🛏️,,bed,bed,1F6CF,objects,household,"hotel, sleep",furniture,Lisa Schulz,2018-04-18,,,,,0.7,3986
+,1,,🪑,,chair,chair,1FA91,objects,household,"seat, sit",,Sam Eckert,2019-05-06,,,,,12,3989
+,1,,🚽,,toilet,toilet,1F6BD,objects,household,toilet,,Lisa Schulz,2018-04-18,,,,,0.6,3990
+,1,,🛁,,bathtub,bath,1F6C1,objects,household,bath,"wash, water, foam",Lisa Schulz,2018-04-18,,,,,1,3993
+,1,,🧹,,broom,broom,1F9F9,objects,household,"cleaning, sweeping, witch",,Tonia Reinhardt,2019-05-07,,,,,11,3998
+,1,,🪥,,toothbrush,toothbrush,1FAA5,objects,household,"bathroom, brush, clean, dental, hygiene, teeth",,Liz Bravo,2020-03-11,,,,,13,4003
+,1,,⚠️,,warning,warning,26A0,symbols,warning,warning,,Miriam Vollmeier,2018-04-18,,,,,0.6,4029
+,1,,☮️,,peace symbol,peace,262E,symbols,religion,peace,,Jose Avila,2018-04-18,,,,,1,4097
+,1,,🕎,,menorah,menorah,1F54E,symbols,religion,"candelabrum, candlestick, religion",,Sina Chlod,2018-11-16,,,,,1,4098
+,1,,♈️,,Aries,Aries,2648,symbols,zodiac,"aries, ram, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4100
+,1,,♉️,,Taurus,Taurus,2649,symbols,zodiac,"bull, ox, taurus, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4101
+,1,,♊️,,Gemini,Gemini,264A,symbols,zodiac,"gemini, twins, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4102
+,1,,♋️,,Cancer,Cancer,264B,symbols,zodiac,"cancer, crab, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4103
+,1,,♌️,,Leo,Leo,264C,symbols,zodiac,"leo, lion, zodiac",,Selina Lange,2019-05-06,,,,,0.6,4104
+,1,,♍️,,Virgo,Virgo,264D,symbols,zodiac,"virgo, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4105
+,1,,♎️,,Libra,Libra,264E,symbols,zodiac,"balance, justice, libra, scales, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4106
+,1,,♏️,,Scorpio,Scorpio,264F,symbols,zodiac,"scorpio, scorpion, scorpius, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4107
+,1,,♐️,,Sagittarius,Sagittarius,2650,symbols,zodiac,"archer, sagittarius, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4108
+,1,,♑️,,Capricorn,Capricorn,2651,symbols,zodiac,"capricorn, goat, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4109
+,1,,♒️,,Aquarius,Aquarius,2652,symbols,zodiac,"aquarius, bearer, water, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4110
+,1,,♓️,,Pisces,Pisces,2653,symbols,zodiac,"fish, pisces, zodiac",,Sina Chlod,2018-11-16,,,,,0.6,4111
+,1,,♀️,,female sign,female,2640,symbols,gender,woman,"woman, sign, gender",Hilda Kalyoncu,2018-04-18,,,,,4,4147
+,1,,♂️,,male sign,male,2642,symbols,gender,man,"man, sign, gender",Hilda Kalyoncu,2018-04-18,,,,,4,4149
+,1,,♾️,,infinity,infinity,267E,symbols,math,"forever, unbounded, universal",,Selina Lange,2019-05-06,,,,,11,4158
+,1,,❔,,white question mark,question,2754,symbols,punctuation,"?, mark, outlined, punctuation, question","punctation, mark, question, white",Selina Lange,2019-05-06,,,,,0.6,4164
+,1,,❕,,white exclamation mark,exclaimation,2755,symbols,punctuation,"!, exclamation, mark, outlined, punctuation","exclamation, mark, punctation, white",Hilda Kalyoncu,2018-04-18,,,,,0.6,4165
+,1,,💲,,heavy dollar sign,dollar,1F4B2,symbols,currency,"currency, dollar, money",,Marleen Heine,2018-11-16,,,,,0.6,4170
+,1,,🔱,,trident emblem,trident,1F531,symbols,other-symbol,"anchor, emblem, ship, tool, trident","trident, emblem",Hilda Kalyoncu,2018-04-18,,,,,0.6,4177
+,1,,✔️,,check mark,tick,2714,symbols,other-symbol,"check, mark, ✓","check, mark, right, todo",Carlin MacKenzie,2020-05-12,,,,,0.6,4185
+,1,,❌,,cross mark,cross,274C,symbols,other-symbol,"cancel, cross, mark, multiplication, multiply, x, ×","cancel, wrong, multiply, x,",Hilda Kalyoncu,2018-04-18,,,,,0.6,4186
+,1,,⚪️,,white circle,circle,26AA,symbols,geometric,"circle, geometric",,Ricarda Krejci,2019-05-07,,,,,0.6,4286
+,1,,⬜️,,white large square,square,2B1C,symbols,geometric,"geometric, square",,Laura Schießer,2019-05-06,,,,,0.6,4295
+,1,,🔺,,red triangle pointed up,triangle,1F53A,symbols,geometric,"geometric, red",arrow,Lisa Schulz,2018-04-18,,,,,0.6,4310
+,1,,🏳️,,white flag,flag,1F3F3,flags,flag,waving,white,Aileen Gedrat,2018-11-16,,,,,0.7,4321
