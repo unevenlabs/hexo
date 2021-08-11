@@ -22,8 +22,8 @@ library LibMetadata {
     function constructMetadata(
         string calldata _color,
         string calldata _object,
-        string calldata _imageURI,
-        uint256 _generation
+        uint256 _generation,
+        string calldata _imageURI
     ) external pure returns (string memory metadata) {
         // Name
         metadata = string(
