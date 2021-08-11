@@ -1,21 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-import {
-  BookmarkAltIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  CursorClickIcon,
-  MenuIcon,
-  PhoneIcon,
-  PlayIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-  SupportIcon,
-  ViewGridIcon,
-  XIcon,
-} from '@heroicons/react/outline'
-import { CheckIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, CheckIcon, SearchIcon } from '@heroicons/react/outline'
+import { XCircleIcon } from '@heroicons/react/solid'
 import { GetStaticProps } from 'next'
 
 import { objectList } from '../utils/objects'
@@ -35,7 +22,7 @@ const features = [
 
   {
     name: 'Updateable images!',
-    description: 'Owners can override the (deliverately basic) default image with their own.',
+    description: 'Owners can override the basic default image with their own.',
   }
 ]
 
@@ -179,7 +166,7 @@ export default function Example() {
                   href="#"
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
                 >
-                  Learn More
+                  Looks Rare
                 </a>
               </div>
             </div>
@@ -247,8 +234,8 @@ export default function Example() {
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-4xl mx-auto">
-                <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-4">
+              <div className="max-w-5xl mx-auto">
+                <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-5">
                   <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
                     <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Colors</dt>
                     <dd className="order-1 text-5xl font-extrabold text-indigo-600">11</dd>
@@ -265,6 +252,10 @@ export default function Example() {
                     <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">Minted</dt>
                     <dd className="order-1 text-5xl font-extrabold text-indigo-600">0</dd>
                   </div>
+                  <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+                    <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">ETH</dt>
+                    <dd className="order-1 text-5xl font-extrabold text-indigo-600">0.033</dd>
+                  </div>
                 </dl>
               </div>
             </div>
@@ -272,7 +263,8 @@ export default function Example() {
         </div>
         <div className="bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div>
+            <div className="flex flex-wrap">
+              <div className="flex-1">
               <span className="relative z-0 inline-flex shadow-sm rounded-md">
                 <button
                   type="button"
@@ -288,24 +280,52 @@ export default function Example() {
                 </button>
                 <button
                   type="button"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                >
-                  Unavilable
-                </button>
-                <button
-                  type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                 >
-                  Mine
+                  Owned
                 </button>
               </span>
             </div>
-            <div>
-            <dl className="mt-16 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
-              {items.map((item) => (
-                <div className="relative mx-auto rounded-lg shadow-xl w-5/12">
-                  <img className="object-cover rounded-lg bg-white" src={`images/red/${item}.svg`} alt="" />
+              <div className="flex-1">
+                <div className="relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <SearchIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                  </div>
+                  <input
+                    type="text"
+                    name="filter-items"
+                    id="filter-items"
+                    className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-10 sm:text-sm border-gray-300 rounded-md"
+                    placeholder="Filter"
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <XCircleIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </div>
                 </div>
+              </div>
+              <div className="flex-1">
+                <button
+                  type="button"
+                  className="float-right items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Mint
+                </button>
+                <select
+                  id="random"
+                  name="random"
+                  className="float-right pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-l-md"
+                  defaultValue="1 Random"
+                >
+                  <option>1 Random</option>
+                  <option>2 Random</option>
+                  <option>3 Random</option>
+                </select>
+              </div>
+            </div>
+            <div>
+            <dl className="mt-16">
+              {items.map((item) => (
+                  <img className="float-left mr-2 mb-2 object-cover rounded-lg bg-white w-24 hover:shadow-xl" src={`images/red/${item}.svg`} alt="" />
               ))}
             </dl> 
             </div>
