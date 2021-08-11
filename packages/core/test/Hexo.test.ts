@@ -353,9 +353,14 @@ describe("Hexo", () => {
       const reddragonId = BigNumber.from(id("reddragon"));
 
       const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
-      expect(reddragonMetadata.name).to.be.equal("Hexo #reddragon");
-      expect(reddragonMetadata.description).to.be.equal("Generation 0");
+      expect(reddragonMetadata.name).to.be.equal("Red Dragon");
+      expect(reddragonMetadata.description).to.be.equal(
+        "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more."
+      );
       expect(reddragonMetadata.image).to.be.equal(baseImageURI + reddragonId);
+      expect(reddragonMetadata.attributes[0].value).to.be.equal("Red");
+      expect(reddragonMetadata.attributes[1].value).to.be.equal("Dragon");
+      expect(reddragonMetadata.attributes[2].value).to.be.equal(1);
     });
 
     it("owner can set custom image URI", async () => {

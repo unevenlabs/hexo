@@ -23,7 +23,9 @@ contract Hexo is ERC721, Ownable {
 
     mapping(bytes32 => uint256) public colors;
     mapping(bytes32 => uint256) public objects;
-    mapping(uint256 => string) public hexoNames;
+
+    mapping(uint256 => string) public hexoColors;
+    mapping(uint256 => string) public hexoObjects;
 
     mapping(uint256 => string) private imageURIs;
 
@@ -130,7 +132,8 @@ contract Hexo is ERC721, Ownable {
                 abi.encodePacked(_colors[i], _objects[i])
             );
             uint256 tokenId = uint256(keccak256(bytes(hexoName)));
-            hexoNames[tokenId] = hexoName;
+            hexoColors[tokenId] = _colors[i];
+            hexoObjects[tokenId] = _objects[i];
 
             _safeMint(msg.sender, tokenId);
 
@@ -204,8 +207,10 @@ contract Hexo is ERC721, Ownable {
         require(_exists(_tokenId), "Inexistent token");
         return
             LibMetadata.constructMetadata(
-                hexoNames[_tokenId],
-                imageURI(_tokenId)
+                hexoColors[_tokenId],
+                hexoObjects[_tokenId],
+                imageURI(_tokenId),
+                1
             );
     }
 
