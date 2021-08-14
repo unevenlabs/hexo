@@ -5,20 +5,16 @@ type ContractDeploymentParams = {
   name: string;
   from: Signer;
   args?: any[];
-  libraries?: any;
 };
 
-export const deployContract = async <T extends Contract>({
+export const deployContract = async ({
   name,
   from,
   args,
-  libraries,
-}: ContractDeploymentParams): Promise<T> => {
-  const contractFactory = await ethers.getContractFactory(name, {
-    libraries,
-  });
+}: ContractDeploymentParams): Promise<Contract> => {
+  const contractFactory = await ethers.getContractFactory(name);
   const contractInstance = await contractFactory
     .connect(from)
     .deploy(...(args || []));
-  return (await contractInstance.deployed()) as T;
+  return contractInstance.deployed();
 };

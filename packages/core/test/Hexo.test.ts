@@ -23,7 +23,7 @@ describe("Hexo", () => {
   let ensPublicResolver: Contract;
   let hexo: Contract;
 
-  let baseURI: string;
+  let baseMetadataURI: string;
   let baseImageURI: string;
   let price: BigNumber;
 
@@ -58,23 +58,14 @@ describe("Hexo", () => {
     );
 
     price = parseEther("0.08");
-    baseURI = "https://hexo.codes/token/";
+    baseMetadataURI = "https://hexo.codes/metadata/";
     baseImageURI = "https://hexo.codes/image/";
-
-    // Deploy LibMetadata library
-    const libMetadata = await deployContract({
-      name: "LibMetadata",
-      from: deployer,
-    });
 
     // Deploy Hexo contract
     hexo = await deployContract({
       name: "Hexo",
       from: deployer,
-      args: [price, baseURI, baseImageURI],
-      libraries: {
-        LibMetadata: libMetadata.address,
-      },
+      args: [price, baseMetadataURI, baseImageURI],
     });
 
     // Add initial colors and objects
@@ -173,7 +164,7 @@ describe("Hexo", () => {
   describe("claim", () => {
     it("claim single item", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
+      await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
 
       const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -195,7 +186,7 @@ describe("Hexo", () => {
         });
       await hexo
         .connect(alice)
-        .claimSubdomains(["red", "green"], ["dragon", "turtle"]);
+        .claimENSSubdomains(["red", "green"], ["dragon", "turtle"]);
 
       const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -220,9 +211,9 @@ describe("Hexo", () => {
       );
     });
 
-    it("owner can reset subdomain ownership and resolution", async () => {
+    it("owner can reset subdomain ownership and forward resolution", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
+      await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
 
       const reddragonId = BigNumber.from(id("reddragon"));
       const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
@@ -237,7 +228,7 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .transferFrom(alice.address, bob.address, reddragonId);
-      await hexo.connect(bob).claimSubdomains(["red"], ["dragon"]);
+      await hexo.connect(bob).claimENSSubdomains(["red"], ["dragon"]);
 
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
         bob.address
@@ -250,13 +241,13 @@ describe("Hexo", () => {
     it("properly handles unauthorized attempts", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
       await expect(
-        hexo.connect(bob).claimSubdomains(["red"], ["dragon"])
+        hexo.connect(bob).claimENSSubdomains(["red"], ["dragon"])
       ).to.be.revertedWith("Unauthorized");
     });
 
     it("properly handles inexistent items", async () => {
       await expect(
-        hexo.connect(bob).claimSubdomains(["dragon"], ["dragon"])
+        hexo.connect(bob).claimENSSubdomains(["dragon"], ["dragon"])
       ).to.be.revertedWith("ERC721: owner query for nonexistent token");
     });
   });
@@ -298,22 +289,21 @@ describe("Hexo", () => {
         .buyItems(["color"], ["object"], { value: price });
     });
 
-    it("change base URI", async () => {
-      const newBaseURI = "https://new-base-uri/token/";
+    it("change base metadata URI", async () => {
+      const newBaseMetadataURI = "https://hexo.code/new-metadata/";
 
       await expect(
-        hexo.connect(alice).changeBaseURI(newBaseURI)
+        hexo.connect(alice).changeBaseMetadataURI(newBaseMetadataURI)
       ).to.be.revertedWith("Ownable: caller is not the owner");
 
-      await hexo.connect(deployer).changeBaseURI(newBaseURI);
-      expect(await hexo.baseURI()).to.be.equal(newBaseURI);
+      await hexo.connect(deployer).changeBaseMetadataURI(newBaseMetadataURI);
+      expect(await hexo.baseMetadataURI()).to.be.equal(newBaseMetadataURI);
     });
 
     it("change base image URI", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
 
       const reddragonId = BigNumber.from(id("reddragon"));
-
       const newBaseImageURI = "https://new-base-image-uri/image/";
 
       await expect(
@@ -375,9 +365,9 @@ describe("Hexo", () => {
 
       const customImageURI = "https://my-custom-image-uri";
       await expect(
-        hexo.connect(bob).changeImageURI(reddragonId, customImageURI)
+        hexo.connect(bob).setCustomImageURI(reddragonId, customImageURI)
       ).to.be.revertedWith("Unauthorized");
-      await hexo.connect(alice).changeImageURI(reddragonId, customImageURI);
+      await hexo.connect(alice).setCustomImageURI(reddragonId, customImageURI);
 
       const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
       expect(reddragonMetadata.image).to.be.equal(customImageURI);
