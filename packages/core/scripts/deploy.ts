@@ -6,11 +6,6 @@ import { deployContract } from "../src/deployment";
 const main = async () => {
   const [deployer] = await ethers.getSigners();
 
-  const libMetadata = await deployContract({
-    name: "LibMetadata",
-    from: deployer,
-  });
-
   const hexo = await deployContract({
     name: "Hexo",
     from: deployer,
@@ -19,9 +14,6 @@ const main = async () => {
       "https://hexo-ptrwtts.vercel.app/api/metadata/",
       "https://hexo-ptrwtts.vercel.app/api/image/",
     ],
-    libraries: {
-      LibMetadata: libMetadata.address,
-    },
   });
 
   console.log(`Deployed at ${hexo.address}`);
