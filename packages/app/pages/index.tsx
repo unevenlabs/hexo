@@ -6,12 +6,12 @@ import {
   SearchIcon,
 } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
+import { useWeb3React } from "@web3-react/core";
 import { Fragment } from "react";
 
-import { activateConnector, injected } from "../src/utils/connectors";
+import { activateConnector, injected } from "../src/connectors";
 
 import objects from "../data/objects.json";
-import { useWeb3React } from "@web3-react/core";
 
 const features = [
   {
@@ -36,7 +36,7 @@ const features = [
 
 export default function Index() {
   const web3ReactContext = useWeb3React();
-  const { active, account } = web3ReactContext;
+  const { account, active, chainId } = web3ReactContext;
 
   return (
     <div className="relative bg-gray-50">
@@ -80,14 +80,20 @@ export default function Index() {
                     Discord
                   </a>
                 </Popover.Group>
+
                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                   {active ? (
-                    <p>{account}</p>
+                    <>
+                      <span>
+                        ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
+                        {account.slice(0, 6) + "..." + account.slice(-4, -1)}
+                      </span>
+                    </>
                   ) : (
                     <button
                       className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                       onClick={() =>
-                        activateConnector(injected, web3ReactContext)
+                        activateConnector(web3ReactContext, injected)
                       }
                     >
                       Connect Wallet

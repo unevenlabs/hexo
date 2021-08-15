@@ -1,16 +1,15 @@
+import { AddressZero } from "@ethersproject/constants";
+import { id, namehash } from "@ethersproject/hash";
+import { parseEther } from "@ethersproject/units";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { BigNumber, Contract } from "ethers";
 import { ethers, network } from "hardhat";
 
 import { deployContract } from "../src/deployment";
-import { namehash } from "../src/utils";
 
 import colors from "../data/colors.json";
 import objects from "../data/objects.json";
-
-const { AddressZero } = ethers.constants;
-const { id, parseEther } = ethers.utils;
 
 describe("Hexo", () => {
   let deployer: SignerWithAddress;
@@ -75,7 +74,7 @@ describe("Hexo", () => {
     // Transfer "hexo.eth" ownership from Peter to Hexo contract
     await ensRegistry
       .connect(peter)
-      .setOwner(namehash(["hexo", "eth"]), hexo.address);
+      .setOwner(namehash("hexo.eth"), hexo.address);
   });
 
   afterEach(async () => {
@@ -166,7 +165,7 @@ describe("Hexo", () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
       await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
 
-      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+      const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
         alice.address
       );
@@ -188,7 +187,7 @@ describe("Hexo", () => {
         .connect(alice)
         .claimENSSubdomains(["red", "green"], ["dragon", "turtle"]);
 
-      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+      const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
         alice.address
       );
@@ -199,7 +198,7 @@ describe("Hexo", () => {
         alice.address
       );
 
-      const greenturtleNamehash = namehash(["greenturtle", "hexo", "eth"]);
+      const greenturtleNamehash = namehash("greenturtle.hexo.eth");
       expect(await ensRegistry.owner(greenturtleNamehash)).to.be.equal(
         alice.address
       );
@@ -216,7 +215,7 @@ describe("Hexo", () => {
       await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
 
       const reddragonId = BigNumber.from(id("reddragon"));
-      const reddragonNamehash = namehash(["reddragon", "hexo", "eth"]);
+      const reddragonNamehash = namehash("reddragon.hexo.eth");
 
       await ensRegistry
         .connect(alice)

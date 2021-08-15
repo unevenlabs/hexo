@@ -1,3 +1,3 @@
 #### Deployments
 
-Rinkeby: https://rinkeby.etherscan.io/address/0x76eea2eB280e89ce8E72a7D55cB07C6a0c4944E4
+Rinkeby: https://rinkeby.etherscan.io/address/0x26e014a8256BFBc5f4136c01b0C189D329969aA8
