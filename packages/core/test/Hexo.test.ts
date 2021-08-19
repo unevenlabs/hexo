@@ -71,7 +71,7 @@ describe("Hexo", () => {
     await hexo.connect(deployer).addColors(colors.map(id));
     await hexo.connect(deployer).addObjects(objects.map(id));
 
-    // Transfer "hexo.eth" ownership from Peter to Hexo contract
+    // Transfer "hexo.eth" control from Peter to Hexo contract
     await ensRegistry
       .connect(peter)
       .setOwner(namehash("hexo.eth"), hexo.address);
