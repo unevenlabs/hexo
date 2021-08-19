@@ -1,4 +1,4 @@
-import { store } from "@graphprotocol/graph-ts";
+import { BigInt, store } from "@graphprotocol/graph-ts";
 
 import { Item } from "../generated/schema";
 import {

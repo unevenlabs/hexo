@@ -2,7 +2,7 @@ type Item @entity {
   id: ID!
   color: String
   object: String
-  generation: BigDecimal
+  generation: Int
   customImageURI: String
   owner: String
 }

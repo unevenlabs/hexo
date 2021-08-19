@@ -8,11 +8,6 @@
       },
       {
         "internalType": "string",
-        "name": "baseMetadataURI_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
         "name": "baseImageURI_",
         "type": "string"
       }
@@ -88,19 +83,6 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "baseMetadataURI",
-        "type": "string"
-      }
-    ],
-    "name": "BaseMetadataURIChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
         "internalType": "bytes32[]",
         "name": "colorHashes",
         "type": "bytes32[]"
@@ -113,7 +95,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -132,6 +114,12 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
         "indexed": false,
         "internalType": "string",
         "name": "color",
@@ -144,7 +132,7 @@
         "type": "string"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "claimer",
         "type": "address"
@@ -155,13 +143,26 @@
   },
   {
     "anonymous": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "generation",
+        "type": "uint256"
+      }
+    ],
     "name": "GenerationIncremented",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
       {
         "indexed": false,
         "internalType": "string",
@@ -176,6 +177,12 @@
       },
       {
         "indexed": false,
+        "internalType": "uint8",
+        "name": "generation",
+        "type": "uint8"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "buyer",
         "type": "address"
@@ -245,7 +252,7 @@
         "type": "uint256"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "to",
         "type": "address"
@@ -356,19 +363,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "baseMetadataURI",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "string[]",
@@ -395,19 +389,6 @@
       }
     ],
     "name": "changeBaseImageURI",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "baseMetadataURI_",
-        "type": "string"
-      }
-    ],
-    "name": "changeBaseMetadataURI",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -463,6 +444,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "contractURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "metadata",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -512,9 +506,9 @@
     "name": "generation",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint8",
         "name": "",
-        "type": "uint256"
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -584,25 +578,6 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "metadata",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "tokenMetadata",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -863,9 +838,9 @@
         "type": "string"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint8",
         "name": "generation",
-        "type": "uint256"
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -875,7 +850,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "_tokenId",
         "type": "uint256"
       }
     ],
@@ -883,7 +858,7 @@
     "outputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "metadata",
         "type": "string"
       }
     ],
