@@ -8,7 +8,6 @@ const main = async () => {
 
   const args = [
     parseEther("0.08"),
-    "https://hexo-ptrwtts.vercel.app/api/metadata/",
     "https://hexo-ptrwtts.vercel.app/api/image/",
   ];
 
@@ -17,6 +16,9 @@ const main = async () => {
     from: deployer,
     args,
   });
+
+  // Wait for the deployment block to propagate so that verification won't fail
+  await new Promise((resolve) => setTimeout(resolve, 30000));
 
   await run("verify:verify", {
     address: hexo.address,
