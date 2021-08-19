@@ -9,6 +9,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { useWeb3React } from "@web3-react/core";
 import { Fragment } from "react";
 
+import Item from "../src/components/Item";
 import { activateConnector, injected } from "../src/connectors";
 
 import objects from "../data/objects.json";
@@ -409,12 +410,7 @@ export default function Index() {
           <div>
             <dl className="mt-16">
               {objects.map((object) => (
-                <img
-                  key={object}
-                  className="float-left mr-2 mb-2 object-cover rounded-lg bg-white w-24 hover:shadow-xl"
-                  src={`images/red/${object}.svg`}
-                  alt=""
-                />
+                <Item color={"red"} object={object} />
               ))}
             </dl>
           </div>
