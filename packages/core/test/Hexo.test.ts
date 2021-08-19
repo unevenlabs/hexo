@@ -382,5 +382,21 @@ describe("Hexo", () => {
         baseImageURI + greenturtleId
       );
     });
+
+    it("contract-level metadata", async () => {
+      const contractMetadata = JSON.parse(
+        await hexo
+          .contractURI()
+          .then((encoded: string) =>
+            Buffer.from(encoded.split(",")[1], "base64").toString()
+          )
+      );
+      expect(contractMetadata.name).to.be.equal("Hexo Codes");
+      expect(contractMetadata.description).to.be.equal(
+        "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more."
+      );
+      expect(contractMetadata.image).to.be.equal("https://hexo.codes/logo.svg");
+      expect(contractMetadata.external_link).to.be.equal("https://hexo.codes");
+    });
   });
 });

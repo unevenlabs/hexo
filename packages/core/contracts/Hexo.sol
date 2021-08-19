@@ -250,7 +250,7 @@ contract Hexo is ERC721, Ownable {
             )
         );
 
-        // Image URI
+        // Image
         metadata = string(
             abi.encodePacked(
                 metadata,
@@ -290,6 +290,45 @@ contract Hexo is ERC721, Ownable {
             )
         );
         metadata = string(abi.encodePacked(metadata, "  ]\n}"));
+
+        // Return a data URI of the metadata
+        metadata = string(
+            abi.encodePacked(
+                "data:application/json;base64,",
+                Base64.encode(bytes(metadata))
+            )
+        );
+    }
+
+    function contractURI() external pure returns (string memory metadata) {
+        // Name
+        metadata = string(abi.encodePacked('{\n  "name": "Hexo Codes",\n'));
+
+        // Description
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "description": "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more.",\n'
+            )
+        );
+
+        // Image
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "image": "https://hexo.codes/logo.svg",\n'
+            )
+        );
+
+        // External link
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "external_link": "https://hexo.codes"\n'
+            )
+        );
+
+        metadata = string(abi.encodePacked(metadata, "\n}"));
 
         // Return a data URI of the metadata
         metadata = string(
