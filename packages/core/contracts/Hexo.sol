@@ -45,7 +45,7 @@ contract Hexo is ERC721, Ownable {
     address public constant ensRegistry =
         address(0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e);
     address public constant ensPublicResolver =
-        address(0xf6305c19e814d2a75429Fd637d01F7ee0E77d615);
+        address(0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41);
 
     // namehash("hexo.eth")
     bytes32 public constant rootNode =
