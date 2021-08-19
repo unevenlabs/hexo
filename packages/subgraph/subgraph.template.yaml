@@ -1,0 +1,28 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Hexo
+    network: {{network}}
+    source:
+      address: "{{address}}"
+      abi: Hexo
+      startBlock: {{deploymentBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      abis:
+        - name: Hexo
+          file: ./abis/Hexo.json
+      entities:
+        - Item
+      eventHandlers:
+        - event: ItemBought(indexed uint256,string,string,uint8,indexed address,uint256)
+          handler: handleItemBought
+        - event: CustomImageURISet(indexed uint256,string)
+          handler: handleCustomImageURISet
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/Hexo.ts

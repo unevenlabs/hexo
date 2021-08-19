@@ -57,14 +57,13 @@ describe("Hexo", () => {
     );
 
     price = parseEther("0.08");
-    baseMetadataURI = "https://hexo.codes/metadata/";
     baseImageURI = "https://hexo.codes/image/";
 
     // Deploy Hexo contract
     hexo = await deployContract({
       name: "Hexo",
       from: deployer,
-      args: [price, baseMetadataURI, baseImageURI],
+      args: [price, baseImageURI],
     });
 
     // Add initial colors and objects
@@ -288,17 +287,6 @@ describe("Hexo", () => {
         .buyItems(["color"], ["object"], { value: price });
     });
 
-    it("change base metadata URI", async () => {
-      const newBaseMetadataURI = "https://hexo.code/new-metadata/";
-
-      await expect(
-        hexo.connect(alice).changeBaseMetadataURI(newBaseMetadataURI)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
-
-      await hexo.connect(deployer).changeBaseMetadataURI(newBaseMetadataURI);
-      expect(await hexo.baseMetadataURI()).to.be.equal(newBaseMetadataURI);
-    });
-
     it("change base image URI", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
 
@@ -336,12 +324,18 @@ describe("Hexo", () => {
   });
 
   describe("misc", () => {
-    it("retrieve on-chain metadata", async () => {
+    it("on-chain metadata", async () => {
       await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
 
       const reddragonId = BigNumber.from(id("reddragon"));
 
-      const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
+      const reddragonMetadata = JSON.parse(
+        await hexo
+          .tokenURI(reddragonId)
+          .then((encoded: string) =>
+            Buffer.from(encoded.split(",")[1], "base64").toString()
+          )
+      );
       expect(reddragonMetadata.name).to.be.equal("Red Dragon");
       expect(reddragonMetadata.description).to.be.equal(
         "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more."
@@ -368,11 +362,21 @@ describe("Hexo", () => {
       ).to.be.revertedWith("Unauthorized");
       await hexo.connect(alice).setCustomImageURI(reddragonId, customImageURI);
 
-      const reddragonMetadata = JSON.parse(await hexo.metadata(reddragonId));
+      const reddragonMetadata = JSON.parse(
+        await hexo
+          .tokenURI(reddragonId)
+          .then((encoded: string) =>
+            Buffer.from(encoded.split(",")[1], "base64").toString()
+          )
+      );
       expect(reddragonMetadata.image).to.be.equal(customImageURI);
 
       const greenturtleMetadata = JSON.parse(
-        await hexo.metadata(greenturtleId)
+        await hexo
+          .tokenURI(greenturtleId)
+          .then((encoded: string) =>
+            Buffer.from(encoded.split(",")[1], "base64").toString()
+          )
       );
       expect(greenturtleMetadata.image).to.be.equal(
         baseImageURI + greenturtleId

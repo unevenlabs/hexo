@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "base64-sol/base64.sol";
 
 import "./interfaces/IAddrResolver.sol";
 import "./interfaces/IENS.sol";
@@ -19,17 +20,18 @@ contract Hexo is ERC721, Ownable {
     struct TokenInfo {
         string color;
         string object;
-        uint256 generation;
+        uint8 generation;
     }
 
     /// Fields
 
     uint256 public price;
     // For gas efficiency, first generation is 0
-    uint256 public generation;
+    uint8 public generation;
 
-    string public baseMetadataURI;
     string public baseImageURI;
+    // Mapping from token id to custom image URI (if any)
+    mapping(uint256 => string) public customImageURIs;
 
     // Keep track of available colors and objects
     mapping(bytes32 => bool) public colors;
@@ -37,9 +39,6 @@ contract Hexo is ERC721, Ownable {
 
     // Mapping from token id to token info (eg. color, object, generation)
     mapping(uint256 => TokenInfo) public tokenInfos;
-
-    // Mapping from token id to custom image URI (if any)
-    mapping(uint256 => string) public customImageURIs;
 
     /// Constants
 
@@ -55,30 +54,34 @@ contract Hexo is ERC721, Ownable {
     /// Events
 
     event PriceChanged(uint256 price);
-    event GenerationIncremented();
-
-    event BaseMetadataURIChanged(string baseMetadataURI);
+    event GenerationIncremented(uint256 generation);
     event BaseImageURIChanged(string baseImageURI);
-
     event ColorsAdded(bytes32[] colorHashes);
     event ObjectsAdded(bytes32[] objectHashes);
+    event ProfitsPulled(uint256 amount, address indexed to);
 
-    event ProfitsPulled(uint256 amount, address to);
-
-    event ItemBought(string color, string object, address buyer, uint256 price);
-    event ENSSubdomainClaimed(string color, string object, address claimer);
-    event CustomImageURISet(uint256 tokenId, string customImageURI);
+    event ItemBought(
+        uint256 indexed tokenId,
+        string color,
+        string object,
+        uint8 generation,
+        address indexed buyer,
+        uint256 price
+    );
+    event ENSSubdomainClaimed(
+        uint256 indexed tokenId,
+        string color,
+        string object,
+        address indexed claimer
+    );
+    event CustomImageURISet(uint256 indexed tokenId, string customImageURI);
 
     /// Constructor
 
-    constructor(
-        uint256 price_,
-        string memory baseMetadataURI_,
-        string memory baseImageURI_
-    ) ERC721("Hexo Codes", "HEXO") {
+    constructor(uint256 price_, string memory baseImageURI_)
+        ERC721("Hexo Codes", "HEXO")
+    {
         price = price_;
-
-        baseMetadataURI = baseMetadataURI_;
         baseImageURI = baseImageURI_;
     }
 
@@ -91,15 +94,7 @@ contract Hexo is ERC721, Ownable {
 
     function incrementGeneration() external onlyOwner {
         generation++;
-        emit GenerationIncremented();
-    }
-
-    function changeBaseMetadataURI(string calldata baseMetadataURI_)
-        external
-        onlyOwner
-    {
-        baseMetadataURI = baseMetadataURI_;
-        emit BaseMetadataURIChanged(baseMetadataURI_);
+        emit GenerationIncremented(generation);
     }
 
     function changeBaseImageURI(string calldata baseImageURI_)
@@ -159,7 +154,14 @@ contract Hexo is ERC721, Ownable {
 
             _safeMint(msg.sender, tokenId);
 
-            emit ItemBought(_colors[i], _objects[i], msg.sender, price);
+            emit ItemBought(
+                tokenId,
+                _colors[i],
+                _objects[i],
+                generation,
+                msg.sender,
+                price
+            );
         }
     }
 
@@ -174,7 +176,8 @@ contract Hexo is ERC721, Ownable {
             bytes32 label = keccak256(
                 abi.encodePacked(_colors[i], _objects[i])
             );
-            require(msg.sender == ownerOf(uint256(label)), "Unauthorized");
+            uint256 tokenId = uint256(label);
+            require(msg.sender == ownerOf(tokenId), "Unauthorized");
 
             // Temporarily set this contract as the owner of the ENS subdomain,
             // giving it permission to set up ENS forward resolution
@@ -195,7 +198,12 @@ contract Hexo is ERC721, Ownable {
             // Give ownership back to the proper owner
             IENS(ensRegistry).setSubnodeOwner(rootNode, label, msg.sender);
 
-            emit ENSSubdomainClaimed(_colors[i], _objects[i], msg.sender);
+            emit ENSSubdomainClaimed(
+                tokenId,
+                _colors[i],
+                _objects[i],
+                msg.sender
+            );
         }
     }
 
@@ -209,6 +217,88 @@ contract Hexo is ERC721, Ownable {
     }
 
     /// Views
+
+    function tokenURI(uint256 _tokenId)
+        public
+        view
+        override
+        returns (string memory metadata)
+    {
+        require(_exists(_tokenId), "Inexistent token");
+
+        TokenInfo storage tokenInfo = tokenInfos[_tokenId];
+        string memory tokenColor = _capitalize(tokenInfo.color);
+        string memory tokenObject = _capitalize(tokenInfo.object);
+        uint256 tokenGeneration = tokenInfo.generation + 1;
+
+        // Name
+        metadata = string(
+            abi.encodePacked(
+                '{\n  "name": "',
+                tokenColor,
+                " ",
+                tokenObject,
+                '",\n'
+            )
+        );
+
+        // Description
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "description": "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more.",\n'
+            )
+        );
+
+        // Image URI
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "image": "',
+                imageURI(_tokenId),
+                '",\n'
+            )
+        );
+
+        // Attributes
+        metadata = string(abi.encodePacked(metadata, '  "attributes": [\n'));
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '    {\n      "trait_type": "Color",\n      "value": "',
+                tokenColor,
+                '"\n',
+                "    },\n"
+            )
+        );
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '    {\n      "trait_type": "Object",\n      "value": "',
+                tokenObject,
+                '"\n',
+                "    },\n"
+            )
+        );
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '    {\n      "display_type": "number",\n      "trait_type": "Generation",\n      "value": ',
+                tokenGeneration.toString(),
+                "\n",
+                "    }\n"
+            )
+        );
+        metadata = string(abi.encodePacked(metadata, "  ]\n}"));
+
+        // Return a data URI of the metadata
+        metadata = string(
+            abi.encodePacked(
+                "data:application/json;base64,",
+                Base64.encode(bytes(metadata))
+            )
+        );
+    }
 
     function imageURI(uint256 _tokenId)
         public
@@ -224,86 +314,7 @@ contract Hexo is ERC721, Ownable {
         }
     }
 
-    function metadata(uint256 _tokenId)
-        external
-        view
-        returns (string memory tokenMetadata)
-    {
-        require(_exists(_tokenId), "Inexistent token");
-
-        TokenInfo storage tokenInfo = tokenInfos[_tokenId];
-        string memory tokenColor = _capitalize(tokenInfo.color);
-        string memory tokenObject = _capitalize(tokenInfo.object);
-        uint256 tokenGeneration = tokenInfo.generation + 1;
-
-        // Name
-        tokenMetadata = string(
-            abi.encodePacked(
-                '{\n  "name": "',
-                tokenColor,
-                " ",
-                tokenObject,
-                '",\n'
-            )
-        );
-
-        // Description
-        tokenMetadata = string(
-            abi.encodePacked(
-                tokenMetadata,
-                '  "description": "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more.",\n'
-            )
-        );
-
-        // Image URI
-        tokenMetadata = string(
-            abi.encodePacked(
-                tokenMetadata,
-                '  "image": "',
-                imageURI(_tokenId),
-                '",\n'
-            )
-        );
-
-        // Attributes
-        tokenMetadata = string(
-            abi.encodePacked(tokenMetadata, '  "attributes": [\n')
-        );
-        tokenMetadata = string(
-            abi.encodePacked(
-                tokenMetadata,
-                '    {\n      "trait_type": "Color",\n      "value": "',
-                tokenColor,
-                '"\n',
-                "    },\n"
-            )
-        );
-        tokenMetadata = string(
-            abi.encodePacked(
-                tokenMetadata,
-                '    {\n      "trait_type": "Object",\n      "value": "',
-                tokenObject,
-                '"\n',
-                "    },\n"
-            )
-        );
-        tokenMetadata = string(
-            abi.encodePacked(
-                tokenMetadata,
-                '    {\n      "display_type": "number",\n      "trait_type": "Generation",\n      "value": ',
-                tokenGeneration.toString(),
-                "\n",
-                "    }\n"
-            )
-        );
-        tokenMetadata = string(abi.encodePacked(tokenMetadata, "  ]\n}"));
-    }
-
     /// Internals
-
-    function _baseURI() internal view override returns (string memory) {
-        return baseMetadataURI;
-    }
 
     function _capitalize(string memory _string)
         internal

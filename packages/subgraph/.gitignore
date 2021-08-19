@@ -1,0 +1,7 @@
+# Dependencies
+/node_modules
+
+# Subgraph
+/generated
+/build
+subgraph.yaml

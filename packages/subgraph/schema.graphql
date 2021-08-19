@@ -1,0 +1,8 @@
+type Item @entity {
+  id: ID!
+  color: String
+  object: String
+  generation: BigDecimal
+  customImageURI: String
+  owner: String
+}
