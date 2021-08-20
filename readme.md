@@ -6,8 +6,8 @@ Hexo uses simple combos of colors and objects (e.g. red dragon), to create unive
 
 Instead of owning a single image, you own the entire namespace, and can visualize it however you want, all while keeping your identity constant.
 
-Visit hexo.codes to learn more.
+Visit [hexo.codes](https://www.hexo.codes) to learn more.
 
-- Front-End
-- Contracts
-- Subgraph
+- [Front-End](https://github.com/unevenlabs/hexo/packages/app)
+- [Contracts](https://github.com/unevenlabs/hexo/packages/core)
+- [Subgraph](https://github.com/unevenlabs/hexo/packages/subgraph)
