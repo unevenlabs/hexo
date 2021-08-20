@@ -3,7 +3,7 @@ import { store } from "@graphprotocol/graph-ts";
 import { Item } from "../generated/schema";
 import {
   CustomImageURISet,
-  ItemBought,
+  ItemMinted,
   Transfer,
 } from "../generated/Hexo/Hexo";
 
@@ -17,7 +17,7 @@ export function handleCustomImageURISet(event: CustomImageURISet): void {
   item.save();
 }
 
-export function handleItemBought(event: ItemBought): void {
+export function handleItemMinted(event: ItemMinted): void {
   let tokenId = event.params.tokenId.toString();
 
   let item = Item.load(tokenId);

@@ -18,7 +18,7 @@ const main = async () => {
   });
 
   // Wait for the deployment block to propagate so that verification won't fail
-  await new Promise((resolve) => setTimeout(resolve, 30000));
+  await new Promise((resolve) => setTimeout(resolve, 60000));
 
   await run("verify:verify", {
     address: hexo.address,

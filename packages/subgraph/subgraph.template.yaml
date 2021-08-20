@@ -19,8 +19,8 @@ dataSources:
       entities:
         - Item
       eventHandlers:
-        - event: ItemBought(indexed uint256,string,string,uint8,indexed address,uint256)
-          handler: handleItemBought
+        - event: ItemMinted(indexed uint256,string,string,uint8,indexed address)
+          handler: handleItemMinted
         - event: CustomImageURISet(indexed uint256,string)
           handler: handleCustomImageURISet
         - event: Transfer(indexed address,indexed address,indexed uint256)
