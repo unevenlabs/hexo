@@ -91,13 +91,49 @@ export default function Item({
                       <h2 className="text-2xl font-extrabold text-gray-900 sm:pr-12">
                         {`${capitalize(color)} ${capitalize(object)}`}
                       </h2>
-                      <section
-                        aria-labelledby="options-heading"
-                        className="mt-10"
-                      >
-                        {generation && <p>Generation {generation}</p>}
-                        {owner && <p>Owned by {owner}</p>}
-                      </section>
+                      <p className="text-gray-500">
+                      {`${color}${object}.hexo.eth`}
+                        </p>
+                      <p className="text-2xl text-gray-900">0.033 ETH</p>
+
+                      {!owner && (
+                        <button
+                            className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Mint
+                          </button>
+                      )}
+                      <div className="mt-5">
+                        {generation && <p className="text-sm text-gray-700">Generation: {generation}</p>}
+                        {owner && <p className="text-sm text-gray-700">Owner: {owner}</p>}
+                        <p className="text-sm text-gray-700">Links: <a href="#" className="text-indigo-600 hover:text-indigo-500 mr-2">OpenSea</a>
+                          | <a href="#" className="text-indigo-600 hover:text-indigo-500 ml-1">Etherscan</a></p>
+                      </div>
+
+                      <div className="mt-3">
+                        <span className="mr-2 text-sm  text-gray-700">Set ENS: </span>
+                        <span className="relative z-0 inline-flex shadow-sm rounded-md">
+                          <button
+                            type="button"
+                            className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                          >
+                            Resolver
+                          </button>
+                          <button
+                            type="button"
+                            className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                          >
+                            Avatar
+                          </button>
+                          <button
+                            type="button"
+                            className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                          >
+                            Reverse Record
+                          </button>
+                        </span>
+
+                      </div>
                     </div>
                   </div>
                 </div>

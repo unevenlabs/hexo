@@ -2,7 +2,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Web3Provider } from "@ethersproject/providers";
 import { Web3ReactProvider } from "@web3-react/core";
 
-import "tailwindcss/tailwind.css";
+import "../src/styles/globals.css";
 
 import Web3ReactManager from "../src/components/Web3ReactManager";
 
