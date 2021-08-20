@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "base64-sol/base64.sol";
@@ -11,7 +11,7 @@ import "base64-sol/base64.sol";
 import "./interfaces/IAddrResolver.sol";
 import "./interfaces/IENS.sol";
 
-contract Hexo is ERC721, Ownable {
+contract Hexo is ERC721Enumerable, Ownable {
     using Address for address payable;
     using Strings for uint256;
 
@@ -58,17 +58,15 @@ contract Hexo is ERC721, Ownable {
     event BaseImageURIChanged(string baseImageURI);
     event ColorsAdded(bytes32[] colorHashes);
     event ObjectsAdded(bytes32[] objectHashes);
-    event ProfitsPulled(uint256 amount, address indexed to);
 
-    event ItemBought(
+    event ItemMinted(
         uint256 indexed tokenId,
         string color,
         string object,
         uint8 generation,
-        address indexed buyer,
-        uint256 price
+        address indexed buyer
     );
-    event ENSSubdomainClaimed(
+    event SubdomainClaimed(
         uint256 indexed tokenId,
         string color,
         string object,
@@ -89,7 +87,7 @@ contract Hexo is ERC721, Ownable {
 
     function changePrice(uint256 price_) external onlyOwner {
         price = price_;
-        emit PriceChanged(price_);
+        emit PriceChanged(price);
     }
 
     function incrementGeneration() external onlyOwner {
@@ -102,7 +100,7 @@ contract Hexo is ERC721, Ownable {
         onlyOwner
     {
         baseImageURI = baseImageURI_;
-        emit BaseImageURIChanged(baseImageURI_);
+        emit BaseImageURIChanged(baseImageURI);
     }
 
     function addColors(bytes32[] calldata _colorHashes) external onlyOwner {
@@ -119,17 +117,9 @@ contract Hexo is ERC721, Ownable {
         emit ObjectsAdded(_objectHashes);
     }
 
-    function pullProfits(uint256 _amount, address payable _to)
-        external
-        onlyOwner
-    {
-        _to.sendValue(_amount);
-        emit ProfitsPulled(_amount, _to);
-    }
-
     /// User actions
 
-    function buyItems(string[] calldata _colors, string[] calldata _objects)
+    function mintItems(string[] calldata _colors, string[] calldata _objects)
         external
         payable
     {
@@ -154,18 +144,20 @@ contract Hexo is ERC721, Ownable {
 
             _safeMint(msg.sender, tokenId);
 
-            emit ItemBought(
+            emit ItemMinted(
                 tokenId,
                 _colors[i],
                 _objects[i],
                 generation,
-                msg.sender,
-                price
+                msg.sender
             );
         }
+
+        // Relay the funds to the contract owner
+        payable(owner()).sendValue(msg.value);
     }
 
-    function claimENSSubdomains(
+    function claimSubdomains(
         string[] calldata _colors,
         string[] calldata _objects
     ) external {
@@ -198,12 +190,7 @@ contract Hexo is ERC721, Ownable {
             // Give ownership back to the proper owner
             IENS(ensRegistry).setSubnodeOwner(rootNode, label, msg.sender);
 
-            emit ENSSubdomainClaimed(
-                tokenId,
-                _colors[i],
-                _objects[i],
-                msg.sender
-            );
+            emit SubdomainClaimed(tokenId, _colors[i], _objects[i], msg.sender);
         }
     }
 
@@ -300,7 +287,7 @@ contract Hexo is ERC721, Ownable {
         );
     }
 
-    function contractURI() external pure returns (string memory metadata) {
+    function contractURI() external view returns (string memory metadata) {
         // Name
         metadata = string(abi.encodePacked('{\n  "name": "Hexo Codes",\n'));
 
@@ -316,7 +303,7 @@ contract Hexo is ERC721, Ownable {
         metadata = string(
             abi.encodePacked(
                 metadata,
-                '  "image": "https://hexo.codes/logo.svg",\n'
+                '  "image": "https://hexo.codes/images/logo.svg",\n'
             )
         );
 
@@ -324,11 +311,26 @@ contract Hexo is ERC721, Ownable {
         metadata = string(
             abi.encodePacked(
                 metadata,
-                '  "external_link": "https://hexo.codes"\n'
+                '  "external_link": "https://hexo.codes",\n'
             )
         );
 
-        metadata = string(abi.encodePacked(metadata, "\n}"));
+        // Resell fee
+        metadata = string(
+            abi.encodePacked(metadata, '  "seller_fee_basis_points": 333,\n')
+        );
+
+        // Fee recipient
+        metadata = string(
+            abi.encodePacked(
+                metadata,
+                '  "fee_recipient": "',
+                uint256(uint160(owner())).toHexString(),
+                '"\n'
+            )
+        );
+
+        metadata = string(abi.encodePacked(metadata, "}"));
 
         // Return a data URI of the metadata
         metadata = string(

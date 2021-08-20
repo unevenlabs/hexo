@@ -22,7 +22,6 @@ describe("Hexo", () => {
   let ensPublicResolver: Contract;
   let hexo: Contract;
 
-  let baseMetadataURI: string;
   let baseImageURI: string;
   let price: BigNumber;
 
@@ -56,7 +55,7 @@ describe("Hexo", () => {
       ensPublicResolverAddress
     );
 
-    price = parseEther("0.08");
+    price = parseEther("0.033");
     baseImageURI = "https://hexo.codes/image/";
 
     // Deploy Hexo contract
@@ -91,18 +90,20 @@ describe("Hexo", () => {
     });
   });
 
-  describe("buy", () => {
-    it("buy single item", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+  describe("mint", () => {
+    it("mint single item", async () => {
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
 
       const reddragonId = BigNumber.from(id("reddragon"));
       expect(await hexo.ownerOf(reddragonId)).to.be.equal(alice.address);
     });
 
-    it("buy multiple items", async () => {
+    it("mint multiple items", async () => {
       await hexo
         .connect(alice)
-        .buyItems(["red", "green"], ["dragon", "turtle"], {
+        .mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2),
         });
 
@@ -113,56 +114,60 @@ describe("Hexo", () => {
       expect(await hexo.ownerOf(greenturtleId)).to.be.equal(alice.address);
     });
 
-    it("cannot buy for lower price", async () => {
+    it("cannot mint for lower price", async () => {
       await expect(
         hexo
           .connect(alice)
-          .buyItems(["red"], ["dragon"], { value: price.sub(1) })
+          .mintItems(["red"], ["dragon"], { value: price.sub(1) })
       ).to.be.revertedWith("Insufficient amount");
 
       await expect(
-        hexo.connect(alice).buyItems(["red", "green"], ["dragon", "turtle"], {
+        hexo.connect(alice).mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2).sub(1),
         })
       ).to.be.revertedWith("Insufficient amount");
     });
 
-    it("cannot buy the same item twice", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+    it("cannot mint the same item twice", async () => {
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
 
       await expect(
-        hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price })
+        hexo.connect(alice).mintItems(["red"], ["dragon"], { value: price })
       ).to.be.revertedWith("ERC721: token already minted");
     });
 
-    it("cannot buy items that were not added", async () => {
+    it("cannot mint items that are not available", async () => {
       await expect(
-        hexo.connect(alice).buyItems(["color"], ["dragon"], { value: price })
+        hexo.connect(alice).mintItems(["color"], ["dragon"], { value: price })
       ).to.be.revertedWith("Color not added");
 
       await expect(
-        hexo.connect(alice).buyItems(["red"], ["object"], { value: price })
+        hexo.connect(alice).mintItems(["red"], ["object"], { value: price })
       ).to.be.revertedWith("Object not added");
 
       await expect(
-        hexo.connect(alice).buyItems(["dragon"], ["red"], { value: price })
+        hexo.connect(alice).mintItems(["dragon"], ["red"], { value: price })
       ).to.be.revertedWith("Color not added");
     });
 
     it("properly handles invalid inputs", async () => {
       await expect(
-        hexo.connect(alice).buyItems(["red"], [])
+        hexo.connect(alice).mintItems(["red"], [])
       ).to.be.revertedWith("Invalid input");
       await expect(
-        hexo.connect(alice).buyItems([], ["dragon", "turtle"])
+        hexo.connect(alice).mintItems([], ["dragon", "turtle"])
       ).to.be.revertedWith("Invalid input");
     });
   });
 
   describe("claim", () => {
     it("claim single item", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
+      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
 
       const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -179,12 +184,12 @@ describe("Hexo", () => {
     it("claim multiple items", async () => {
       await hexo
         .connect(alice)
-        .buyItems(["red", "green"], ["dragon", "turtle"], {
+        .mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2),
         });
       await hexo
         .connect(alice)
-        .claimENSSubdomains(["red", "green"], ["dragon", "turtle"]);
+        .claimSubdomains(["red", "green"], ["dragon", "turtle"]);
 
       const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -210,8 +215,10 @@ describe("Hexo", () => {
     });
 
     it("owner can reset subdomain ownership and forward resolution", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimENSSubdomains(["red"], ["dragon"]);
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
+      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
 
       const reddragonId = BigNumber.from(id("reddragon"));
       const reddragonNamehash = namehash("reddragon.hexo.eth");
@@ -226,7 +233,7 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .transferFrom(alice.address, bob.address, reddragonId);
-      await hexo.connect(bob).claimENSSubdomains(["red"], ["dragon"]);
+      await hexo.connect(bob).claimSubdomains(["red"], ["dragon"]);
 
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
         bob.address
@@ -237,35 +244,34 @@ describe("Hexo", () => {
     });
 
     it("properly handles unauthorized attempts", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
       await expect(
-        hexo.connect(bob).claimENSSubdomains(["red"], ["dragon"])
+        hexo.connect(bob).claimSubdomains(["red"], ["dragon"])
       ).to.be.revertedWith("Unauthorized");
     });
 
     it("properly handles inexistent items", async () => {
       await expect(
-        hexo.connect(bob).claimENSSubdomains(["dragon"], ["dragon"])
+        hexo.connect(bob).claimSubdomains(["dragon"], ["dragon"])
       ).to.be.revertedWith("ERC721: owner query for nonexistent token");
     });
   });
 
   describe("admin", () => {
-    it("pull profits", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+    it("profits are always relayed to the contract admin", async () => {
+      const beforeBalance = await deployer.getBalance();
       await hexo
         .connect(alice)
-        .buyItems(["green"], ["turtle"], { value: price });
+        .mintItems(["red"], ["dragon"], { value: price });
+      await hexo
+        .connect(alice)
+        .mintItems(["green"], ["turtle"], { value: price });
+      const afterBalance = await deployer.getBalance();
 
-      await expect(
-        hexo.connect(alice).pullProfits(price.mul(2), alice.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
-
-      const balanceBefore = await carol.getBalance();
-      await hexo.connect(deployer).pullProfits(price.mul(2), carol.address);
-      const balanceAfter = await carol.getBalance();
-
-      expect(balanceAfter.sub(balanceBefore)).to.be.equal(price.mul(2));
+      expect(await ethers.provider.getBalance(hexo.address)).to.be.equal(0);
+      expect(afterBalance.sub(beforeBalance)).to.be.equal(price.mul(2));
     });
 
     it("add new colors and objects", async () => {
@@ -284,11 +290,13 @@ describe("Hexo", () => {
 
       await hexo
         .connect(alice)
-        .buyItems(["color"], ["object"], { value: price });
+        .mintItems(["color"], ["object"], { value: price });
     });
 
     it("change base image URI", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
 
       const reddragonId = BigNumber.from(id("reddragon"));
       const newBaseImageURI = "https://new-base-image-uri/image/";
@@ -315,17 +323,19 @@ describe("Hexo", () => {
       expect(await hexo.price()).to.be.equal(newPrice);
 
       await expect(
-        hexo.connect(alice).buyItems(["red"], ["dragon"], { value: oldPrice })
+        hexo.connect(alice).mintItems(["red"], ["dragon"], { value: oldPrice })
       ).to.be.revertedWith("Insufficient amount");
       await hexo
         .connect(alice)
-        .buyItems(["red"], ["dragon"], { value: newPrice });
+        .mintItems(["red"], ["dragon"], { value: newPrice });
     });
   });
 
   describe("misc", () => {
     it("on-chain metadata", async () => {
-      await hexo.connect(alice).buyItems(["red"], ["dragon"], { value: price });
+      await hexo
+        .connect(alice)
+        .mintItems(["red"], ["dragon"], { value: price });
 
       const reddragonId = BigNumber.from(id("reddragon"));
 
@@ -341,15 +351,23 @@ describe("Hexo", () => {
         "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more."
       );
       expect(reddragonMetadata.image).to.be.equal(baseImageURI + reddragonId);
+      expect(reddragonMetadata.attributes[0].trait_type).to.be.equal("Color");
       expect(reddragonMetadata.attributes[0].value).to.be.equal("Red");
+      expect(reddragonMetadata.attributes[1].trait_type).to.be.equal("Object");
       expect(reddragonMetadata.attributes[1].value).to.be.equal("Dragon");
+      expect(reddragonMetadata.attributes[2].display_type).to.be.equal(
+        "number"
+      );
+      expect(reddragonMetadata.attributes[2].trait_type).to.be.equal(
+        "Generation"
+      );
       expect(reddragonMetadata.attributes[2].value).to.be.equal(1);
     });
 
     it("owner can set custom image URI", async () => {
       await hexo
         .connect(alice)
-        .buyItems(["red", "green"], ["dragon", "turtle"], {
+        .mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2),
         });
 
@@ -395,8 +413,13 @@ describe("Hexo", () => {
       expect(contractMetadata.description).to.be.equal(
         "Unique combos of basic colors and objects that form universally recognizable NFT identities. Visit hexo.codes to learn more."
       );
-      expect(contractMetadata.image).to.be.equal("https://hexo.codes/logo.svg");
-      expect(contractMetadata.external_link).to.be.equal("https://hexo.codes");
+      expect(contractMetadata.image).to.be.equal(
+        "https://hexo.codes/images/logo.svg"
+      );
+      expect(contractMetadata.seller_fee_basis_points).to.be.equal(333);
+      expect(contractMetadata.fee_recipient).to.be.equal(
+        await hexo.owner().then((address: string) => address.toLowerCase())
+      );
     });
   });
 });
