@@ -8,6 +8,6 @@ Instead of owning a single image, you own the entire namespace, and can visualiz
 
 Visit [hexo.codes](https://www.hexo.codes) to learn more.
 
-- [Front-End](https://github.com/unevenlabs/hexo/packages/app)
-- [Contracts](https://github.com/unevenlabs/hexo/packages/core)
-- [Subgraph](https://github.com/unevenlabs/hexo/packages/subgraph)
+- [Front-End](https://github.com/unevenlabs/hexo/tree/main/packages/app)
+- [Contracts](https://github.com/unevenlabs/hexo/tree/main/packages/core)
+- [Subgraph](https://github.com/unevenlabs/hexo/tree/main/packages/subgraph)
