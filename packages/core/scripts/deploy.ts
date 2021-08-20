@@ -7,7 +7,7 @@ const main = async () => {
   const [deployer] = await ethers.getSigners();
 
   const args = [
-    parseEther("0.08"),
+    parseEther("0.033"),
     "https://hexo-ptrwtts.vercel.app/api/image/",
   ];
 
