@@ -1,0 +1,14 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#808080" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line">
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M40,44c7,1,9,1,9,1c3,0,1,6,1,6c4-2,5-7,5-7c14-2,14-6,14-6s-9.2393-2.8429-12.3191-3.7905 c-0.4525-0.1392-0.8926-0.3293-1.3017-0.5675C49.1164,29.9962,50.8462,29.877,46,26c-5-4-10-4-10-4c4,4,3,9,3,9c-4,7-21,6-21,6 c-4-5-14-5-14-5s7,5,8,9s-1,8-1,8c4-3,7.25-8.6667,7.25-8.6667L27,42"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M37,43c0,0-2.9279,1.6684-3.4781,3.8358c0,0-2.594-2.5042-4.548-2.0775l4.4581-3.0208"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M45,37c0,0,2,2,0,5"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M47,37c0,0,2,2,0,5"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M49,37c0,0,2,2,0,5"/>
+  </g>
+</svg>
+</svg>
