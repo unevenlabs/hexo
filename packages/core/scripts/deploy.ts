@@ -8,7 +8,7 @@ const main = async () => {
 
   const args = [
     parseEther("0.033"),
-    "https://hexo-ptrwtts.vercel.app/api/image/",
+    "ipfs://bafybeif7xi3sy23t2bacxxeeq2quzbzbfhr6lx7urot2noavftpiyopsiq/",
   ];
 
   const hexo = await deployContract({
