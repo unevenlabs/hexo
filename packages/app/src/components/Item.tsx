@@ -110,7 +110,7 @@ export default function Item({
 
                             await mintItems(library.getSigner(account), [
                               { color, object },
-                            ]).catch((error) => alert(error));
+                            ]);
                           }}
                         >
                           Mint
@@ -161,7 +161,7 @@ export default function Item({
                               await claimSubdomains(
                                 library.getSigner(account),
                                 [{ color, object }]
-                              ).catch((error) => alert(error));
+                              );
                             }}
                           >
                             Resolver
@@ -183,7 +183,7 @@ export default function Item({
                               await setReverseRecord(
                                 library.getSigner(account),
                                 { color, object }
-                              ).catch((error) => alert(error));
+                              );
                             }}
                           >
                             Reverse Record
