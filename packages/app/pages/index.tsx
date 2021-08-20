@@ -7,17 +7,19 @@ import {
 } from "@heroicons/react/outline";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useWeb3React } from "@web3-react/core";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import Item from "../src/components/Item";
 import { activateConnector, injected } from "../src/connectors";
+import { useGetItems } from "../src/hooks/items";
 
+import colors from "../data/colors.json";
 import objects from "../data/objects.json";
 
 const features = [
   {
     name: "On-chain Metadata!",
-    description: "Premium JSON served straight from the contract.",
+    description: "Premium JSON served straight from the contract",
   },
   {
     name: "reddragon.hexo.eth",
@@ -31,13 +33,38 @@ const features = [
   },
   {
     name: "Updateable images!",
-    description: "Owners can override the basic default image with their own.",
+    description: "Owners can override the basic default image with their own",
   },
 ];
 
 export default function Index() {
   const web3ReactContext = useWeb3React();
   const { account, active, chainId } = web3ReactContext;
+
+  // Get info about all minted items
+  const mintedItemsInfo = useGetItems();
+  const [mintedItems, setMintedItems] = useState({} as any);
+  useEffect(() => {
+    if (mintedItemsInfo?.data?.items) {
+      const localMintedItems = {};
+      for (const item of mintedItemsInfo.data.items) {
+        localMintedItems[item.color + item.object] = {
+          color: item.color,
+          object: item.object,
+          generation: item.generation,
+          customImageURI: item.customImageURI,
+          owner: item.owner,
+        };
+      }
+      setMintedItems(localMintedItems);
+    }
+  }, []);
+
+  // Filters for items
+  const [showAll, setShowAll] = useState(true);
+  const [showAvailable, setShowAvailable] = useState(false);
+  const [showOwned, setShowOwned] = useState(false);
+  const [nameFilter, setNameFilter] = useState("");
 
   return (
     <div className="relative bg-gray-50">
@@ -225,6 +252,7 @@ export default function Index() {
           </div>
         </div>
       </main>
+
       <div className="bg-white">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div className="max-w-3xl mx-auto mb-10 text-center">
@@ -261,6 +289,7 @@ export default function Index() {
           </div>
         </div>
       </div>
+
       <div className="bg-gray-50 pt-12 sm:pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
@@ -289,6 +318,7 @@ export default function Index() {
           </dl>
         </div>
       </div>
+
       <div className="mt-10 pb-12 bg-white sm:pb-16">
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
@@ -340,31 +370,52 @@ export default function Index() {
           </div>
         </div>
       </div>
+
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap">
+            {/* All/Available/Owned filtering */}
             <div className="flex-1">
               <span className="relative z-0 inline-flex shadow-sm rounded-md">
                 <button
                   type="button"
                   className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                  onClick={() => {
+                    setShowAll(true);
+                    setShowAvailable(false);
+                    setShowOwned(false);
+                  }}
                 >
                   All
                 </button>
+
                 <button
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                  onClick={() => {
+                    setShowAll(false);
+                    setShowAvailable(true);
+                    setShowOwned(false);
+                  }}
                 >
                   Available
                 </button>
+
                 <button
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                  onClick={() => {
+                    setShowAll(false);
+                    setShowAvailable(false);
+                    setShowOwned(true);
+                  }}
                 >
                   Owned
                 </button>
               </span>
             </div>
+
+            {/* Name filtering */}
             <div className="flex-1">
               <div className="relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -379,6 +430,7 @@ export default function Index() {
                   id="filter-items"
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-10 sm:text-sm border-gray-300 rounded-md"
                   placeholder="Filter"
+                  onChange={(event) => setNameFilter(event.target.value)}
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <XCircleIcon
@@ -388,6 +440,8 @@ export default function Index() {
                 </div>
               </div>
             </div>
+
+            {/* Random mint */}
             <div className="flex-1">
               <button
                 type="button"
@@ -401,17 +455,57 @@ export default function Index() {
                 className="float-right pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-l-md"
                 defaultValue="1 Random"
               >
-                <option>1 Random</option>
-                <option>2 Random</option>
-                <option>3 Random</option>
+                <option>1 random</option>
+                <option>2 random</option>
+                <option>3 random</option>
               </select>
             </div>
           </div>
+
+          {/* Show items */}
           <div>
             <dl className="mt-16">
-              {objects.map((object) => (
-                <Item color={"red"} object={object} />
-              ))}
+              {colors.map((color) =>
+                objects.map((object) => {
+                  // First, check if the item was minted
+                  const mintedItem = mintedItems[color + object];
+                  const renderedItem = (
+                    <Item
+                      key={color + object}
+                      color={color}
+                      object={object}
+                      generation={mintedItem?.generation}
+                      customImageURI={mintedItem?.customImageURI}
+                      owner={mintedItem?.owner}
+                    />
+                  );
+
+                  // If name filtering is on, prioritize it
+                  if (
+                    nameFilter &&
+                    nameFilter !== "" &&
+                    !(color + object).includes(nameFilter)
+                  ) {
+                    return null;
+                  }
+
+                  if (showAll) {
+                    // Show all items
+                    return renderedItem;
+                  } else if (showAvailable) {
+                    // Only show items that were not yet minted
+                    return !mintedItem ? renderedItem : null;
+                  } else if (showOwned) {
+                    // Only show items owner by the current account
+                    return mintedItem &&
+                      mintedItem.owner === account.toLowerCase()
+                      ? renderedItem
+                      : null;
+                  }
+
+                  return null;
+                })
+              )}
             </dl>
           </div>
         </div>

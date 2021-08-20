@@ -1,4 +1,4 @@
-import { BigInt, store } from "@graphprotocol/graph-ts";
+import { store } from "@graphprotocol/graph-ts";
 
 import { Item } from "../generated/schema";
 import {
@@ -6,6 +6,8 @@ import {
   ItemBought,
   Transfer,
 } from "../generated/Hexo/Hexo";
+
+let ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 
 export function handleCustomImageURISet(event: CustomImageURISet): void {
   let tokenId = event.params.tokenId.toString();
@@ -18,7 +20,10 @@ export function handleCustomImageURISet(event: CustomImageURISet): void {
 export function handleItemBought(event: ItemBought): void {
   let tokenId = event.params.tokenId.toString();
 
-  let item = new Item(tokenId);
+  let item = Item.load(tokenId);
+  if (!item) {
+    item = new Item(tokenId);
+  }
   item.color = event.params.color;
   item.object = event.params.object;
   item.generation = event.params.generation;
@@ -29,12 +34,16 @@ export function handleItemBought(event: ItemBought): void {
 
 export function handleTransfer(event: Transfer): void {
   let tokenId = event.params.tokenId.toString();
+  let from = event.params.from.toHex();
+  let to = event.params.to.toHex();
 
-  let item = Item.load(tokenId);
-  item.owner = event.params.to.toHex();
-  if (item.owner === "0x0000000000000000000000000000000000000000") {
-    store.remove("Item", tokenId);
-  } else {
-    item.save();
+  if (from != ADDRESS_ZERO) {
+    let item = Item.load(tokenId);
+    item.owner = to;
+    if (item.owner == ADDRESS_ZERO) {
+      store.remove("Item", tokenId);
+    } else {
+      item.save();
+    }
   }
 }

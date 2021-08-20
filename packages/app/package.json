@@ -9,6 +9,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.8",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@tailwindcss/aspect-ratio": "^0.2.1",
