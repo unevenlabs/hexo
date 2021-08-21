@@ -55,7 +55,7 @@ describe("Hexo", () => {
       ensPublicResolverAddress
     );
 
-    price = parseEther("0.033");
+    price = parseEther("0.01");
     baseImageURI = "https://hexo.codes/image/";
 
     // Deploy Hexo contract

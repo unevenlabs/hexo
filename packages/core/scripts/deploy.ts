@@ -7,7 +7,7 @@ const main = async () => {
   const [deployer] = await ethers.getSigners();
 
   const args = [
-    parseEther("0.033"),
+    parseEther("0.01"),
     "ipfs://bafybeif7xi3sy23t2bacxxeeq2quzbzbfhr6lx7urot2noavftpiyopsiq/",
   ];
 

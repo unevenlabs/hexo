@@ -390,7 +390,7 @@ export default function Index() {
                     ETH
                   </dt>
                   <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                    0.033
+                    0.01
                   </dd>
                 </div>
               </dl>
