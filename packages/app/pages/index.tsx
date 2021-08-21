@@ -157,8 +157,8 @@ export default function Index() {
                       <div>
                         <img
                           className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                          alt="Workflow"
+                          src="images/logo.svg"
+                          alt="Hexo"
                         />
                       </div>
                       <div className="-mr-2">
@@ -221,7 +221,7 @@ export default function Index() {
         )}
       </Popover>
 
-      <main className="mt-16 mx-auto pb-10 max-w-7xl px-4 sm:mt-16 sm:px-6 lg:mt-16">
+      <main className="mt-8 lg:mt-16 mx-auto pb-10 max-w-7xl px-4 sm:px-6">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
             <h1>
@@ -253,7 +253,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+          <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 max-w-none lg:mx-0 col-span-6 flex items-center">
             <div className="relative mx-auto rounded-lg shadow-xl w-5/12">
               <img
                 className="object-cover rounded-lg bg-white"
@@ -267,11 +267,11 @@ export default function Index() {
             <div className="relative mx-auto rounded-lg shadow-xl w-5/12">
               <img
                 className="object-cover rounded-lg bg-white"
-                src="images/orange/basketball.svg"
+                src="images/blue/moon.svg"
                 alt=""
               />
               <div className="text-2xl text-center my-3">
-                <h3>Orange Basketball</h3>
+                <h3>Blue Moon</h3>
               </div>
             </div>
           </div>
@@ -279,7 +279,7 @@ export default function Index() {
       </main>
 
       <div className="bg-white">
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-16 lg:px-8">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div className="max-w-3xl mx-auto mb-10 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900">
               Infinite possible JPEGs
@@ -289,7 +289,7 @@ export default function Index() {
               namespace that can be visually represented however you want.
             </p>
           </div>
-          <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+          <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 max-w-none mx-0 col-span-6 flex items-center">
             <div className="relative mx-auto rounded-lg shadow-xl w-3/12">
               <img
                 className="object-cover rounded-lg bg-white"
@@ -318,7 +318,7 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="bg-gray-50 pt-12 sm:pt-16">
+      <div className="bg-gray-50 pt-8 lg:pt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -347,7 +347,7 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="mt-10 pb-12 bg-white sm:pb-16">
+      <div className="mt-10 pb-8 bg-white sm:pb-16">
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -401,9 +401,9 @@ export default function Index() {
 
       <div className="bg-white" id="browse">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap">
+          <div className="flex flex-col lg:flex-row flex-wrap">
             {/* All/Available/Owned filtering */}
-            <div className="flex-1">
+            <div className="flex-1 pt-4">
               <span className="relative z-0 inline-flex shadow-sm rounded-md">
                 <button
                   type="button"
@@ -444,7 +444,7 @@ export default function Index() {
             </div>
 
             {/* Name filtering */}
-            <div className="flex-1">
+            <div className="flex-1  pt-4">
               <div className="relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <SearchIcon
@@ -470,17 +470,17 @@ export default function Index() {
             </div>
 
             {/* Random mint */}
-            <div className="flex-1">
+            <div className="flex-1  pt-4">
               <button
                 type="button"
-                className="float-right items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="lg:float-right items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Mint
               </button>
               <select
                 id="random"
                 name="random"
-                className="float-right pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-l-md"
+                className="float-left lg:float-right pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-l-md"
                 defaultValue="1"
               >
                 <option value="1">1 random</option>
