@@ -84,13 +84,17 @@ export default function Item({
                   </button>
 
                   <div className="w-full grid grid-cols-1 gap-y-8 gap-x-6 items-start sm:grid-cols-12 lg:gap-x-8">
-                    <div className="aspect-w-2 aspect-h-2 rounded-lg bg-gray-100 overflow-hidden sm:col-span-4 lg:col-span-5">
+                    <div className="sm:col-span-4 lg:col-span-5">
+                      <div className="aspect-w-2 aspect-h-2 rounded-lg bg-gray-100 overflow-hidden ">
                       <img
                         src={customImageURI || `images/${color}/${object}.svg`}
                         alt={`${color}-${object}`}
                         className="object-center object-cover"
                       />
+                      </div>
+                     
                     </div>
+                    
                     <div className="sm:col-span-8 lg:col-span-7">
                       <h2 className="text-2xl font-extrabold text-gray-900 sm:pr-12">
                         {`${capitalize(color)} ${capitalize(object)}`}
@@ -117,11 +121,9 @@ export default function Item({
                         </button>
                       )}
                       <div className="mt-5">
-                        {generation && (
                           <p className="text-sm text-gray-700">
-                            Generation: {generation}
+                            Generation: 0
                           </p>
-                        )}
                         {owner && (
                           <p className="text-sm text-gray-700">
                             Owner: {owner}
@@ -188,6 +190,16 @@ export default function Item({
                           >
                             Reverse Record
                           </button>
+                        </span>
+                      </div>
+                      <div className="mt-3">
+                        <span className="mr-2 text-sm  text-gray-700">
+                          Set Image URL:{" "}
+                          <input
+                            type="text"
+                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder={customImageURI || `images/${color}/${object}.svg`}     
+                          />
                         </span>
                       </div>
                     </div>

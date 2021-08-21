@@ -493,8 +493,9 @@ export default function Index() {
           {/* Show items */}
           <div>
             <dl className="mt-16">
-              {colors.map((color) =>
-                objects.map((object) => {
+              {colors.map((color, i) =>
+                objects.map((object, j) => {
+                  if(i>10 || j>10) return null // hack to limit items while testing
                   // First, check if the item was minted
                   const mintedItem = mintedItems[color + object];
                   const renderedItem = (
