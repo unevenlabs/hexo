@@ -1,4 +1,4 @@
-import { Signer } from "ethers";
+import { Signer, constants } from "ethers";
 
 import Hexo from "../contracts/Hexo";
 import ReverseRegistrar from "../contracts/ReverseRegistrar";
@@ -9,24 +9,24 @@ type Item = {
   object: string;
 };
 
-export const buyItems = async (signer: Signer, items: Item[]) => {
+export const mintItems = async (signer: Signer, items: Item[]) => {
   const chainId = await signer.getChainId();
   const hexo = Hexo(chainId);
 
   const price = await hexo.connect(signer).price();
 
-  return hexo.connect(signer).buyItems(
+  return hexo.connect(signer).mintItems(
     items.map((item) => item.color),
     items.map((item) => item.object),
     { value: price.mul(items.length) }
   );
 };
 
-export const claimENSSubdomains = async (signer: Signer, items: Item[]) => {
+export const claimSubdomains = async (signer: Signer, items: Item[]) => {
   const chainId = await signer.getChainId();
   const hexo = Hexo(chainId);
 
-  return hexo.connect(signer).claimENSSubdomains(
+  return hexo.connect(signer).claimSubdomains(
     items.map((item) => item.color),
     items.map((item) => item.object)
   );

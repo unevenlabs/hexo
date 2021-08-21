@@ -7,8 +7,8 @@ const main = async () => {
   const [deployer] = await ethers.getSigners();
 
   const args = [
-    parseEther("0.08"),
-    "https://hexo-ptrwtts.vercel.app/api/image/",
+    parseEther("0.033"),
+    "ipfs://bafybeif7xi3sy23t2bacxxeeq2quzbzbfhr6lx7urot2noavftpiyopsiq/",
   ];
 
   const hexo = await deployContract({
@@ -18,7 +18,7 @@ const main = async () => {
   });
 
   // Wait for the deployment block to propagate so that verification won't fail
-  await new Promise((resolve) => setTimeout(resolve, 30000));
+  await new Promise((resolve) => setTimeout(resolve, 60000));
 
   await run("verify:verify", {
     address: hexo.address,

@@ -1,0 +1,12 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#808080" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">  <g id="line">
+    <rect x="12" y="12" width="48" height="48" fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m35.23 44.91 0.125-13.68"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m26.31 44.91v-14.03c-0.1453-1.558-0.6264-3.32-2.212-5.754"/>
+    <path fill="none" stroke="#808080" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m26.31 31.22s0.766-6.485 4.523-6.437 4.405 4.103 4.523 6.437c0.1828-2.264 0.9161-6.54 4.478-6.544 3.562-0.0042 4.31 3.958 4.478 6.544l1.15e-4 13.68c0.3653 2.829 2.394 5.11 3.829 5.112 3.042 0.4881 3.964-9.966 1.124-10.73-3.348-0.5788-5.387 7.691-7.545 13.16"/>
+  </g>
+</svg>
+</svg>

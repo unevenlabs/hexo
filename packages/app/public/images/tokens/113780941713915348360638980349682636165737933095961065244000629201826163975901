@@ -1,0 +1,20 @@
+<svg id="hexo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="border">
+    <path stroke="#FF0000" fill="none" stroke-width="1" d="m62.11167,10.03457c1.16887,-0.67782 2.60778,-0.67782 3.77665,0l43.64866,25.33943c1.16887,0.67782 1.88833,1.93093 1.88833,3.28847l0,50.67505c0,1.35754 -0.71945,2.61064 -1.88833,3.28847l-43.64866,25.33943c-1.16887,0.67782 -2.60778,0.67782 -3.77665,0l-43.64866,-25.33943c-1.16887,-0.67782 -1.88833,-1.93093 -1.88833,-3.28847l0,-50.67505c0,-1.35754 0.71945,-2.61064 1.88833,-3.28847l43.64866,-25.33943z" id="svg_1"/>
+  </g>
+  <svg id="emoji" x="28" y="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="line">
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M36,12.6326"/>
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M36,19.0725"/>
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M36,19.2478"/>
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M36,12.7539"/>
+    <line x1="50.258" x2="53.1419" y1="55.036" y2="59.8645" fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <line x1="21.7419" x2="18.858" y1="55.036" y2="59.8645" fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M48.8497,12.5761c0.9692-0.8502,2.2395-1.3655,3.6301-1.3655c3.0417,0,5.5076,2.4657,5.5076,5.5075 c0,1.1088-0.3277,2.1411-0.8914,3.0052"/>
+    <path fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M23.1504,12.5761c-0.9693-0.8502-2.2396-1.3655-3.6302-1.3655c-3.0417,0-5.5075,2.4657-5.5075,5.5075 c0,1.1088,0.3276,2.1411,0.8914,3.0052"/>
+    <circle cx="36" cy="36.2941" r="23" fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <line x1="36.0257" x2="36.0257" y1="18.9893" y2="35.9893" fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    <line x1="35.9742" x2="29.9742" y1="35.9349" y2="46.3272" fill="none" stroke="#FF0000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.0785"/>
+  </g>
+</svg>
+</svg>
