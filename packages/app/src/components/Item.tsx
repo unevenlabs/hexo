@@ -104,7 +104,7 @@ export default function Item({
                           </button>
                       )}
                       <div className="mt-5">
-                        {generation && <p className="text-sm text-gray-700">Generation: {generation}</p>}
+                        <p className="text-sm text-gray-700">Generation: 0</p>
                         {owner && <p className="text-sm text-gray-700">Owner: {owner}</p>}
                         <p className="text-sm text-gray-700">Links: <a href="#" className="text-indigo-600 hover:text-indigo-500 mr-2">OpenSea</a>
                           | <a href="#" className="text-indigo-600 hover:text-indigo-500 ml-1">Etherscan</a></p>
