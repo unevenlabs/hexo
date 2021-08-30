@@ -66,12 +66,7 @@ contract Hexo is ERC721Enumerable, Ownable {
         uint8 generation,
         address indexed buyer
     );
-    event SubdomainClaimed(
-        uint256 indexed tokenId,
-        string color,
-        string object,
-        address indexed claimer
-    );
+    event SubdomainClaimed(uint256 indexed tokenId, address indexed claimer);
     event CustomImageURISet(uint256 indexed tokenId, string customImageURI);
 
     /// Constructor
@@ -124,11 +119,9 @@ contract Hexo is ERC721Enumerable, Ownable {
         payable
     {
         require(_colors.length == _objects.length, "Invalid input");
+        require(msg.value == price * _colors.length, "Insufficient amount");
 
-        uint256 numItems = _colors.length;
-        require(msg.value == price * numItems, "Insufficient amount");
-
-        for (uint256 i = 0; i < numItems; i++) {
+        for (uint256 i = 0; i < _colors.length; i++) {
             require(colors[keccak256(bytes(_colors[i]))], "Color not added");
             require(objects[keccak256(bytes(_objects[i]))], "Object not added");
 
@@ -140,7 +133,9 @@ contract Hexo is ERC721Enumerable, Ownable {
             TokenInfo storage tokenInfo = tokenInfos[tokenId];
             tokenInfo.color = _colors[i];
             tokenInfo.object = _objects[i];
-            tokenInfo.generation = generation;
+            if (generation != 0) {
+                tokenInfo.generation = generation;
+            }
 
             _safeMint(msg.sender, tokenId);
 
@@ -157,19 +152,15 @@ contract Hexo is ERC721Enumerable, Ownable {
         payable(owner()).sendValue(msg.value);
     }
 
-    function claimSubdomains(
-        string[] calldata _colors,
-        string[] calldata _objects
-    ) external {
-        require(_colors.length == _objects.length, "Invalid input");
-
-        uint256 numItems = _colors.length;
-        for (uint256 i = 0; i < numItems; i++) {
-            bytes32 label = keccak256(
-                abi.encodePacked(_colors[i], _objects[i])
-            );
-            uint256 tokenId = uint256(label);
+    function claimSubdomains(uint256[] calldata _tokenIds) external {
+        for (uint256 i = 0; i < _tokenIds.length; i++) {
+            uint256 tokenId = _tokenIds[i];
             require(msg.sender == ownerOf(tokenId), "Unauthorized");
+
+            TokenInfo storage tokenInfo = tokenInfos[tokenId];
+            bytes32 label = keccak256(
+                abi.encodePacked(tokenInfo.color, tokenInfo.object)
+            );
 
             // Temporarily set this contract as the owner of the ENS subdomain,
             // giving it permission to set up ENS forward resolution
@@ -190,7 +181,7 @@ contract Hexo is ERC721Enumerable, Ownable {
             // Give ownership back to the proper owner
             IENS(ensRegistry).setSubnodeOwner(rootNode, label, msg.sender);
 
-            emit SubdomainClaimed(tokenId, _colors[i], _objects[i], msg.sender);
+            emit SubdomainClaimed(tokenId, msg.sender);
         }
     }
 

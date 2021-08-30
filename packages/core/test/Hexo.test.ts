@@ -167,7 +167,9 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .mintItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+      await hexo.connect(alice).claimSubdomains([reddragonId]);
 
       const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -187,9 +189,10 @@ describe("Hexo", () => {
         .mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2),
         });
-      await hexo
-        .connect(alice)
-        .claimSubdomains(["red", "green"], ["dragon", "turtle"]);
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+      const greenturtleId = BigNumber.from(id("greenturtle"));
+      await hexo.connect(alice).claimSubdomains([reddragonId, greenturtleId]);
 
       const reddragonNamehash = namehash("reddragon.hexo.eth");
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
@@ -218,9 +221,10 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .mintItems(["red"], ["dragon"], { value: price });
-      await hexo.connect(alice).claimSubdomains(["red"], ["dragon"]);
 
       const reddragonId = BigNumber.from(id("reddragon"));
+      await hexo.connect(alice).claimSubdomains([reddragonId]);
+
       const reddragonNamehash = namehash("reddragon.hexo.eth");
 
       await ensRegistry
@@ -233,7 +237,7 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .transferFrom(alice.address, bob.address, reddragonId);
-      await hexo.connect(bob).claimSubdomains(["red"], ["dragon"]);
+      await hexo.connect(bob).claimSubdomains([reddragonId]);
 
       expect(await ensRegistry.owner(reddragonNamehash)).to.be.equal(
         bob.address
@@ -247,15 +251,17 @@ describe("Hexo", () => {
       await hexo
         .connect(alice)
         .mintItems(["red"], ["dragon"], { value: price });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
       await expect(
-        hexo.connect(bob).claimSubdomains(["red"], ["dragon"])
+        hexo.connect(bob).claimSubdomains([reddragonId])
       ).to.be.revertedWith("Unauthorized");
     });
 
     it("properly handles inexistent items", async () => {
-      await expect(
-        hexo.connect(bob).claimSubdomains(["dragon"], ["dragon"])
-      ).to.be.revertedWith("ERC721: owner query for nonexistent token");
+      await expect(hexo.connect(bob).claimSubdomains([0])).to.be.revertedWith(
+        "ERC721: owner query for nonexistent token"
+      );
     });
   });
 
