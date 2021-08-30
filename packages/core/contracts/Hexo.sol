@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "base64-sol/base64.sol";
 
-import "./interfaces/IAddrResolver.sol";
+import "./interfaces/IPublicResolver.sol";
 import "./interfaces/IENS.sol";
 
 contract Hexo is ERC721Enumerable, Ownable {
@@ -173,7 +173,7 @@ contract Hexo is ERC721Enumerable, Ownable {
             );
 
             // Set up ENS forward resolution to point to the owner
-            IAddrResolver(ensPublicResolver).setAddr(
+            IPublicResolver(ensPublicResolver).setAddr(
                 keccak256(abi.encodePacked(rootNode, label)),
                 msg.sender
             );

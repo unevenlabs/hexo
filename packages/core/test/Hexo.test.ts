@@ -51,7 +51,7 @@ describe("Hexo", () => {
     const ensPublicResolverAddress =
       "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41";
     ensPublicResolver = await ethers.getContractAt(
-      "IAddrResolver",
+      "IPublicResolver",
       ensPublicResolverAddress
     );
 
