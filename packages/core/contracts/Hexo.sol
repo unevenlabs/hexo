@@ -125,10 +125,11 @@ contract Hexo is ERC721Enumerable, Ownable {
             require(colors[keccak256(bytes(_colors[i]))], "Color not added");
             require(objects[keccak256(bytes(_objects[i]))], "Object not added");
 
-            string memory name = string(
-                abi.encodePacked(_colors[i], _objects[i])
+            uint256 tokenId = uint256(
+                keccak256(
+                    bytes(string(abi.encodePacked(_colors[i], _objects[i])))
+                )
             );
-            uint256 tokenId = uint256(keccak256(bytes(name)));
 
             TokenInfo storage tokenInfo = tokenInfos[tokenId];
             tokenInfo.color = _colors[i];
@@ -154,10 +155,9 @@ contract Hexo is ERC721Enumerable, Ownable {
 
     function claimSubdomains(uint256[] calldata _tokenIds) external {
         for (uint256 i = 0; i < _tokenIds.length; i++) {
-            uint256 tokenId = _tokenIds[i];
-            require(msg.sender == ownerOf(tokenId), "Unauthorized");
+            require(msg.sender == ownerOf(_tokenIds[i]), "Unauthorized");
 
-            TokenInfo storage tokenInfo = tokenInfos[tokenId];
+            TokenInfo storage tokenInfo = tokenInfos[_tokenIds[i]];
             bytes32 label = keccak256(
                 abi.encodePacked(tokenInfo.color, tokenInfo.object)
             );
@@ -181,7 +181,7 @@ contract Hexo is ERC721Enumerable, Ownable {
             // Give ownership back to the proper owner
             IENS(ensRegistry).setSubnodeOwner(rootNode, label, msg.sender);
 
-            emit SubdomainClaimed(tokenId, msg.sender);
+            emit SubdomainClaimed(_tokenIds[i], msg.sender);
         }
     }
 

@@ -1,4 +1,4 @@
-import { Signer, constants } from "ethers";
+import { Signer } from "ethers";
 
 import Hexo from "../contracts/Hexo";
 import ReverseRegistrar from "../contracts/ReverseRegistrar";
@@ -26,10 +26,9 @@ export const claimSubdomains = async (signer: Signer, items: Item[]) => {
   const chainId = await signer.getChainId();
   const hexo = Hexo(chainId);
 
-  return hexo.connect(signer).claimSubdomains(
-    items.map((item) => item.color),
-    items.map((item) => item.object)
-  );
+  return hexo
+    .connect(signer)
+    .claimSubdomains(items.map((item) => getTokenId(item.color, item.object)));
 };
 
 export const setCustomImageURI = async (

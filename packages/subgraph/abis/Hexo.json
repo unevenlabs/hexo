@@ -215,18 +215,6 @@
         "type": "uint256"
       },
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "color",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "object",
-        "type": "string"
-      },
-      {
         "indexed": true,
         "internalType": "address",
         "name": "claimer",
@@ -366,14 +354,9 @@
   {
     "inputs": [
       {
-        "internalType": "string[]",
-        "name": "_colors",
-        "type": "string[]"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_objects",
-        "type": "string[]"
+        "internalType": "uint256[]",
+        "name": "_tokenIds",
+        "type": "uint256[]"
       }
     ],
     "name": "claimSubdomains",
