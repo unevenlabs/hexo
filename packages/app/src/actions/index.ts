@@ -1,6 +1,8 @@
 import { Signer } from "ethers";
+import { namehash } from "ethers/lib/utils";
 
 import Hexo from "../contracts/Hexo";
+import PublicResolver from "../contracts/PublicResolver";
 import ReverseRegistrar from "../contracts/ReverseRegistrar";
 import { getTokenId } from "../utils";
 
@@ -50,5 +52,22 @@ export const setReverseRecord = async (signer: Signer, item: Item) => {
 
   return reverseRegistrar
     .connect(signer)
-    .setName(`${item.color}${item.object}.hexo.eth`);
+    .setName(namehash(`${item.color}${item.object}.hexo.eth`));
+};
+
+export const setAvatar = async (
+  signer: Signer,
+  item: Item,
+  avatarUrl: string
+) => {
+  const chainId = await signer.getChainId();
+  const publicResolver = PublicResolver(chainId);
+
+  return publicResolver
+    .connect(signer)
+    .setText(
+      namehash(`${item.color}${item.object}.hexo.eth`),
+      "avatar",
+      avatarUrl
+    );
 };

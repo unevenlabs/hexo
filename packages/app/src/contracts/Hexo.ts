@@ -6,7 +6,7 @@ export default function Hexo(chainId: number) {
   const address =
     chainId === 1
       ? // TODO: Change when deployed to Mainnet
-        "0xf1cA53EAFa2ce45AEC945B633A589d507Ce1f6Dd"
-      : "0xf1cA53EAFa2ce45AEC945B633A589d507Ce1f6Dd";
+        "0x349a3154FbE62Dcba32D522091a87Fca333DC4e9"
+      : "0x349a3154FbE62Dcba32D522091a87Fca333DC4e9";
   return new Contract(address, HexoAbi);
 }

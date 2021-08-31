@@ -3,8 +3,14 @@ import { XIcon } from "@heroicons/react/outline";
 import { useWeb3React } from "@web3-react/core";
 import { Fragment, useState } from "react";
 
-import { claimSubdomains, mintItems, setReverseRecord } from "../actions";
-import { capitalize } from "../utils";
+import {
+  claimSubdomains,
+  mintItems,
+  setAvatar,
+  setCustomImageURI,
+  setReverseRecord,
+} from "../src/actions";
+import { capitalize } from "../src/utils";
 
 type ItemProps = {
   color: string;
@@ -24,6 +30,9 @@ export default function Item({
   const { account, library } = useWeb3React();
 
   const [open, setOpen] = useState(false);
+  const [newCustomImageURI, setNewCustomImageURI] = useState(
+    customImageURI || `images/${color}/${object}.svg`
+  );
 
   return (
     <>
@@ -86,15 +95,16 @@ export default function Item({
                   <div className="w-full grid grid-cols-1 gap-y-8 gap-x-6 items-start sm:grid-cols-12 lg:gap-x-8">
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-w-2 aspect-h-2 rounded-lg bg-gray-100 overflow-hidden ">
-                      <img
-                        src={customImageURI || `images/${color}/${object}.svg`}
-                        alt={`${color}-${object}`}
-                        className="object-center object-cover"
-                      />
+                        <img
+                          src={
+                            customImageURI || `images/${color}/${object}.svg`
+                          }
+                          alt={`${color}-${object}`}
+                          className="object-center object-cover"
+                        />
                       </div>
-                     
                     </div>
-                    
+
                     <div className="sm:col-span-8 lg:col-span-7">
                       <h2 className="text-2xl font-extrabold text-gray-900 sm:pr-12">
                         {`${capitalize(color)} ${capitalize(object)}`}
@@ -121,9 +131,11 @@ export default function Item({
                         </button>
                       )}
                       <div className="mt-5">
+                        {generation !== undefined && (
                           <p className="text-sm text-gray-700">
-                            Generation: 0
+                            Generation: {generation + 1}
                           </p>
+                        )}
                         {owner && (
                           <p className="text-sm text-gray-700">
                             Owner: {owner}
@@ -160,6 +172,15 @@ export default function Item({
                                 return alert("Wallet not connected");
                               }
 
+                              if (
+                                !owner ||
+                                !account ||
+                                owner.toLowerCase() !== account.toLowerCase()
+                              ) {
+                                alert("You are not the owner");
+                                return;
+                              }
+
                               await claimSubdomains(
                                 library.getSigner(account),
                                 [{ color, object }]
@@ -171,6 +192,27 @@ export default function Item({
                           <button
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            onClick={async () => {
+                              if (!account || !library) {
+                                return alert("Wallet not connected");
+                              }
+
+                              if (
+                                !owner ||
+                                !account ||
+                                owner.toLowerCase() !== account.toLowerCase()
+                              ) {
+                                alert("You are not the owner");
+                                return;
+                              }
+
+                              await setAvatar(
+                                library.getSigner(account),
+                                { color, object },
+                                // TODO: This should be set from the UI
+                                "https://custom-url"
+                              );
+                            }}
                           >
                             Avatar
                           </button>
@@ -180,6 +222,15 @@ export default function Item({
                             onClick={async () => {
                               if (!account || !library) {
                                 return alert("Wallet not connected");
+                              }
+
+                              if (
+                                !owner ||
+                                !account ||
+                                owner.toLowerCase() !== account.toLowerCase()
+                              ) {
+                                alert("You are not the owner");
+                                return;
                               }
 
                               await setReverseRecord(
@@ -193,13 +244,44 @@ export default function Item({
                         </span>
                       </div>
                       <div className="mt-3">
-                        <span className="mr-2 text-sm  text-gray-700">
+                        <span className="mr-2 text-sm text-gray-700">
                           Set Image URL:{" "}
-                          <input
-                            type="text"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder={customImageURI || `images/${color}/${object}.svg`}     
-                          />
+                          <div className="w-full">
+                            <input
+                              type="text"
+                              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full block sm:text-sm border-gray-300 rounded-md"
+                              placeholder={newCustomImageURI}
+                              onChange={(event) =>
+                                setNewCustomImageURI(event.target.value)
+                              }
+                            />
+                            <button
+                              type="button"
+                              className="lg:float-right items-center w-full px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                              onClick={async () => {
+                                if (!account || !library) {
+                                  return alert("Wallet not connected");
+                                }
+
+                                if (
+                                  !owner ||
+                                  !account ||
+                                  owner.toLowerCase() !== account.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                  return;
+                                }
+
+                                await setCustomImageURI(
+                                  library.getSigner(account),
+                                  { color, object },
+                                  newCustomImageURI
+                                );
+                              }}
+                            >
+                              Set
+                            </button>
+                          </div>
                         </span>
                       </div>
                     </div>
