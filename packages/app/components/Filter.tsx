@@ -1,6 +1,6 @@
 import { SearchIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-import { GlobalContext } from "../context/GlobalState";
+import { GlobalContext } from "context/GlobalState";
 
 const Filter = () => {
   const { dispatch } = useContext(GlobalContext);

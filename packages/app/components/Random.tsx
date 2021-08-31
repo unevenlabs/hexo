@@ -2,10 +2,10 @@ import { useWeb3React } from "@web3-react/core";
 import _ from "lodash";
 import { useState } from "react";
 
-import { mintItems } from "../src/actions";
+import { mintItems } from "src/actions";
 
-import colors from "../data/colors.json";
-import objects from "../data/objects.json";
+import colors from "data/colors.json";
+import objects from "data/objects.json";
 
 type Props = {
   mintedItems: { [item: string]: any };

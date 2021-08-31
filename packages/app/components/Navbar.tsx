@@ -1,12 +1,12 @@
-import { Popover, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useWeb3React } from '@web3-react/core'
-import { Fragment } from 'react'
-import { activateConnector, injected } from '../src/connectors'
+import { Popover, Transition } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import { useWeb3React } from "@web3-react/core";
+import { Fragment } from "react";
+import { activateConnector, injected } from "src/connectors";
 
 const Navbar = () => {
-  const web3ReactContext = useWeb3React()
-  const { account, active, chainId } = web3ReactContext
+  const web3ReactContext = useWeb3React();
+  const { account, active, chainId } = web3ReactContext;
 
   return (
     <Popover className="relative bg-white shadow">
@@ -59,8 +59,8 @@ const Navbar = () => {
                 {active ? (
                   <>
                     <span>
-                      ({chainId === 1 ? 'Mainnet' : 'Rinkeby'}){' '}
-                      {account.slice(0, 6) + '...' + account.slice(-4, -1)}
+                      ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
+                      {account.slice(0, 6) + "..." + account.slice(-4, -1)}
                     </span>
                   </>
                 ) : (
@@ -137,8 +137,8 @@ const Navbar = () => {
                     {active ? (
                       <>
                         <span>
-                          ({chainId === 1 ? 'Mainnet' : 'Rinkeby'}){' '}
-                          {account.slice(0, 6) + '...' + account.slice(-4, -1)}
+                          ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
+                          {account.slice(0, 6) + "..." + account.slice(-4, -1)}
                         </span>
                       </>
                     ) : (
@@ -159,7 +159,7 @@ const Navbar = () => {
         </>
       )}
     </Popover>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

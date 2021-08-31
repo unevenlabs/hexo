@@ -2,10 +2,10 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Web3Provider } from "@ethersproject/providers";
 import { Web3ReactProvider } from "@web3-react/core";
 
-import "../src/styles/globals.css";
+import "src/styles/globals.css";
 
-import Web3ReactManager from "../components/Web3ReactManager";
-import { GlobalProvider } from "../context/GlobalState";
+import Web3ReactManager from "components/Web3ReactManager";
+import { GlobalProvider } from "context/GlobalState";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

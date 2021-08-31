@@ -1,21 +1,21 @@
 import { useWeb3React } from "@web3-react/core";
 import { useContext, useEffect, useState } from "react";
 
-import { useGetItems } from "../src/hooks/items";
+import { useGetItems } from "src/hooks/items";
 
-import colors from "../data/colors.json";
-import objects from "../data/objects.json";
+import colors from "data/colors.json";
+import objects from "data/objects.json";
 
-import Item from "../components/Item";
-import Stats from "../components/Stats";
-import Hero from "../components/Hero";
-import HeroImages from "../components/HeroImages";
-import Features from "../components/Features";
-import Navbar from "../components/Navbar";
-import Random from "../components/Random";
-import { GlobalContext } from "../context/GlobalState";
-import ShowSelector from "../components/ShowSelector";
-import Filter from "../components/Filter";
+import Item from "components/Item";
+import Stats from "components/Stats";
+import Hero from "components/Hero";
+import HeroImages from "components/HeroImages";
+import Features from "components/Features";
+import Navbar from "components/Navbar";
+import Random from "components/Random";
+import { GlobalContext } from "context/GlobalState";
+import ShowSelector from "components/ShowSelector";
+import Filter from "components/Filter";
 
 export default function Index() {
   const {
