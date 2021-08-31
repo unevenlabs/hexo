@@ -1,5 +1,3 @@
-import { SearchIcon } from "@heroicons/react/outline";
-import { XCircleIcon } from "@heroicons/react/solid";
 import { useWeb3React } from "@web3-react/core";
 import { useContext, useEffect, useState } from "react";
 
@@ -17,10 +15,11 @@ import Navbar from "../components/Navbar";
 import Random from "../components/Random";
 import { GlobalContext } from "../context/GlobalState";
 import ShowSelector from "../components/ShowSelector";
+import Filter from "../components/Filter";
 
 export default function Index() {
   const {
-    state: { show },
+    state: { show, filter },
   } = useContext(GlobalContext);
   const web3ReactContext = useWeb3React();
   const { account } = web3ReactContext;
@@ -45,7 +44,6 @@ export default function Index() {
   }, [mintedItemsInfo]);
 
   // Filters for items
-  const [nameFilter, setNameFilter] = useState("");
   const [selectedColor, setselectedColor] = useState("black");
 
   return (
@@ -65,31 +63,7 @@ export default function Index() {
           <div className="flex flex-col lg:flex-row flex-wrap">
             <ShowSelector />
 
-            {/* Name filtering */}
-            <div className="flex-1  pt-4">
-              <div className="relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <SearchIcon
-                    className="h-4 w-4 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <input
-                  type="text"
-                  name="filter-items"
-                  id="filter-items"
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-10 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="Filter"
-                  onChange={(event) => setNameFilter(event.target.value)}
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <XCircleIcon
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-            </div>
+            <Filter />
 
             {/* Random mint */}
             <Random mintedItems={mintedItems} />
@@ -132,9 +106,8 @@ export default function Index() {
 
                 // If name filtering is on, prioritize it
                 if (
-                  nameFilter &&
-                  nameFilter !== "" &&
-                  !(selectedColor + object).includes(nameFilter)
+                  filter !== "" &&
+                  !(selectedColor + object).includes(filter)
                 ) {
                   return null;
                 }

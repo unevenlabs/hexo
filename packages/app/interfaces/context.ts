@@ -14,5 +14,5 @@ export type State = {
 export type Actions = {
   type: 'UPDATE_SHOW' | 'FILTER' | 'UPDATE_COLOR'
   payload?: any
-  showPayload: State['show']
+  showPayload?: State['show']
 }
