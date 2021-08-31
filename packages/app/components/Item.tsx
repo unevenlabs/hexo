@@ -189,7 +189,7 @@ export default function Item({
                           >
                             Resolver
                           </button>
-                          <button
+                          {/* <button
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                             onClick={async () => {
@@ -215,7 +215,7 @@ export default function Item({
                             }}
                           >
                             Avatar
-                          </button>
+                          </button> */}
                           <button
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
@@ -249,7 +249,7 @@ export default function Item({
                           <div className="w-full">
                             <input
                               type="text"
-                              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full block sm:text-sm border-gray-300 rounded-md"
+                              className="w-5/6 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
                               placeholder={newCustomImageURI}
                               onChange={(event) =>
                                 setNewCustomImageURI(event.target.value)
@@ -257,7 +257,7 @@ export default function Item({
                             />
                             <button
                               type="button"
-                              className="lg:float-right items-center w-full px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                              className="w-1/6 lg:float-right items-center rounded-md px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                               onClick={async () => {
                                 if (!account || !library) {
                                   return alert("Wallet not connected");
