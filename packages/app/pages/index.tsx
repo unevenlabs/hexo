@@ -136,7 +136,7 @@ export default function Index() {
             name="color"
             onChange={(e) => setselectedColor(e.target.value)}
           >
-            <option value="" selected disabled>
+            <option defaultValue="" disabled>
               Choose a color
             </option>
             {colors.map((color) => (
