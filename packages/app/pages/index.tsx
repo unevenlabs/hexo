@@ -1,52 +1,55 @@
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, Transition } from '@headlessui/react'
 import {
   MenuIcon,
   XIcon,
   CheckIcon,
   SearchIcon,
-} from "@heroicons/react/outline";
-import { XCircleIcon } from "@heroicons/react/solid";
-import { useWeb3React } from "@web3-react/core";
-import { Fragment, useEffect, useState } from "react";
+} from '@heroicons/react/outline'
+import { XCircleIcon } from '@heroicons/react/solid'
+import { useWeb3React } from '@web3-react/core'
+import { Fragment, useEffect, useState } from 'react'
 
-import Item from "../src/components/Item";
-import { activateConnector, injected } from "../src/connectors";
-import { useGetItems } from "../src/hooks/items";
+import Item from '../src/components/Item'
+import { activateConnector, injected } from '../src/connectors'
+import { useGetItems } from '../src/hooks/items'
 
-import colors from "../data/colors.json";
-import objects from "../data/objects.json";
+import colors from '../data/colors.json'
+import objects from '../data/objects.json'
+
+import ReactList from 'react-list'
+import LazyLoading from 'react-list-lazy-load'
 
 const features = [
   {
-    name: "On-chain Metadata!",
-    description: "Premium JSON served straight from the contract",
+    name: 'On-chain Metadata!',
+    description: 'Premium JSON served straight from the contract',
   },
   {
-    name: "reddragon.hexo.eth",
+    name: 'reddragon.hexo.eth',
     description:
-      "Every Hexo comes with an ENS name and one-click reverse record setup",
+      'Every Hexo comes with an ENS name and one-click reverse record setup',
   },
   {
     name: "Look Ma, I'm a DAO!",
     description:
-      "Vote on new colors / objects to add, or new default images, in the Snapshot voting portal",
+      'Vote on new colors / objects to add, or new default images, in the Snapshot voting portal',
   },
   {
-    name: "Updateable images!",
-    description: "Owners can override the basic default image with their own",
+    name: 'Updateable images!',
+    description: 'Owners can override the basic default image with their own',
   },
-];
+]
 
 export default function Index() {
-  const web3ReactContext = useWeb3React();
-  const { account, active, chainId } = web3ReactContext;
+  const web3ReactContext = useWeb3React()
+  const { account, active, chainId } = web3ReactContext
 
   // Get info about all minted items
-  const mintedItemsInfo = useGetItems();
-  const [mintedItems, setMintedItems] = useState({} as any);
+  const mintedItemsInfo = useGetItems()
+  const [mintedItems, setMintedItems] = useState({} as any)
   useEffect(() => {
     if (mintedItemsInfo?.data?.items) {
-      const localMintedItems = {};
+      const localMintedItems = {}
       for (const item of mintedItemsInfo.data.items) {
         localMintedItems[item.color + item.object] = {
           color: item.color,
@@ -54,17 +57,18 @@ export default function Index() {
           generation: item.generation,
           customImageURI: item.customImageURI,
           owner: item.owner,
-        };
+        }
       }
-      setMintedItems(localMintedItems);
+      setMintedItems(localMintedItems)
     }
-  }, [mintedItemsInfo]);
+  }, [mintedItemsInfo])
 
   // Filters for items
-  const [showAll, setShowAll] = useState(true);
-  const [showAvailable, setShowAvailable] = useState(false);
-  const [showOwned, setShowOwned] = useState(false);
-  const [nameFilter, setNameFilter] = useState("");
+  const [showAll, setShowAll] = useState(true)
+  const [showAvailable, setShowAvailable] = useState(false)
+  const [showOwned, setShowOwned] = useState(false)
+  const [nameFilter, setNameFilter] = useState('')
+  const [selectedColor, setselectedColor] = useState('black')
 
   return (
     <div className="relative bg-gray-50">
@@ -118,8 +122,8 @@ export default function Index() {
                   {active ? (
                     <>
                       <span>
-                        ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
-                        {account.slice(0, 6) + "..." + account.slice(-4, -1)}
+                        ({chainId === 1 ? 'Mainnet' : 'Rinkeby'}){' '}
+                        {account.slice(0, 6) + '...' + account.slice(-4, -1)}
                       </span>
                     </>
                   ) : (
@@ -196,9 +200,9 @@ export default function Index() {
                       {active ? (
                         <>
                           <span>
-                            ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
+                            ({chainId === 1 ? 'Mainnet' : 'Rinkeby'}){' '}
                             {account.slice(0, 6) +
-                              "..." +
+                              '...' +
                               account.slice(-4, -1)}
                           </span>
                         </>
@@ -409,9 +413,9 @@ export default function Index() {
                   type="button"
                   className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                   onClick={() => {
-                    setShowAll(true);
-                    setShowAvailable(false);
-                    setShowOwned(false);
+                    setShowAll(true)
+                    setShowAvailable(false)
+                    setShowOwned(false)
                   }}
                 >
                   All
@@ -421,9 +425,9 @@ export default function Index() {
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                   onClick={() => {
-                    setShowAll(false);
-                    setShowAvailable(true);
-                    setShowOwned(false);
+                    setShowAll(false)
+                    setShowAvailable(true)
+                    setShowOwned(false)
                   }}
                 >
                   Available
@@ -433,9 +437,9 @@ export default function Index() {
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                   onClick={() => {
-                    setShowAll(false);
-                    setShowAvailable(false);
-                    setShowOwned(true);
+                    setShowAll(false)
+                    setShowAvailable(false)
+                    setShowOwned(true)
                   }}
                 >
                   Owned
@@ -507,55 +511,70 @@ export default function Index() {
             </div>
           </div>
 
+          <label className="sr-only" htmlFor="color">
+            Select Color
+          </label>
+          <select
+            id="color"
+            name="color"
+            onChange={(e) => setselectedColor(e.target.value)}
+          >
+            <option value="" selected disabled>
+              Choose a color
+            </option>
+            {colors.map((color) => (
+              <option key={color} value={color} className="capitalize">
+                {color}
+              </option>
+            ))}
+          </select>
+
           {/* Show items */}
           <div>
             <dl className="mt-16">
-              {colors.map((color, i) =>
-                objects.map((object, j) => {
-                  if(i>10 || j>10) return null // hack to limit items while testing
-                  // First, check if the item was minted
-                  const mintedItem = mintedItems[color + object];
-                  const renderedItem = (
-                    <Item
-                      key={color + object}
-                      color={color}
-                      object={object}
-                      generation={mintedItem?.generation}
-                      customImageURI={mintedItem?.customImageURI}
-                      owner={mintedItem?.owner}
-                    />
-                  );
+              {objects.map((object) => {
+                // First, check if the item was minted
+                const mintedItem = mintedItems[selectedColor + object]
+                const renderedItem = (
+                  <Item
+                    key={selectedColor + object}
+                    color={selectedColor}
+                    object={object}
+                    generation={mintedItem?.generation}
+                    customImageURI={mintedItem?.customImageURI}
+                    owner={mintedItem?.owner}
+                  />
+                )
 
-                  // If name filtering is on, prioritize it
-                  if (
-                    nameFilter &&
-                    nameFilter !== "" &&
-                    !(color + object).includes(nameFilter)
-                  ) {
-                    return null;
-                  }
+                // If name filtering is on, prioritize it
+                if (
+                  nameFilter &&
+                  nameFilter !== '' &&
+                  !(selectedColor + object).includes(nameFilter)
+                ) {
+                  return null
+                }
 
-                  if (showAll) {
-                    // Show all items
-                    return renderedItem;
-                  } else if (showAvailable) {
-                    // Only show items that were not yet minted
-                    return !mintedItem ? renderedItem : null;
-                  } else if (showOwned) {
-                    // Only show items owner by the current account
-                    return mintedItem &&
-                      mintedItem.owner === account.toLowerCase()
-                      ? renderedItem
-                      : null;
-                  }
+                if (showAll) {
+                  // Show all items
+                  return renderedItem
+                } else if (showAvailable) {
+                  // Only show items that were not yet minted
+                  return !mintedItem ? renderedItem : null
+                } else if (showOwned) {
+                  // Only show items owner by the current account
+                  return mintedItem &&
+                    mintedItem.owner === account.toLowerCase()
+                    ? renderedItem
+                    : null
+                }
 
-                  return null;
-                })
-              )}
+                return null
+              })}
             </dl>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
