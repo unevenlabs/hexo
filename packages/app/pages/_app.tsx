@@ -1,27 +1,30 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { Web3Provider } from "@ethersproject/providers";
-import { Web3ReactProvider } from "@web3-react/core";
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { Web3Provider } from '@ethersproject/providers'
+import { Web3ReactProvider } from '@web3-react/core'
 
-import "../src/styles/globals.css";
+import '../src/styles/globals.css'
 
-import Web3ReactManager from "../src/components/Web3ReactManager";
+import Web3ReactManager from '../src/components/Web3ReactManager'
+import { GlobalProvider } from '../context/GlobalState'
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   // TODO: Find a way to dynamically change the subgraph endpoint
-  uri: "https://api.thegraph.com/subgraphs/name/georgeroman/hexo-rinkeby",
-});
+  uri: 'https://api.thegraph.com/subgraphs/name/georgeroman/hexo-rinkeby',
+})
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Web3ReactProvider getLibrary={(provider) => new Web3Provider(provider)}>
-      <Web3ReactManager>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </Web3ReactManager>
-    </Web3ReactProvider>
-  );
+    <GlobalProvider>
+      <Web3ReactProvider getLibrary={(provider) => new Web3Provider(provider)}>
+        <Web3ReactManager>
+          <ApolloProvider client={client}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </Web3ReactManager>
+      </Web3ReactProvider>
+    </GlobalProvider>
+  )
 }
 
-export default MyApp;
+export default MyApp

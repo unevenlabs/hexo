@@ -1,7 +1,7 @@
 import { SearchIcon } from '@heroicons/react/outline'
 import { XCircleIcon } from '@heroicons/react/solid'
 import { useWeb3React } from '@web3-react/core'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import Item from '../src/components/Item'
 import { useGetItems } from '../src/hooks/items'
@@ -15,8 +15,13 @@ import HeroImages from '../components/HeroImages'
 import Features from '../components/Features'
 import Navbar from '../components/Navbar'
 import Random from '../components/Random'
+import { GlobalContext } from '../context/GlobalState'
 
 export default function Index() {
+  const {
+    state: { show },
+    dispatch,
+  } = useContext(GlobalContext)
   const web3ReactContext = useWeb3React()
   const { account } = web3ReactContext
 
@@ -40,9 +45,6 @@ export default function Index() {
   }, [mintedItemsInfo])
 
   // Filters for items
-  const [showAll, setShowAll] = useState(true)
-  const [showAvailable, setShowAvailable] = useState(false)
-  const [showOwned, setShowOwned] = useState(false)
   const [nameFilter, setNameFilter] = useState('')
   const [selectedColor, setselectedColor] = useState('black')
 
@@ -67,11 +69,9 @@ export default function Index() {
                 <button
                   type="button"
                   className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() => {
-                    setShowAll(true)
-                    setShowAvailable(false)
-                    setShowOwned(false)
-                  }}
+                  onClick={() =>
+                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'ALL' })
+                  }
                 >
                   All
                 </button>
@@ -79,11 +79,9 @@ export default function Index() {
                 <button
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() => {
-                    setShowAll(false)
-                    setShowAvailable(true)
-                    setShowOwned(false)
-                  }}
+                  onClick={() =>
+                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'AVAILABLE' })
+                  }
                 >
                   Available
                 </button>
@@ -91,11 +89,9 @@ export default function Index() {
                 <button
                   type="button"
                   className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() => {
-                    setShowAll(false)
-                    setShowAvailable(false)
-                    setShowOwned(true)
-                  }}
+                  onClick={() =>
+                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'OWNED' })
+                  }
                 >
                   Owned
                 </button>
@@ -176,13 +172,13 @@ export default function Index() {
                   return null
                 }
 
-                if (showAll) {
+                if (show === 'ALL') {
                   // Show all items
                   return renderedItem
-                } else if (showAvailable) {
+                } else if (show === 'AVAILABLE') {
                   // Only show items that were not yet minted
                   return !mintedItem ? renderedItem : null
-                } else if (showOwned) {
+                } else if (show === 'OWNED') {
                   // Only show items owner by the current account
                   return mintedItem &&
                     mintedItem.owner === account.toLowerCase()
