@@ -16,11 +16,11 @@ import Features from '../components/Features'
 import Navbar from '../components/Navbar'
 import Random from '../components/Random'
 import { GlobalContext } from '../context/GlobalState'
+import ShowSelector from '../components/ShowSelector'
 
 export default function Index() {
   const {
     state: { show },
-    dispatch,
   } = useContext(GlobalContext)
   const web3ReactContext = useWeb3React()
   const { account } = web3ReactContext
@@ -63,40 +63,7 @@ export default function Index() {
       <div className="bg-white" id="browse">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row flex-wrap">
-            {/* All/Available/Owned filtering */}
-            <div className="flex-1 pt-4">
-              <span className="relative z-0 inline-flex shadow-sm rounded-md">
-                <button
-                  type="button"
-                  className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() =>
-                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'ALL' })
-                  }
-                >
-                  All
-                </button>
-
-                <button
-                  type="button"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() =>
-                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'AVAILABLE' })
-                  }
-                >
-                  Available
-                </button>
-
-                <button
-                  type="button"
-                  className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  onClick={() =>
-                    dispatch({ type: 'UPDATE_SHOW', showPayload: 'OWNED' })
-                  }
-                >
-                  Owned
-                </button>
-              </span>
-            </div>
+            <ShowSelector />
 
             {/* Name filtering */}
             <div className="flex-1  pt-4">
