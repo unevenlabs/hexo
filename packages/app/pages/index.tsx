@@ -1,4 +1,3 @@
-import { useWeb3React } from "@web3-react/core";
 import { useContext, useEffect, useState } from "react";
 
 import { useGetItems } from "src/hooks/items";
@@ -16,13 +15,53 @@ import Random from "components/Random";
 import { GlobalContext } from "context/GlobalState";
 import ShowSelector from "components/ShowSelector";
 import Filter from "components/Filter";
+import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import { connect } from "components/ConnectWeb3";
+
+const providerOptions = {
+  // Add walletconnect "plug-in"
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      infuraId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID,
+    },
+  },
+};
 
 export default function Index() {
   const {
-    state: { show, filter },
+    dispatch,
+    state: {
+      show,
+      filter,
+      web3: { address },
+    },
   } = useContext(GlobalContext);
-  const web3ReactContext = useWeb3React();
-  const { account } = web3ReactContext;
+
+  // Ensure all elements have access to web3Modal
+  useEffect(() => {
+    let web3Modal: Web3Modal;
+    if (typeof window !== "undefined") {
+      web3Modal = new Web3Modal({
+        network: "mainnet",
+        cacheProvider: true,
+        providerOptions,
+      });
+    }
+
+    // Auto-connect from cached data
+    if (web3Modal.cachedProvider) {
+      connect(web3Modal, dispatch);
+    }
+
+    dispatch({
+      type: "UPDATE_WEB3",
+      payload: {
+        web3Modal,
+      },
+    });
+  }, []);
 
   // Get info about all minted items
   const mintedItemsInfo = useGetItems();
@@ -121,7 +160,7 @@ export default function Index() {
                 } else if (show === "OWNED") {
                   // Only show items owner by the current account
                   return mintedItem &&
-                    mintedItem.owner === account.toLowerCase()
+                    mintedItem.owner === address.toLowerCase()
                     ? renderedItem
                     : null;
                 }

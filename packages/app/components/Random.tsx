@@ -1,18 +1,22 @@
-import { useWeb3React } from "@web3-react/core";
 import _ from "lodash";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { mintItems } from "src/actions";
 
 import colors from "data/colors.json";
 import objects from "data/objects.json";
+import { GlobalContext } from "context/GlobalState";
+import { connect } from "./ConnectWeb3";
 
 type Props = {
   mintedItems: { [item: string]: any };
 };
 
 const Random = ({ mintedItems }: Props) => {
-  const { account, library } = useWeb3React();
+  const { state, dispatch } = useContext(GlobalContext);
+  const {
+    web3: { web3Provider, web3Modal },
+  } = state;
   const [count, setCount] = useState(1);
 
   return (
@@ -21,37 +25,36 @@ const Random = ({ mintedItems }: Props) => {
         type="button"
         className="lg:float-right items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         onClick={async () => {
-          if (!account || !library) {
-            alert("Wallet not connected");
-            return;
-          }
-
-          let allItems = [];
-          for (const color of colors) {
-            for (const object of objects) {
-              allItems.push({ color, object });
+          if (!web3Provider) {
+            connect(web3Modal, dispatch);
+          } else {
+            let allItems = [];
+            for (const color of colors) {
+              for (const object of objects) {
+                allItems.push({ color, object });
+              }
             }
-          }
-          allItems = _.shuffle(allItems);
+            allItems = _.shuffle(allItems);
 
-          const numAvailable =
-            allItems.length - Object.keys(mintedItems).length;
-          if (count > numAvailable) {
-            alert("Not enough available items");
-            return;
-          }
-
-          const itemsToMint = [];
-          for (const item of allItems) {
-            if (!mintedItems[item.color + item.object]) {
-              itemsToMint.push(item);
+            const numAvailable =
+              allItems.length - Object.keys(mintedItems).length;
+            if (count > numAvailable) {
+              alert("Not enough available items");
+              return;
             }
-            if (itemsToMint.length === count) {
-              break;
-            }
-          }
 
-          await mintItems(library.getSigner(account), itemsToMint);
+            const itemsToMint = [];
+            for (const item of allItems) {
+              if (!mintedItems[item.color + item.object]) {
+                itemsToMint.push(item);
+              }
+              if (itemsToMint.length === count) {
+                break;
+              }
+            }
+
+            await mintItems(web3Provider.getSigner(), itemsToMint);
+          }
         }}
       >
         Mint

@@ -1,4 +1,5 @@
 import React from "react";
+import Web3Modal from "web3modal";
 
 export type GlobalContextType = {
   state: State;
@@ -10,6 +11,7 @@ export interface IWeb3 {
   chainId?: number;
   provider?: any;
   web3Provider?: any;
+  web3Modal?: Web3Modal;
 }
 
 export type State = {
