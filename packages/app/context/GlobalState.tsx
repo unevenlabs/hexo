@@ -7,6 +7,9 @@ const initialState: State = {
   filter: "",
   color: "black",
   web3: {},
+  mintedItems: {},
+  items: [],
+  filteredItems: [],
 };
 
 export const GlobalContext = createContext<GlobalContextType>({

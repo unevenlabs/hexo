@@ -14,11 +14,24 @@ export interface IWeb3 {
   web3Modal?: Web3Modal;
 }
 
+export interface Item {
+  color: string;
+  object: string;
+  data: {
+    generation: number | undefined;
+    customImageURI: string | undefined;
+    owner: string | undefined;
+  };
+}
+
 export type State = {
   show: "ALL" | "AVAILABLE" | "OWNED";
   filter: string;
   color: string;
   web3: IWeb3;
+  mintedItems: {};
+  items: Item[];
+  filteredItems: Item[];
 };
 
 export type Actions = {
@@ -27,7 +40,9 @@ export type Actions = {
     | "FILTER"
     | "UPDATE_COLOR"
     | "UPDATE_WEB3"
-    | "RESET_WEB3";
+    | "RESET_WEB3"
+    | "UPDATE_MINTED_ITEMS"
+    | "UPDATE_ITEMS";
   payload?: any;
   showPayload?: State["show"];
 };

@@ -1,11 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-
+import { useContext, useEffect } from "react";
 import { useGetItems } from "src/hooks/items";
-
-import colors from "data/colors.json";
-import objects from "data/objects.json";
-
-import Item from "components/Item";
 import Stats from "components/Stats";
 import Hero from "components/Hero";
 import HeroImages from "components/HeroImages";
@@ -18,6 +12,9 @@ import Filter from "components/Filter";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { connect } from "components/ConnectWeb3";
+import Item from "components/Item";
+import colors from "data/colors.json";
+import objects from "data/objects.json";
 
 const providerOptions = {
   // Add walletconnect "plug-in"
@@ -31,12 +28,8 @@ const providerOptions = {
 
 export default function Index() {
   const {
+    state: { mintedItems, items, filter },
     dispatch,
-    state: {
-      show,
-      filter,
-      web3: { address },
-    },
   } = useContext(GlobalContext);
 
   // Ensure all elements have access to web3Modal
@@ -65,25 +58,34 @@ export default function Index() {
 
   // Get info about all minted items
   const mintedItemsInfo = useGetItems();
-  const [mintedItems, setMintedItems] = useState({} as any);
+
   useEffect(() => {
     if (mintedItemsInfo?.data?.items) {
       const localMintedItems = {};
-      for (const item of mintedItemsInfo.data.items) {
-        localMintedItems[item.color + item.object] = {
-          color: item.color,
-          object: item.object,
-          generation: item.generation,
-          customImageURI: item.customImageURI,
-          owner: item.owner,
-        };
-      }
-      setMintedItems(localMintedItems);
+      mintedItemsInfo.data.items.forEach((item) => {
+        let data = { ...item };
+        delete data.__typename;
+        delete data.id;
+        localMintedItems[`${item.color}${item.object}`] = data;
+      });
+
+      dispatch({ type: "UPDATE_MINTED_ITEMS", payload: localMintedItems });
+
+      const items = colors.map((color) => {
+        return objects.slice(0, 2).map((object) => {
+          const data = mintedItems[`${color}${object}`] || null;
+
+          return {
+            color,
+            object,
+            data,
+          };
+        });
+      });
+
+      dispatch({ type: "UPDATE_ITEMS", payload: items.flat() });
     }
   }, [mintedItemsInfo]);
-
-  // Filters for items
-  const [selectedColor, setselectedColor] = useState("black");
 
   return (
     <div className="relative bg-gray-50">
@@ -107,67 +109,14 @@ export default function Index() {
             <Random mintedItems={mintedItems} />
           </div>
 
-          <label className="sr-only" htmlFor="color">
-            Select Color
-          </label>
-          <select
-            id="color"
-            name="color"
-            onChange={(e) => setselectedColor(e.target.value)}
-          >
-            <option defaultValue="" disabled>
-              Choose a color
-            </option>
-            {colors.map((color) => (
-              <option key={color} value={color} className="capitalize">
-                {color}
-              </option>
-            ))}
-          </select>
-
-          {/* Show items */}
-          <div>
-            <dl className="mt-16">
-              {objects.map((object) => {
-                // First, check if the item was minted
-                const mintedItem = mintedItems[selectedColor + object];
-                const renderedItem = (
-                  <Item
-                    key={selectedColor + object}
-                    color={selectedColor}
-                    object={object}
-                    generation={mintedItem?.generation}
-                    customImageURI={mintedItem?.customImageURI}
-                    owner={mintedItem?.owner}
-                  />
-                );
-
-                // If name filtering is on, prioritize it
-                if (
-                  filter !== "" &&
-                  !(selectedColor + object).includes(filter)
-                ) {
-                  return null;
-                }
-
-                if (show === "ALL") {
-                  // Show all items
-                  return renderedItem;
-                } else if (show === "AVAILABLE") {
-                  // Only show items that were not yet minted
-                  return !mintedItem ? renderedItem : null;
-                } else if (show === "OWNED") {
-                  // Only show items owner by the current account
-                  return mintedItem &&
-                    mintedItem.owner === address.toLowerCase()
-                    ? renderedItem
-                    : null;
-                }
-
-                return null;
-              })}
-            </dl>
-          </div>
+          {items.map(({ color, object, data }) => (
+            <Item
+              key={`${color}${object}`}
+              color={color}
+              object={object}
+              data={data}
+            />
+          ))}
         </div>
       </div>
     </div>

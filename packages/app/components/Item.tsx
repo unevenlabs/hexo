@@ -15,25 +15,22 @@ import { connect } from "./ConnectWeb3";
 type ItemProps = {
   color: string;
   object: string;
-  generation: number | undefined;
-  customImageURI: string | undefined;
-  owner: string | undefined;
+  data: {
+    generation: number;
+    customImageURI: string;
+    owner: string;
+  } | null;
 };
 
-export default function Item({
-  color,
-  object,
-  generation,
-  customImageURI,
-  owner,
-}: ItemProps) {
+export default function Item({ color, object, data }: ItemProps) {
   const { state, dispatch } = useContext(GlobalContext);
   const {
     web3: { web3Provider, web3Modal, address },
   } = state;
   const [open, setOpen] = useState(false);
+
   const [newCustomImageURI, setNewCustomImageURI] = useState(
-    customImageURI || `images/${color}/${object}.svg`
+    (!!data && data.customImageURI) || `images/${color}/${object}.svg`
   );
 
   return (
@@ -98,9 +95,7 @@ export default function Item({
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-w-2 aspect-h-2 rounded-lg bg-gray-100 overflow-hidden ">
                         <img
-                          src={
-                            customImageURI || `images/${color}/${object}.svg`
-                          }
+                          src={newCustomImageURI}
                           alt={`${color}-${object}`}
                           className="object-center object-cover"
                         />
@@ -116,7 +111,7 @@ export default function Item({
                       </p>
                       <p className="text-2xl text-gray-900">0.01 ETH</p>
 
-                      {!owner && (
+                      {!!data && !data.owner && (
                         <button
                           className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           onClick={async () => {
@@ -133,32 +128,36 @@ export default function Item({
                         </button>
                       )}
                       <div className="mt-5">
-                        {generation !== undefined && (
-                          <p className="text-sm text-gray-700">
-                            Generation: {generation + 1}
-                          </p>
+                        {!!data && (
+                          <>
+                            {!!data.generation && (
+                              <p className="text-sm text-gray-700">
+                                Generation: {data.generation + 1}
+                              </p>
+                            )}
+                            {data.owner && (
+                              <p className="text-sm text-gray-700">
+                                Owner: {data.owner}
+                              </p>
+                            )}
+                            <p className="text-sm text-gray-700">
+                              Links:{" "}
+                              <a
+                                href="#"
+                                className="text-indigo-600 hover:text-indigo-500 mr-2"
+                              >
+                                OpenSea
+                              </a>
+                              |{" "}
+                              <a
+                                href="#"
+                                className="text-indigo-600 hover:text-indigo-500 ml-1"
+                              >
+                                Etherscan
+                              </a>
+                            </p>
+                          </>
                         )}
-                        {owner && (
-                          <p className="text-sm text-gray-700">
-                            Owner: {owner}
-                          </p>
-                        )}
-                        <p className="text-sm text-gray-700">
-                          Links:{" "}
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-500 mr-2"
-                          >
-                            OpenSea
-                          </a>
-                          |{" "}
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-500 ml-1"
-                          >
-                            Etherscan
-                          </a>
-                        </p>
                       </div>
 
                       <div className="mt-3">
@@ -174,9 +173,10 @@ export default function Item({
                                 connect(web3Modal, dispatch);
                               } else {
                                 if (
-                                  !owner ||
+                                  !data.owner ||
                                   !address ||
-                                  owner.toLowerCase() !== address.toLowerCase()
+                                  data.owner.toLowerCase() !==
+                                    address.toLowerCase()
                                 ) {
                                   alert("You are not the owner");
                                   return;
@@ -226,9 +226,10 @@ export default function Item({
                                 connect(web3Modal, dispatch);
                               } else {
                                 if (
-                                  !owner ||
+                                  !data.owner ||
                                   !address ||
-                                  owner.toLowerCase() !== address.toLowerCase()
+                                  data.owner.toLowerCase() !==
+                                    address.toLowerCase()
                                 ) {
                                   alert("You are not the owner");
                                   return;
@@ -268,9 +269,9 @@ export default function Item({
                                   connect(web3Modal, dispatch);
                                 } else {
                                   if (
-                                    !owner ||
+                                    !data.owner ||
                                     !address ||
-                                    owner.toLowerCase() !==
+                                    data.owner.toLowerCase() !==
                                       address.toLowerCase()
                                   ) {
                                     alert("You are not the owner");
