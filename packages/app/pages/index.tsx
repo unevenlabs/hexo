@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useGetItems } from "src/hooks/items";
 import Stats from "components/Stats";
 import Hero from "components/Hero";
@@ -15,6 +15,10 @@ import { connect } from "components/ConnectWeb3";
 import Item from "components/Item";
 import colors from "data/colors.json";
 import objects from "data/objects.json";
+
+const NotFound = ({ children }: { children: React.ReactNode }) => (
+  <p className="w-full text-center font-semibold">{children}</p>
+);
 
 const providerOptions = {
   // Add walletconnect "plug-in"
@@ -112,7 +116,7 @@ export default function Index() {
 
       <div className="bg-white" id="browse">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row flex-wrap">
+          <div className="flex flex-col lg:flex-row flex-wrap mb-4">
             <ShowSelector />
 
             <Filter />
@@ -120,8 +124,50 @@ export default function Index() {
             <Random mintedItems={mintedItems} />
           </div>
 
-          {filter !== ""
-            ? filteredItems.map(({ color, object, data }) => (
+          <div className="flex flex-wrap pt-5 pb-9">
+            {filter !== "" ? (
+              filteredItems.length === 0 ? (
+                <NotFound>No items found</NotFound>
+              ) : (
+                filteredItems.map(({ color, object, data }) => (
+                  <Item
+                    key={`${color}${object}`}
+                    color={color}
+                    object={object}
+                    data={data}
+                  />
+                ))
+              )
+            ) : show === "AVAILABLE" ? (
+              availableItems.length === 0 ? (
+                <NotFound>No available items found</NotFound>
+              ) : (
+                availableItems.map(({ color, object, data }) => (
+                  <Item
+                    key={`${color}${object}`}
+                    color={color}
+                    object={object}
+                    data={data}
+                  />
+                ))
+              )
+            ) : show === "OWNED" ? (
+              ownedItems.length === 0 ? (
+                <NotFound>No owned items found</NotFound>
+              ) : (
+                ownedItems.map(({ color, object, data }) => (
+                  <Item
+                    key={`${color}${object}`}
+                    color={color}
+                    object={object}
+                    data={data}
+                  />
+                ))
+              )
+            ) : items.length === 0 ? (
+              <NotFound>No items found</NotFound>
+            ) : (
+              items.map(({ color, object, data }) => (
                 <Item
                   key={`${color}${object}`}
                   color={color}
@@ -129,32 +175,8 @@ export default function Index() {
                   data={data}
                 />
               ))
-            : show === "AVAILABLE"
-            ? availableItems.map(({ color, object, data }) => (
-                <Item
-                  key={`${color}${object}`}
-                  color={color}
-                  object={object}
-                  data={data}
-                />
-              ))
-            : show === "OWNED"
-            ? ownedItems.map(({ color, object, data }) => (
-                <Item
-                  key={`${color}${object}`}
-                  color={color}
-                  object={object}
-                  data={data}
-                />
-              ))
-            : items.map(({ color, object, data }) => (
-                <Item
-                  key={`${color}${object}`}
-                  color={color}
-                  object={object}
-                  data={data}
-                />
-              ))}
+            )}
+          </div>
         </div>
       </div>
     </div>
