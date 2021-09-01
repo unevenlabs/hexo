@@ -1,16 +1,26 @@
-import { Actions, State } from '../interfaces/context'
+import { Actions, State } from "interfaces/context";
 
 const AppReducer = (state: State, action: Actions) => {
   switch (action.type) {
-    case 'UPDATE_SHOW':
-      return { ...state, show: action.showPayload }
-    case 'UPDATE_COLOR':
-      return { ...state, color: action.payload }
-    case 'FILTER':
-      return { ...state, filter: action.payload }
+    case "UPDATE_SHOW":
+      return { ...state, show: action.showPayload };
+    case "UPDATE_COLOR":
+      return { ...state, color: action.payload };
+    case "FILTER":
+      return { ...state, filter: action.payload };
+    case "UPDATE_WEB3":
+      return {
+        ...state,
+        web3: {
+          ...state.web3,
+          ...action.payload,
+        },
+      };
+    case "RESET_WEB3":
+      return { ...state, web3: {} };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default AppReducer
+export default AppReducer;

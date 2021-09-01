@@ -1,13 +1,9 @@
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { useWeb3React } from "@web3-react/core";
 import { Fragment } from "react";
-import { activateConnector, injected } from "src/connectors";
+import ConnectWeb3 from "./ConnectWeb3";
 
 const Navbar = () => {
-  const web3ReactContext = useWeb3React();
-  const { account, active, chainId } = web3ReactContext;
-
   return (
     <Popover className="relative bg-white shadow">
       {({ open }) => (
@@ -56,23 +52,7 @@ const Navbar = () => {
               </div>
 
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                {active ? (
-                  <>
-                    <span>
-                      ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
-                      {account.slice(0, 6) + "..." + account.slice(-4, -1)}
-                    </span>
-                  </>
-                ) : (
-                  <button
-                    className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                    onClick={() =>
-                      activateConnector(web3ReactContext, injected)
-                    }
-                  >
-                    Connect Wallet
-                  </button>
-                )}
+                <ConnectWeb3 />
               </div>
             </div>
           </div>
@@ -134,23 +114,7 @@ const Navbar = () => {
                     </a>
                   </div>
                   <div>
-                    {active ? (
-                      <>
-                        <span>
-                          ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
-                          {account.slice(0, 6) + "..." + account.slice(-4, -1)}
-                        </span>
-                      </>
-                    ) : (
-                      <button
-                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                        onClick={() =>
-                          activateConnector(web3ReactContext, injected)
-                        }
-                      >
-                        Connect Wallet
-                      </button>
-                    )}
+                    <ConnectWeb3 />
                   </div>
                 </div>
               </div>

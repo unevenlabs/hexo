@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Secrets
+.env
 .env.local
 .env.development.local
 .env.test.local
