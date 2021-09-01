@@ -47,12 +47,12 @@ const AppReducer = (state: State, action: Actions) => {
       return { ...state, mintedItems: action.payload };
     case "UPDATE_ITEMS":
       const items = action.payload;
-      const availableItems = items.filter(({ data }) => data === null);
-      const ownedItems = items.filter(
-        ({ data }) =>
-          !!data &&
-          data.owner.toLowerCase() === state.web3.address.toLowerCase()
+      const availableItems = items.filter(
+        ({ data: { owner } }) => owner === null
       );
+      const ownedItems = items.filter(({ data: { owner } }) => {
+        !!owner && owner.toLowerCase() === state.web3.address.toLowerCase();
+      });
       return { ...state, items, availableItems, ownedItems };
     default:
       return state;

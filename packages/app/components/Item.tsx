@@ -1,15 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { GlobalContext } from "context/GlobalState";
-import { Fragment, useContext, useState } from "react";
-
+import { Actions, State } from "interfaces/context";
+import { Dispatch, Fragment, useContext, useState } from "react";
 import {
   claimSubdomains,
   mintItems,
   setCustomImageURI,
   setReverseRecord,
 } from "src/actions";
-import { capitalize } from "src/utils";
 import { connect } from "./ConnectWeb3";
 
 type ItemProps = {
@@ -22,11 +21,110 @@ type ItemProps = {
   } | null;
 };
 
-export default function Item({ color, object, data }: ItemProps) {
-  const { state, dispatch } = useContext(GlobalContext);
+async function setEnsResolver(
+  itemProps: ItemProps,
+  state: State,
+  dispatch: Dispatch<Actions>
+) {
   const {
     web3: { web3Provider, web3Modal, address },
   } = state;
+  const {
+    color,
+    object,
+    data: { owner },
+  } = itemProps;
+
+  if (!web3Provider) {
+    connect(web3Modal, dispatch);
+  } else {
+    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
+      alert("You are not the owner");
+    } else {
+      await claimSubdomains(web3Provider.getSigner(), [{ color, object }]);
+    }
+  }
+}
+
+async function mint(
+  itemProps: ItemProps,
+  state: State,
+  dispatch: Dispatch<Actions>
+) {
+  const {
+    web3: { web3Provider, web3Modal },
+  } = state;
+  const { color, object } = itemProps;
+
+  if (!web3Provider) {
+    connect(web3Modal, dispatch);
+  } else {
+    await mintItems(web3Provider.getSigner(), [{ color, object }]);
+  }
+}
+
+async function reserveRecord(
+  itemProps: ItemProps,
+  state: State,
+  dispatch: Dispatch<Actions>
+) {
+  const {
+    web3: { web3Provider, web3Modal, address },
+  } = state;
+  const {
+    color,
+    object,
+    data: { owner },
+  } = itemProps;
+
+  if (!web3Provider) {
+    connect(web3Modal, dispatch);
+  } else {
+    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
+      alert("You are not the owner");
+    } else {
+      await setReverseRecord(web3Provider.getSigner(), {
+        color,
+        object,
+      });
+    }
+  }
+}
+
+async function setEns(
+  itemProps: ItemProps,
+  state: State,
+  dispatch: Dispatch<Actions>,
+  newCustomImageURI: string
+) {
+  const {
+    web3: { web3Provider, web3Modal, address },
+  } = state;
+  const {
+    color,
+    object,
+    data: { owner },
+  } = itemProps;
+
+  if (!web3Provider) {
+    connect(web3Modal, dispatch);
+  } else {
+    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
+      alert("You are not the owner");
+    } else {
+      await setCustomImageURI(
+        web3Provider.getSigner(),
+        { color, object },
+        newCustomImageURI
+      );
+    }
+  }
+}
+
+export default function Item({ itemProps }: { itemProps: ItemProps }) {
+  const { state, dispatch } = useContext(GlobalContext);
+  const { color, object, data } = itemProps;
+
   const [open, setOpen] = useState(false);
 
   const [newCustomImageURI, setNewCustomImageURI] = useState(
@@ -103,8 +201,8 @@ export default function Item({ color, object, data }: ItemProps) {
                     </div>
 
                     <div className="sm:col-span-8 lg:col-span-7">
-                      <h2 className="text-2xl font-extrabold text-gray-900 sm:pr-12">
-                        {`${capitalize(color)} ${capitalize(object)}`}
+                      <h2 className="capitalize text-2xl font-extrabold text-gray-900 sm:pr-12">
+                        {`${color} ${object}`}
                       </h2>
                       <p className="text-gray-500">
                         {`${color}${object}.hexo.eth`}
@@ -114,15 +212,7 @@ export default function Item({ color, object, data }: ItemProps) {
                       {!!data && !data.owner && (
                         <button
                           className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          onClick={async () => {
-                            if (!web3Provider) {
-                              connect(web3Modal, dispatch);
-                            }
-
-                            await mintItems(web3Provider.getSigner(), [
-                              { color, object },
-                            ]);
-                          }}
+                          onClick={async () => mint(itemProps, state, dispatch)}
                         >
                           Mint
                         </button>
@@ -130,7 +220,7 @@ export default function Item({ color, object, data }: ItemProps) {
                       <div className="mt-5">
                         {!!data && (
                           <>
-                            {!!data.generation && (
+                            {data.generation && (
                               <p className="text-sm text-gray-700">
                                 Generation: {data.generation + 1}
                               </p>
@@ -161,89 +251,25 @@ export default function Item({ color, object, data }: ItemProps) {
                       </div>
 
                       <div className="mt-3">
-                        <span className="mr-2 text-sm  text-gray-700">
-                          Set ENS:{" "}
+                        <span className="mr-2 text-sm text-gray-700">
+                          Set ENS:
                         </span>
                         <span className="relative z-0 inline-flex shadow-sm rounded-md">
                           <button
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                            onClick={async () => {
-                              if (!web3Provider) {
-                                connect(web3Modal, dispatch);
-                              } else {
-                                if (
-                                  !data.owner ||
-                                  !address ||
-                                  data.owner.toLowerCase() !==
-                                    address.toLowerCase()
-                                ) {
-                                  alert("You are not the owner");
-                                  return;
-                                }
-
-                                await claimSubdomains(
-                                  web3Provider.getSigner(),
-                                  [{ color, object }]
-                                );
-                              }
-                            }}
+                            onClick={async () =>
+                              setEnsResolver(itemProps, state, dispatch)
+                            }
                           >
                             Resolver
                           </button>
-                          {/* <button
-                            type="button"
-                            className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                            onClick={async () => {
-                              if (!account || !library) {
-                                return alert("Wallet not connected");
-                              }
-
-                              if (
-                                !owner ||
-                                !account ||
-                                owner.toLowerCase() !== account.toLowerCase()
-                              ) {
-                                alert("You are not the owner");
-                                return;
-                              }
-
-                              await setAvatar(
-                                library.getSigner(account),
-                                { color, object },
-                                // TODO: This should be set from the UI
-                                "https://custom-url"
-                              );
-                            }}
-                          >
-                            Avatar
-                          </button> */}
                           <button
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                            onClick={async () => {
-                              if (!web3Provider) {
-                                connect(web3Modal, dispatch);
-                              } else {
-                                if (
-                                  !data.owner ||
-                                  !address ||
-                                  data.owner.toLowerCase() !==
-                                    address.toLowerCase()
-                                ) {
-                                  alert("You are not the owner");
-                                  return;
-                                }
-
-                                await setReverseRecord(
-                                  web3Provider.getSigner(),
-                                  {
-                                    color,
-                                    object,
-                                  }
-                                );
-                              }
-                            }}
+                            onClick={async () =>
+                              reserveRecord(itemProps, state, dispatch)
+                            }
                           >
                             Reverse Record
                           </button>
@@ -264,27 +290,14 @@ export default function Item({ color, object, data }: ItemProps) {
                             <button
                               type="button"
                               className="w-1/6 lg:float-right items-center rounded-md px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                              onClick={async () => {
-                                if (!web3Provider) {
-                                  connect(web3Modal, dispatch);
-                                } else {
-                                  if (
-                                    !data.owner ||
-                                    !address ||
-                                    data.owner.toLowerCase() !==
-                                      address.toLowerCase()
-                                  ) {
-                                    alert("You are not the owner");
-                                    return;
-                                  }
-
-                                  await setCustomImageURI(
-                                    web3Provider.getSigner(),
-                                    { color, object },
-                                    newCustomImageURI
-                                  );
-                                }
-                              }}
+                              onClick={async () =>
+                                setEns(
+                                  itemProps,
+                                  state,
+                                  dispatch,
+                                  newCustomImageURI
+                                )
+                              }
                             >
                               Set
                             </button>

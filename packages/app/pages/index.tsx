@@ -88,7 +88,13 @@ export default function Index() {
 
       const items = objects.map((object) => {
         return colors.map((color) => {
-          const data = mintedItems[`${color}${object}`] || null;
+          const data = mintedItems[`${color}${object}`] || {
+            color: null,
+            customImageURI: null,
+            generation: null,
+            object: null,
+            owner: null,
+          };
 
           return {
             color,
@@ -131,12 +137,10 @@ export default function Index() {
               ) : (
                 filteredItems
                   .slice(0, 40)
-                  .map(({ color, object, data }) => (
+                  .map((data) => (
                     <Item
-                      key={`${color}${object}`}
-                      color={color}
-                      object={object}
-                      data={data}
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
                     />
                   ))
               )
@@ -146,12 +150,10 @@ export default function Index() {
               ) : (
                 availableItems
                   .slice(0, 40)
-                  .map(({ color, object, data }) => (
+                  .map((data) => (
                     <Item
-                      key={`${color}${object}`}
-                      color={color}
-                      object={object}
-                      data={data}
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
                     />
                   ))
               )
@@ -161,12 +163,10 @@ export default function Index() {
               ) : (
                 ownedItems
                   .slice(0, 40)
-                  .map(({ color, object, data }) => (
+                  .map((data) => (
                     <Item
-                      key={`${color}${object}`}
-                      color={color}
-                      object={object}
-                      data={data}
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
                     />
                   ))
               )
@@ -175,13 +175,8 @@ export default function Index() {
             ) : (
               items
                 .slice(0, 40)
-                .map(({ color, object, data }) => (
-                  <Item
-                    key={`${color}${object}`}
-                    color={color}
-                    object={object}
-                    data={data}
-                  />
+                .map((data) => (
+                  <Item key={`${data.color}${data.object}`} itemProps={data} />
                 ))
             )}
           </div>
