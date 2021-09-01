@@ -48,11 +48,19 @@ const ConnectWeb3 = () => {
   // Listen to user events
   useEffect(() => {
     if (!!provider?.on) {
-      const handleAccountsChanged = (accounts: string[]) =>
-        dispatch({
-          type: "UPDATE_WEB3",
-          payload: { address: accounts[0] },
-        });
+      const handleAccountsChanged = (accounts: string[]) => {
+        // Apparently, Metamask does not emmit a disconnect event
+        // when disconnecting an account, but instead emits an empty
+        // accounts array. Use it to disconnect properly
+        if (accounts.length === 0) {
+          disconnect(web3Modal, provider, dispatch);
+        } else {
+          dispatch({
+            type: "UPDATE_WEB3",
+            payload: { address: accounts[0] },
+          });
+        }
+      };
 
       const handleChainChanged = (chainId: string) =>
         dispatch({
@@ -75,7 +83,7 @@ const ConnectWeb3 = () => {
         }
       };
     }
-  }, [provider, disconnect]);
+  }, [provider]);
 
   return (
     <Fragment>
