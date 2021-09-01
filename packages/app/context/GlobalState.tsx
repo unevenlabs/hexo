@@ -10,6 +10,8 @@ const initialState: State = {
   mintedItems: {},
   items: [],
   filteredItems: [],
+  availableItems: [],
+  ownedItems: [],
 };
 
 export const GlobalContext = createContext<GlobalContextType>({

@@ -32,6 +32,8 @@ export type State = {
   mintedItems: {};
   items: Item[];
   filteredItems: Item[];
+  availableItems: Item[];
+  ownedItems: Item[];
 };
 
 export type Actions = {

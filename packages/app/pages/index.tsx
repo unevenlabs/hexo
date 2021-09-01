@@ -28,7 +28,15 @@ const providerOptions = {
 
 export default function Index() {
   const {
-    state: { mintedItems, items, filter },
+    state: {
+      mintedItems,
+      items,
+      availableItems,
+      ownedItems,
+      filter,
+      show,
+      filteredItems,
+    },
     dispatch,
   } = useContext(GlobalContext);
 
@@ -109,14 +117,41 @@ export default function Index() {
             <Random mintedItems={mintedItems} />
           </div>
 
-          {items.map(({ color, object, data }) => (
-            <Item
-              key={`${color}${object}`}
-              color={color}
-              object={object}
-              data={data}
-            />
-          ))}
+          {filter !== ""
+            ? filteredItems.map(({ color, object, data }) => (
+                <Item
+                  key={`${color}${object}`}
+                  color={color}
+                  object={object}
+                  data={data}
+                />
+              ))
+            : show === "AVAILABLE"
+            ? availableItems.map(({ color, object, data }) => (
+                <Item
+                  key={`${color}${object}`}
+                  color={color}
+                  object={object}
+                  data={data}
+                />
+              ))
+            : show === "OWNED"
+            ? ownedItems.map(({ color, object, data }) => (
+                <Item
+                  key={`${color}${object}`}
+                  color={color}
+                  object={object}
+                  data={data}
+                />
+              ))
+            : items.map(({ color, object, data }) => (
+                <Item
+                  key={`${color}${object}`}
+                  color={color}
+                  object={object}
+                  data={data}
+                />
+              ))}
         </div>
       </div>
     </div>

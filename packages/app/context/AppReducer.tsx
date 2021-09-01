@@ -7,7 +7,16 @@ const AppReducer = (state: State, action: Actions) => {
     case "UPDATE_COLOR":
       return { ...state, color: action.payload };
     case "FILTER":
-      return { ...state, filter: action.payload };
+      if (action.payload !== "") {
+        // TODO: use better filtering with npm package
+        const filteredItems = state.items.filter(
+          (item) =>
+            item.color.includes(action.payload) ||
+            item.object.includes(action.payload)
+        );
+        return { ...state, filter: action.payload, filteredItems };
+      }
+      return { ...state, filter: action.payload, filteredItems: [] };
     case "UPDATE_WEB3":
       return {
         ...state,
@@ -22,7 +31,14 @@ const AppReducer = (state: State, action: Actions) => {
     case "UPDATE_MINTED_ITEMS":
       return { ...state, mintedItems: action.payload };
     case "UPDATE_ITEMS":
-      return { ...state, items: action.payload };
+      const items = action.payload;
+      const availableItems = items.filter(({ data }) => data === null);
+      const ownedItems = items.filter(
+        ({ data }) =>
+          !!data &&
+          data.owner.toLowerCase() === state.web3.address.toLowerCase()
+      );
+      return { ...state, items, availableItems, ownedItems };
     default:
       return state;
   }
