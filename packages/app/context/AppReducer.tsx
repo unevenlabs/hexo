@@ -3,7 +3,10 @@ import { Actions, Item, State } from "interfaces/context";
 // TODO: use better filtering with npm package
 function filterItems(items: Item[], filter: string) {
   return items.filter(
-    (item) => item.color.includes(filter) || item.object.includes(filter)
+    ({ color, object }) =>
+      color.includes(filter) ||
+      object.includes(filter) ||
+      `${color}${object}`.includes(filter)
   );
 }
 

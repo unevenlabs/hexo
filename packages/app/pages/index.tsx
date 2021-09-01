@@ -86,8 +86,8 @@ export default function Index() {
 
       dispatch({ type: "UPDATE_MINTED_ITEMS", payload: localMintedItems });
 
-      const items = colors.map((color) => {
-        return objects.slice(0, 2).map((object) => {
+      const items = objects.map((object) => {
+        return colors.map((color) => {
           const data = mintedItems[`${color}${object}`] || null;
 
           return {
@@ -129,33 +129,53 @@ export default function Index() {
               filteredItems.length === 0 ? (
                 <NotFound>No items found</NotFound>
               ) : (
-                filteredItems.map(({ color, object, data }) => (
-                  <Item
-                    key={`${color}${object}`}
-                    color={color}
-                    object={object}
-                    data={data}
-                  />
-                ))
+                filteredItems
+                  .slice(0, 40)
+                  .map(({ color, object, data }) => (
+                    <Item
+                      key={`${color}${object}`}
+                      color={color}
+                      object={object}
+                      data={data}
+                    />
+                  ))
               )
             ) : show === "AVAILABLE" ? (
               availableItems.length === 0 ? (
                 <NotFound>No available items found</NotFound>
               ) : (
-                availableItems.map(({ color, object, data }) => (
-                  <Item
-                    key={`${color}${object}`}
-                    color={color}
-                    object={object}
-                    data={data}
-                  />
-                ))
+                availableItems
+                  .slice(0, 40)
+                  .map(({ color, object, data }) => (
+                    <Item
+                      key={`${color}${object}`}
+                      color={color}
+                      object={object}
+                      data={data}
+                    />
+                  ))
               )
             ) : show === "OWNED" ? (
               ownedItems.length === 0 ? (
                 <NotFound>No owned items found</NotFound>
               ) : (
-                ownedItems.map(({ color, object, data }) => (
+                ownedItems
+                  .slice(0, 40)
+                  .map(({ color, object, data }) => (
+                    <Item
+                      key={`${color}${object}`}
+                      color={color}
+                      object={object}
+                      data={data}
+                    />
+                  ))
+              )
+            ) : items.length === 0 ? (
+              <NotFound>No items found</NotFound>
+            ) : (
+              items
+                .slice(0, 40)
+                .map(({ color, object, data }) => (
                   <Item
                     key={`${color}${object}`}
                     color={color}
@@ -163,18 +183,6 @@ export default function Index() {
                     data={data}
                   />
                 ))
-              )
-            ) : items.length === 0 ? (
-              <NotFound>No items found</NotFound>
-            ) : (
-              items.map(({ color, object, data }) => (
-                <Item
-                  key={`${color}${object}`}
-                  color={color}
-                  object={object}
-                  data={data}
-                />
-              ))
             )}
           </div>
         </div>
