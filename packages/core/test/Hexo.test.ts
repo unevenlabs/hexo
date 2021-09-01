@@ -119,13 +119,13 @@ describe("Hexo", () => {
         hexo
           .connect(alice)
           .mintItems(["red"], ["dragon"], { value: price.sub(1) })
-      ).to.be.revertedWith("Insufficient amount");
+      ).to.be.revertedWith("Incorrect amount");
 
       await expect(
         hexo.connect(alice).mintItems(["red", "green"], ["dragon", "turtle"], {
           value: price.mul(2).sub(1),
         })
-      ).to.be.revertedWith("Insufficient amount");
+      ).to.be.revertedWith("Incorrect amount");
     });
 
     it("cannot mint the same item twice", async () => {
@@ -330,10 +330,31 @@ describe("Hexo", () => {
 
       await expect(
         hexo.connect(alice).mintItems(["red"], ["dragon"], { value: oldPrice })
-      ).to.be.revertedWith("Insufficient amount");
+      ).to.be.revertedWith("Incorrect amount");
       await hexo
         .connect(alice)
         .mintItems(["red"], ["dragon"], { value: newPrice });
+    });
+
+    it("change inappropriate custom image URIs", async () => {
+      await hexo.connect(alice).mintItems(["red"], ["dragon"], {
+        value: price,
+      });
+
+      const reddragonId = BigNumber.from(id("reddragon"));
+
+      const customImageURI = "https://inappropriate-image-uri";
+      await hexo.connect(alice).setCustomImageURI(reddragonId, customImageURI);
+      await hexo.connect(deployer).setCustomImageURI(reddragonId, "");
+
+      const reddragonMetadata = JSON.parse(
+        await hexo
+          .tokenURI(reddragonId)
+          .then((encoded: string) =>
+            Buffer.from(encoded.split(",")[1], "base64").toString()
+          )
+      );
+      expect(reddragonMetadata.image).to.be.equal(baseImageURI + reddragonId);
     });
   });
 

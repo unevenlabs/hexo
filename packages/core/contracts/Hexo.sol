@@ -119,7 +119,7 @@ contract Hexo is ERC721Enumerable, Ownable {
         payable
     {
         require(_colors.length == _objects.length, "Invalid input");
-        require(msg.value == price * _colors.length, "Insufficient amount");
+        require(msg.value == price * _colors.length, "Incorrect amount");
 
         for (uint256 i = 0; i < _colors.length; i++) {
             require(colors[keccak256(bytes(_colors[i]))], "Color not added");
@@ -189,7 +189,10 @@ contract Hexo is ERC721Enumerable, Ownable {
         uint256 _tokenId,
         string calldata _customImageURI
     ) external {
-        require(msg.sender == ownerOf(_tokenId), "Unauthorized");
+        require(
+            msg.sender == ownerOf(_tokenId) || msg.sender == owner(),
+            "Unauthorized"
+        );
         customImageURIs[_tokenId] = _customImageURI;
         emit CustomImageURISet(_tokenId, _customImageURI);
     }
