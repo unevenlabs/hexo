@@ -17,7 +17,8 @@ const AppReducer = (state: State, action: Actions) => {
         },
       };
     case "RESET_WEB3":
-      return { ...state, web3: {} };
+      // Clear everything, but the web3Modal
+      return { ...state, web3: { web3Modal: state.web3.web3Modal } };
     default:
       return state;
   }

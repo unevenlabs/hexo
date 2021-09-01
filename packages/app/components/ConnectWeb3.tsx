@@ -79,7 +79,7 @@ const ConnectWeb3 = () => {
 
   return (
     <Fragment>
-      {web3Provider ? (
+      {web3Provider && !!address ? (
         <span>
           ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
           {address.slice(0, 6) + "..." + address.slice(-4, -1)}
