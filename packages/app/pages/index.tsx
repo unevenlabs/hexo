@@ -64,6 +64,9 @@ export default function Index() {
     });
   }, []);
 
+  // Re-run filter when show changes
+  useEffect(() => dispatch({ type: "FILTER", payload: filter }), [show]);
+
   // Get info about all minted items
   const mintedItemsInfo = useGetItems();
 

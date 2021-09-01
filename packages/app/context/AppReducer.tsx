@@ -1,4 +1,11 @@
-import { Actions, State } from "interfaces/context";
+import { Actions, Item, State } from "interfaces/context";
+
+// TODO: use better filtering with npm package
+function filterItems(items: Item[], filter: string) {
+  return items.filter(
+    (item) => item.color.includes(filter) || item.object.includes(filter)
+  );
+}
 
 const AppReducer = (state: State, action: Actions) => {
   switch (action.type) {
@@ -8,13 +15,18 @@ const AppReducer = (state: State, action: Actions) => {
       return { ...state, color: action.payload };
     case "FILTER":
       if (action.payload !== "") {
-        // TODO: use better filtering with npm package
-        const filteredItems = state.items.filter(
-          (item) =>
-            item.color.includes(action.payload) ||
-            item.object.includes(action.payload)
-        );
-        return { ...state, filter: action.payload, filteredItems };
+        let filteredItems: Item[] = [];
+        switch (state.show) {
+          case "ALL":
+            filteredItems = filterItems(state.items, action.payload);
+            return { ...state, filter: action.payload, filteredItems };
+          case "AVAILABLE":
+            filteredItems = filterItems(state.availableItems, action.payload);
+            return { ...state, filter: action.payload, filteredItems };
+          case "OWNED":
+            filteredItems = filterItems(state.ownedItems, action.payload);
+            return { ...state, filter: action.payload, filteredItems };
+        }
       }
       return { ...state, filter: action.payload, filteredItems: [] };
     case "UPDATE_WEB3":
