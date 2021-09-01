@@ -1,16 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
-import { useWeb3React } from "@web3-react/core";
-import { Fragment, useState } from "react";
+import { GlobalContext } from "context/GlobalState";
+import { Fragment, useContext, useState } from "react";
 
 import {
   claimSubdomains,
   mintItems,
-  setAvatar,
   setCustomImageURI,
   setReverseRecord,
-} from "../src/actions";
-import { capitalize } from "../src/utils";
+} from "src/actions";
+import { capitalize } from "src/utils";
+import { connect } from "./ConnectWeb3";
 
 type ItemProps = {
   color: string;
@@ -27,8 +27,10 @@ export default function Item({
   customImageURI,
   owner,
 }: ItemProps) {
-  const { account, library } = useWeb3React();
-
+  const { state, dispatch } = useContext(GlobalContext);
+  const {
+    web3: { web3Provider, web3Modal, address },
+  } = state;
   const [open, setOpen] = useState(false);
   const [newCustomImageURI, setNewCustomImageURI] = useState(
     customImageURI || `images/${color}/${object}.svg`
@@ -118,11 +120,11 @@ export default function Item({
                         <button
                           className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           onClick={async () => {
-                            if (!account || !library) {
-                              return alert("Wallet not connected");
+                            if (!web3Provider) {
+                              connect(web3Modal, dispatch);
                             }
 
-                            await mintItems(library.getSigner(account), [
+                            await mintItems(web3Provider.getSigner(), [
                               { color, object },
                             ]);
                           }}
@@ -168,23 +170,23 @@ export default function Item({
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                             onClick={async () => {
-                              if (!account || !library) {
-                                return alert("Wallet not connected");
-                              }
+                              if (!web3Provider) {
+                                connect(web3Modal, dispatch);
+                              } else {
+                                if (
+                                  !owner ||
+                                  !address ||
+                                  owner.toLowerCase() !== address.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                  return;
+                                }
 
-                              if (
-                                !owner ||
-                                !account ||
-                                owner.toLowerCase() !== account.toLowerCase()
-                              ) {
-                                alert("You are not the owner");
-                                return;
+                                await claimSubdomains(
+                                  web3Provider.getSigner(),
+                                  [{ color, object }]
+                                );
                               }
-
-                              await claimSubdomains(
-                                library.getSigner(account),
-                                [{ color, object }]
-                              );
                             }}
                           >
                             Resolver
@@ -220,23 +222,26 @@ export default function Item({
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                             onClick={async () => {
-                              if (!account || !library) {
-                                return alert("Wallet not connected");
-                              }
+                              if (!web3Provider) {
+                                connect(web3Modal, dispatch);
+                              } else {
+                                if (
+                                  !owner ||
+                                  !address ||
+                                  owner.toLowerCase() !== address.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                  return;
+                                }
 
-                              if (
-                                !owner ||
-                                !account ||
-                                owner.toLowerCase() !== account.toLowerCase()
-                              ) {
-                                alert("You are not the owner");
-                                return;
+                                await setReverseRecord(
+                                  web3Provider.getSigner(),
+                                  {
+                                    color,
+                                    object,
+                                  }
+                                );
                               }
-
-                              await setReverseRecord(
-                                library.getSigner(account),
-                                { color, object }
-                              );
                             }}
                           >
                             Reverse Record
@@ -259,24 +264,25 @@ export default function Item({
                               type="button"
                               className="w-1/6 lg:float-right items-center rounded-md px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                               onClick={async () => {
-                                if (!account || !library) {
-                                  return alert("Wallet not connected");
-                                }
+                                if (!web3Provider) {
+                                  connect(web3Modal, dispatch);
+                                } else {
+                                  if (
+                                    !owner ||
+                                    !address ||
+                                    owner.toLowerCase() !==
+                                      address.toLowerCase()
+                                  ) {
+                                    alert("You are not the owner");
+                                    return;
+                                  }
 
-                                if (
-                                  !owner ||
-                                  !account ||
-                                  owner.toLowerCase() !== account.toLowerCase()
-                                ) {
-                                  alert("You are not the owner");
-                                  return;
+                                  await setCustomImageURI(
+                                    web3Provider.getSigner(),
+                                    { color, object },
+                                    newCustomImageURI
+                                  );
                                 }
-
-                                await setCustomImageURI(
-                                  library.getSigner(account),
-                                  { color, object },
-                                  newCustomImageURI
-                                );
                               }}
                             >
                               Set

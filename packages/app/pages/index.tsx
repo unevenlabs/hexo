@@ -104,7 +104,6 @@ export default function Index() {
 
             <Filter />
 
-            {/* Random mint */}
             <Random mintedItems={mintedItems} />
           </div>
 

@@ -1,10 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { Web3Provider } from "@ethersproject/providers";
-import { Web3ReactProvider } from "@web3-react/core";
 
 import "src/styles/globals.css";
 
-import Web3ReactManager from "components/Web3ReactManager";
 import { GlobalProvider } from "context/GlobalState";
 
 const client = new ApolloClient({
@@ -16,13 +13,9 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }) {
   return (
     <GlobalProvider>
-      <Web3ReactProvider getLibrary={(provider) => new Web3Provider(provider)}>
-        <Web3ReactManager>
-          <ApolloProvider client={client}>
-            <Component {...pageProps} />
-          </ApolloProvider>
-        </Web3ReactManager>
-      </Web3ReactProvider>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </GlobalProvider>
   );
 }
