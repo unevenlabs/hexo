@@ -70,9 +70,12 @@ const AppReducer = (state: State, action: Actions) => {
       const availableItems = items.filter(
         ({ data: { owner } }) => owner === null
       );
-      const ownedItems = items.filter(({ data: { owner } }) => {
-        !!owner && owner.toLowerCase() === state.web3.address.toLowerCase();
-      });
+      const ownedItems = items.filter(
+        ({ data: { owner } }) =>
+          owner !== null &&
+          state.web3.address &&
+          owner.toLowerCase() === state.web3.address.toLowerCase()
+      );
       return { ...state, items, availableItems, ownedItems };
     case "UPDATE_LIMIT":
       return { ...state, limit: state.limit + 303 };

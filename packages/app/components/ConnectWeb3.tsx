@@ -55,10 +55,8 @@ const ConnectWeb3 = () => {
         if (accounts.length === 0) {
           disconnect(web3Modal, provider, dispatch);
         } else {
-          dispatch({
-            type: "UPDATE_WEB3",
-            payload: { address: accounts[0] },
-          });
+          dispatch({ type: "UPDATE_WEB3", payload: { address: accounts[0] } });
+          dispatch({ type: "UPDATE_ITEMS", payload: state.items });
         }
       };
 
