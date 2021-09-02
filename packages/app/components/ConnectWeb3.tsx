@@ -88,10 +88,20 @@ const ConnectWeb3 = () => {
   return (
     <Fragment>
       {web3Provider && !!address ? (
-        <span>
-          ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
-          {address.slice(0, 6) + "..." + address.slice(-4, -1)}
-        </span>
+        <div className="flex gap-3 items-center">
+          <div>
+            ({chainId === 1 ? "Mainnet" : "Rinkeby"}){" "}
+            {address.slice(0, 6) + "..." + address.slice(-4, -1)}
+          </div>
+          <button
+            className="whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+            onClick={async () =>
+              await disconnect(web3Modal, provider, dispatch)
+            }
+          >
+            Disconnect
+          </button>
+        </div>
       ) : (
         <button
           className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
