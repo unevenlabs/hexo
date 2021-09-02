@@ -102,38 +102,53 @@ export default function Index() {
             <Random mintedItems={mintedItems} />
           </div>
 
-          <div className="flex flex-wrap pt-5 pb-9">
-            {filter !== "" ? (
-              filteredItems.length === 0 ? (
-                <NotFound>No items found</NotFound>
+          <div
+            className={`flex flex-wrap pt-5 pb-9 ${
+              filter !== "" ? "min-h-screen" : ""
+            }`}
+          >
+            <div>
+              {filter !== "" ? (
+                filteredItems.length === 0 ? (
+                  <NotFound>No items found</NotFound>
+                ) : (
+                  filteredItems.map((data) => (
+                    <Item
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
+                    />
+                  ))
+                )
+              ) : show === "AVAILABLE" ? (
+                availableItems.length === 0 ? (
+                  <NotFound>No available items found</NotFound>
+                ) : (
+                  availableItems.map((data) => (
+                    <Item
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
+                    />
+                  ))
+                )
+              ) : show === "OWNED" ? (
+                ownedItems.length === 0 ? (
+                  <NotFound>No owned items found</NotFound>
+                ) : (
+                  ownedItems.map((data) => (
+                    <Item
+                      key={`${data.color}${data.object}`}
+                      itemProps={data}
+                    />
+                  ))
+                )
+              ) : items.length === 0 ? (
+                <NotFound>Loading...</NotFound>
               ) : (
-                filteredItems.map((data) => (
+                items.map((data) => (
                   <Item key={`${data.color}${data.object}`} itemProps={data} />
                 ))
-              )
-            ) : show === "AVAILABLE" ? (
-              availableItems.length === 0 ? (
-                <NotFound>No available items found</NotFound>
-              ) : (
-                availableItems.map((data) => (
-                  <Item key={`${data.color}${data.object}`} itemProps={data} />
-                ))
-              )
-            ) : show === "OWNED" ? (
-              ownedItems.length === 0 ? (
-                <NotFound>No owned items found</NotFound>
-              ) : (
-                ownedItems.map((data) => (
-                  <Item key={`${data.color}${data.object}`} itemProps={data} />
-                ))
-              )
-            ) : items.length === 0 ? (
-              <NotFound>Loading...</NotFound>
-            ) : (
-              items.map((data) => (
-                <Item key={`${data.color}${data.object}`} itemProps={data} />
-              ))
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
