@@ -6,8 +6,7 @@ import { GlobalProvider } from "context/GlobalState";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  // TODO: Find a way to dynamically change the subgraph endpoint
-  uri: "https://api.thegraph.com/subgraphs/name/georgeroman/hexo-rinkeby",
+  uri: "https://api.thegraph.com/subgraphs/name/georgeroman/hexo",
 });
 
 function MyApp({ Component, pageProps }) {

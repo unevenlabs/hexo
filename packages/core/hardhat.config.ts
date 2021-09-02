@@ -33,6 +33,10 @@ const config: HardhatUserConfig = {
       url: `https://rinkeby.infura.io/v3/${process.env.DEPLOYMENT_INFURA_KEY}`,
       accounts: [process.env.DEPLOYMENT_PRIVATE_KEY || "0x00"],
     },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${process.env.DEPLOYMENT_INFURA_KEY}`,
+      accounts: [process.env.DEPLOYMENT_PRIVATE_KEY || "0x00"],
+    },
   },
   gasReporter: {
     enabled: process.env.TESTING_REPORT_GAS ? true : false,

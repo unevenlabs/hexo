@@ -9,7 +9,7 @@ const main = async () => {
 
   const hexo = await ethers.getContractAt(
     "Hexo",
-    "0x349a3154FbE62Dcba32D522091a87Fca333DC4e9"
+    "0x819327e005A3ed85F7b634e195b8F25D4a2a45f8"
   );
 
   await hexo.connect(deployer).addColors(colors.map(id));
