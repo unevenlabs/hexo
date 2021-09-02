@@ -11,7 +11,6 @@ import {
 import { connect } from "./ConnectWeb3";
 import Image from "next/image";
 import { getTokenId } from "../src/utils";
-import { useGetItems } from "src/hooks/items";
 
 type ItemProps = {
   color: string;
@@ -259,9 +258,11 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                         </span>
                       </div>
                       <div className="mt-3">
-                        <span className="mr-2 text-sm text-gray-700">
-                          Set Image URL:{" "}
-                          <div className="w-full">
+                        <span className="flex gap-2 items-center mr-2 text-sm text-gray-700">
+                          <span className="whitespace-nowrap">
+                            Set Image URL:
+                          </span>
+                          <div className="flex gap-2 w-full">
                             <input
                               type="text"
                               className="w-5/6 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
