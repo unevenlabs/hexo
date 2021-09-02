@@ -52,7 +52,7 @@ export const setReverseRecord = async (signer: Signer, item: Item) => {
 
   return reverseRegistrar
     .connect(signer)
-    .setName(namehash(`${item.color}${item.object}.hexo.eth`));
+    .setName(`${item.color}${item.object}.hexo.eth`);
 };
 
 export const setAvatar = async (
