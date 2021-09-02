@@ -136,58 +136,33 @@ export default function Index() {
               filteredItems.length === 0 ? (
                 <NotFound>No items found</NotFound>
               ) : (
-                filteredItems
-                  .slice(0, limit)
-                  .map((data) => (
-                    <Item
-                      key={`${data.color}${data.object}`}
-                      itemProps={data}
-                    />
-                  ))
+                filteredItems.map((data) => (
+                  <Item key={`${data.color}${data.object}`} itemProps={data} />
+                ))
               )
             ) : show === "AVAILABLE" ? (
               availableItems.length === 0 ? (
                 <NotFound>No available items found</NotFound>
               ) : (
-                availableItems
-                  .slice(0, limit)
-                  .map((data) => (
-                    <Item
-                      key={`${data.color}${data.object}`}
-                      itemProps={data}
-                    />
-                  ))
+                availableItems.map((data) => (
+                  <Item key={`${data.color}${data.object}`} itemProps={data} />
+                ))
               )
             ) : show === "OWNED" ? (
               ownedItems.length === 0 ? (
                 <NotFound>No owned items found</NotFound>
               ) : (
-                ownedItems
-                  .slice(0, limit)
-                  .map((data) => (
-                    <Item
-                      key={`${data.color}${data.object}`}
-                      itemProps={data}
-                    />
-                  ))
-              )
-            ) : items.length === 0 ? (
-              <NotFound>No items found</NotFound>
-            ) : (
-              items
-                .slice(0, limit)
-                .map((data) => (
+                ownedItems.map((data) => (
                   <Item key={`${data.color}${data.object}`} itemProps={data} />
                 ))
+              )
+            ) : items.length === 0 ? (
+              <NotFound>Loading...</NotFound>
+            ) : (
+              items.map((data) => (
+                <Item key={`${data.color}${data.object}`} itemProps={data} />
+              ))
             )}
-          </div>
-          <div className="flex justify-center mb-9">
-            <button
-              className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-              onClick={() => dispatch({ type: "UPDATE_LIMIT" })}
-            >
-              See More
-            </button>
           </div>
         </div>
       </div>
