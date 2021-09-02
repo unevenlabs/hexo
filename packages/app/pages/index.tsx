@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useGetItems } from "src/hooks/items";
 import Stats from "components/Stats";
 import Hero from "components/Hero";
@@ -13,9 +13,7 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { connect } from "components/ConnectWeb3";
 import Item from "components/Item";
-import colors from "data/colors.json";
-import objects from "data/objects.json";
-import Head from 'next/head'
+import Head from "next/head";
 
 const NotFound = ({ children }: { children: React.ReactNode }) => (
   <p className="w-full text-center font-semibold">{children}</p>
@@ -41,10 +39,12 @@ export default function Index() {
       filter,
       show,
       filteredItems,
-      limit,
     },
     dispatch,
   } = useContext(GlobalContext);
+
+  // Get info about all minted items
+  const itemsData = useGetItems();
 
   // Ensure all elements have access to web3Modal
   useEffect(() => {
@@ -62,59 +62,25 @@ export default function Index() {
       connect(web3Modal, dispatch);
     }
 
-    dispatch({
-      type: "UPDATE_WEB3",
-      payload: {
-        web3Modal,
-      },
-    });
-  }, []);
+    dispatch({ type: "UPDATE_WEB3", payload: { web3Modal } });
+
+    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData });
+
+    dispatch({ type: "UPDATE_ITEMS", payload: itemsData });
+  }, [itemsData]);
 
   // Re-run filter when show changes
   useEffect(() => dispatch({ type: "FILTER", payload: filter }), [show]);
 
-  // Get info about all minted items
-  const mintedItemsInfo = useGetItems();
-
-  useEffect(() => {
-    if (mintedItemsInfo?.data?.items) {
-      const localMintedItems = {};
-      mintedItemsInfo.data.items.forEach((item) => {
-        let data = { ...item };
-        delete data.__typename;
-        delete data.id;
-        localMintedItems[`${item.color}${item.object}`] = data;
-      });
-
-      dispatch({ type: "UPDATE_MINTED_ITEMS", payload: localMintedItems });
-
-      const items = colors.map((color) => {
-        return objects.map((object) => {
-          const data = localMintedItems[`${color}${object}`] || {
-            color: null,
-            customImageURI: null,
-            generation: null,
-            object: null,
-            owner: null,
-          };
-
-          return {
-            color,
-            object,
-            data,
-          };
-        });
-      });
-
-      dispatch({ type: "UPDATE_ITEMS", payload: items.flat() });
-    }
-  }, [mintedItemsInfo]);
-
   return (
-    <div className="relative bg-gray-50">  
+    <div className="relative bg-gray-50">
       <Head>
         <title>Hexo</title>
-        <link rel="icon" type="image/jpeg" href="https://www.hexo.codes/images/logo.jpg"></link>
+        <link
+          rel="icon"
+          type="image/jpeg"
+          href="https://www.hexo.codes/images/logo.jpg"
+        ></link>
       </Head>
       <Navbar />
 

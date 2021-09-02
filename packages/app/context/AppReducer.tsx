@@ -1,4 +1,6 @@
 import { Actions, Item, State } from "interfaces/context";
+import colors from "data/colors.json";
+import objects from "data/objects.json";
 
 // TODO: use better filtering with npm package
 function filterItems(items: Item[], filter: string) {
@@ -64,9 +66,36 @@ const AppReducer = (state: State, action: Actions) => {
       // Clear everything, but the web3Modal
       return { ...state, web3: { web3Modal: state.web3.web3Modal } };
     case "UPDATE_MINTED_ITEMS":
-      return { ...state, mintedItems: action.payload };
+      const mintedItems = {};
+      if (action.payload.data) {
+        action.payload.data.items.forEach((item) => {
+          let data = { ...item };
+          delete data.__typename;
+          delete data.id;
+          mintedItems[`${item.color}${item.object}`] = data;
+        });
+      }
+      return { ...state, mintedItems };
     case "UPDATE_ITEMS":
-      const items = action.payload;
+      const items = colors
+        .map((color) => {
+          return objects.map((object) => {
+            const data = action.payload[`${color}${object}`] || {
+              color: null,
+              customImageURI: null,
+              generation: null,
+              object: null,
+              owner: null,
+            };
+
+            return {
+              color,
+              object,
+              data,
+            };
+          });
+        })
+        .flat();
       const availableItems = items.filter(
         ({ data: { owner } }) => owner === null
       );

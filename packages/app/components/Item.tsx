@@ -1,8 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { GlobalContext } from "context/GlobalState";
-import { Actions, State } from "interfaces/context";
-import { Dispatch, Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import {
   claimSubdomains,
   mintItems,
@@ -12,6 +11,7 @@ import {
 import { connect } from "./ConnectWeb3";
 import Image from "next/image";
 import { getTokenId } from "../src/utils";
+import { useGetItems } from "src/hooks/items";
 
 type ItemProps = {
   color: string;
@@ -23,134 +23,13 @@ type ItemProps = {
   } | null;
 };
 
-async function setEnsResolver(
-  itemProps: ItemProps,
-  state: State,
-  dispatch: Dispatch<Actions>
-) {
-  const {
-    web3: { web3Provider, web3Modal, address },
-  } = state;
-  const {
-    color,
-    object,
-    data: { owner },
-  } = itemProps;
-
-  if (!web3Provider) {
-    connect(web3Modal, dispatch);
-  } else {
-    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
-      alert("You are not the owner");
-    } else {
-      await claimSubdomains(web3Provider.getSigner(), [{ color, object }]);
-    }
-  }
-}
-
-async function mint(
-  itemProps: ItemProps,
-  state: State,
-  dispatch: Dispatch<Actions>
-) {
-  const {
-    web3: { web3Provider, web3Modal, address },
-  } = state;
-  const { color, object } = itemProps;
-
-  if (!web3Provider) {
-    connect(web3Modal, dispatch);
-  } else {
-    let tx = await mintItems(web3Provider.getSigner(), [{ color, object }]);
-
-    await tx.wait();
-
-    const newItems = state.items;
-
-    newItems[`${color}${object}`] = {
-      color,
-      customImageURI: null,
-      generation: null,
-      object,
-      owner: address,
-    };
-
-    dispatch({ type: "UPDATE_ITEMS", payload: newItems });
-  }
-}
-
-async function reserveRecord(
-  itemProps: ItemProps,
-  state: State,
-  dispatch: Dispatch<Actions>
-) {
-  const {
-    web3: { web3Provider, web3Modal, address },
-  } = state;
-  const {
-    color,
-    object,
-    data: { owner },
-  } = itemProps;
-
-  if (!web3Provider) {
-    connect(web3Modal, dispatch);
-  } else {
-    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
-      alert("You are not the owner");
-    } else {
-      await setReverseRecord(web3Provider.getSigner(), {
-        color,
-        object,
-      });
-    }
-  }
-}
-
-async function setEns(
-  itemProps: ItemProps,
-  state: State,
-  dispatch: Dispatch<Actions>,
-  newCustomImageURI: string
-) {
-  const {
-    web3: { web3Provider, web3Modal, address },
-  } = state;
-  const {
-    color,
-    object,
-    data: { owner },
-  } = itemProps;
-
-  if (!web3Provider) {
-    connect(web3Modal, dispatch);
-  } else {
-    if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
-      alert("You are not the owner");
-    } else {
-      let tx = await setCustomImageURI(
-        web3Provider.getSigner(),
-        { color, object },
-        newCustomImageURI
-      );
-
-      await tx.wait();
-
-      const newItems = state.items;
-
-      newItems[`${color}${object}`] = {
-        ...newItems[`${color}${object}`],
-        customImageURI: newCustomImageURI,
-      };
-
-      dispatch({ type: "UPDATE_ITEMS", payload: newItems });
-    }
-  }
-}
-
 export default function Item({ itemProps }: { itemProps: ItemProps }) {
   const { state, dispatch } = useContext(GlobalContext);
   const { color, object, data } = itemProps;
+  const {
+    mintedItems,
+    web3: { web3Provider, web3Modal, address },
+  } = state;
 
   const [open, setOpen] = useState(false);
 
@@ -165,7 +44,9 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
           key={`${color}-${object}`}
           width={100}
           height={100}
-          title={`${color.charAt(0).toUpperCase() + color.slice(1)} ${object.charAt(0).toUpperCase() + object.slice(1)}`}
+          title={`${color.charAt(0).toUpperCase() + color.slice(1)} ${
+            object.charAt(0).toUpperCase() + object.slice(1)
+          }`}
           src={`/images/${color}/${object}.svg`}
           alt={`${color}-${object}`}
           onClick={() => setOpen(!open)}
@@ -244,7 +125,39 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                       {data.owner === null ? (
                         <button
                           className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          onClick={async () => mint(itemProps, state, dispatch)}
+                          onClick={async () => {
+                            if (!web3Provider) {
+                              connect(web3Modal, dispatch);
+                            } else {
+                              let tx = await mintItems(
+                                web3Provider.getSigner(),
+                                [{ color, object }]
+                              );
+
+                              await tx.wait();
+
+                              // Get info about all minted items
+                              const itemsData = { ...mintedItems };
+
+                              itemsData[`${color}${object}`] = {
+                                color,
+                                customImageURI: "",
+                                generation: 0,
+                                object,
+                                owner: address,
+                              };
+
+                              dispatch({
+                                type: "UPDATE_MINTED_ITEMS",
+                                payload: itemsData,
+                              });
+
+                              dispatch({
+                                type: "UPDATE_ITEMS",
+                                payload: itemsData,
+                              });
+                            }
+                          }}
                         >
                           Mint
                         </button>
@@ -261,7 +174,10 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                           <p className="text-sm text-gray-700">
                             Links:{" "}
                             <a
-                              href={`https://opensea.io/assets/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8/${getTokenId(color, object)}`}
+                              href={`https://opensea.io/assets/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8/${getTokenId(
+                                color,
+                                object
+                              )}`}
                               className="text-indigo-600 hover:text-indigo-500 mr-2"
                               target="_blank"
                             >
@@ -269,7 +185,10 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                             </a>
                             |{" "}
                             <a
-                              href={`https://etherscan.io/token/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8?a=${getTokenId(color, object)}`}
+                              href={`https://etherscan.io/token/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8?a=${getTokenId(
+                                color,
+                                object
+                              )}`}
                               className="text-indigo-600 hover:text-indigo-500 ml-1"
                               target="_blank"
                             >
@@ -287,18 +206,53 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                           <button
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                            onClick={async () =>
-                              setEnsResolver(itemProps, state, dispatch)
-                            }
+                            onClick={async () => {
+                              if (!web3Provider) {
+                                connect(web3Modal, dispatch);
+                              } else {
+                                if (
+                                  !data.owner ||
+                                  !address ||
+                                  data.owner.toLowerCase() !==
+                                    address.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                } else {
+                                  await claimSubdomains(
+                                    web3Provider.getSigner(),
+                                    [{ color, object }]
+                                  );
+                                }
+                              }
+                            }}
                           >
                             Resolver
                           </button>
                           <button
                             type="button"
                             className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                            onClick={async () =>
-                              reserveRecord(itemProps, state, dispatch)
-                            }
+                            onClick={async () => {
+                              if (!web3Provider) {
+                                connect(web3Modal, dispatch);
+                              } else {
+                                if (
+                                  !data.owner ||
+                                  !address ||
+                                  data.owner.toLowerCase() !==
+                                    address.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                } else {
+                                  await setReverseRecord(
+                                    web3Provider.getSigner(),
+                                    {
+                                      color,
+                                      object,
+                                    }
+                                  );
+                                }
+                              }
+                            }}
                           >
                             Reverse Record
                           </button>
@@ -319,14 +273,49 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                             <button
                               type="button"
                               className="w-1/6 lg:float-right items-center rounded-md px-4 py-2 border border-transparent text-sm font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                              onClick={async () =>
-                                setEns(
-                                  itemProps,
-                                  state,
-                                  dispatch,
-                                  newCustomImageURI
-                                )
-                              }
+                              onClick={async () => {
+                                if (!web3Provider) {
+                                  connect(web3Modal, dispatch);
+                                } else {
+                                  if (
+                                    !data.owner ||
+                                    !address ||
+                                    data.owner.toLowerCase() !==
+                                      address.toLowerCase()
+                                  ) {
+                                    alert("You are not the owner");
+                                  } else {
+                                    let tx = await setCustomImageURI(
+                                      web3Provider.getSigner(),
+                                      { color, object },
+                                      newCustomImageURI
+                                    );
+
+                                    await tx.wait();
+
+                                    // Get info about all minted items
+                                    const itemsData = { ...mintedItems };
+
+                                    itemsData[`${color}${object}`] = {
+                                      color,
+                                      customImageURI: newCustomImageURI,
+                                      generation: 0,
+                                      object,
+                                      owner: address,
+                                    };
+
+                                    dispatch({
+                                      type: "UPDATE_MINTED_ITEMS",
+                                      payload: itemsData,
+                                    });
+
+                                    dispatch({
+                                      type: "UPDATE_ITEMS",
+                                      payload: itemsData,
+                                    });
+                                  }
+                                }
+                              }}
                             >
                               Set
                             </button>
