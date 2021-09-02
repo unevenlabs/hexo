@@ -6,7 +6,7 @@ const initialState: State = {
   show: "ALL",
   filter: "",
   color: "black",
-  limit: 30,
+  limit: 303,
   web3: {},
   mintedItems: {},
   items: [],

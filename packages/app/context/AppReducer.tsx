@@ -26,7 +26,7 @@ const AppReducer = (state: State, action: Actions) => {
               ...state,
               filter: action.payload,
               filteredItems,
-              limit: 30,
+              limit: 303,
             };
           case "AVAILABLE":
             filteredItems = filterItems(state.availableItems, action.payload);
@@ -34,7 +34,7 @@ const AppReducer = (state: State, action: Actions) => {
               ...state,
               filter: action.payload,
               filteredItems,
-              limit: 30,
+              limit: 303,
             };
           case "OWNED":
             filteredItems = filterItems(state.ownedItems, action.payload);
@@ -42,11 +42,16 @@ const AppReducer = (state: State, action: Actions) => {
               ...state,
               filter: action.payload,
               filteredItems,
-              limit: 30,
+              limit: 303,
             };
         }
       }
-      return { ...state, filter: action.payload, filteredItems: [], limit: 30 };
+      return {
+        ...state,
+        filter: action.payload,
+        filteredItems: [],
+        limit: 303,
+      };
     case "UPDATE_WEB3":
       return {
         ...state,
@@ -70,7 +75,7 @@ const AppReducer = (state: State, action: Actions) => {
       });
       return { ...state, items, availableItems, ownedItems };
     case "UPDATE_LIMIT":
-      return { ...state, limit: state.limit + 30 };
+      return { ...state, limit: state.limit + 303 };
     default:
       return state;
   }
