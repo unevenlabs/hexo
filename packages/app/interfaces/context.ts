@@ -29,6 +29,7 @@ export type State = {
   filter: string;
   color: string;
   web3: IWeb3;
+  limit: number;
   mintedItems: {};
   items: Item[];
   filteredItems: Item[];
@@ -44,7 +45,8 @@ export type Actions = {
     | "UPDATE_WEB3"
     | "RESET_WEB3"
     | "UPDATE_MINTED_ITEMS"
-    | "UPDATE_ITEMS";
+    | "UPDATE_ITEMS"
+    | "UPDATE_LIMIT";
   payload?: any;
   showPayload?: State["show"];
 };

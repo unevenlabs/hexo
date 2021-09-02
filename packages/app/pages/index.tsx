@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useGetItems } from "src/hooks/items";
 import Stats from "components/Stats";
 import Hero from "components/Hero";
@@ -40,6 +40,7 @@ export default function Index() {
       filter,
       show,
       filteredItems,
+      limit,
     },
     dispatch,
   } = useContext(GlobalContext);
@@ -86,8 +87,8 @@ export default function Index() {
 
       dispatch({ type: "UPDATE_MINTED_ITEMS", payload: localMintedItems });
 
-      const items = objects.map((object) => {
-        return colors.map((color) => {
+      const items = colors.map((color) => {
+        return objects.map((object) => {
           const data = mintedItems[`${color}${object}`] || {
             color: null,
             customImageURI: null,
@@ -136,7 +137,7 @@ export default function Index() {
                 <NotFound>No items found</NotFound>
               ) : (
                 filteredItems
-                  .slice(0, 40)
+                  .slice(0, limit)
                   .map((data) => (
                     <Item
                       key={`${data.color}${data.object}`}
@@ -149,7 +150,7 @@ export default function Index() {
                 <NotFound>No available items found</NotFound>
               ) : (
                 availableItems
-                  .slice(0, 40)
+                  .slice(0, limit)
                   .map((data) => (
                     <Item
                       key={`${data.color}${data.object}`}
@@ -162,7 +163,7 @@ export default function Index() {
                 <NotFound>No owned items found</NotFound>
               ) : (
                 ownedItems
-                  .slice(0, 40)
+                  .slice(0, limit)
                   .map((data) => (
                     <Item
                       key={`${data.color}${data.object}`}
@@ -174,11 +175,19 @@ export default function Index() {
               <NotFound>No items found</NotFound>
             ) : (
               items
-                .slice(0, 40)
+                .slice(0, limit)
                 .map((data) => (
                   <Item key={`${data.color}${data.object}`} itemProps={data} />
                 ))
             )}
+          </div>
+          <div className="flex justify-end mb-9">
+            <button
+              className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+              onClick={() => dispatch({ type: "UPDATE_LIMIT" })}
+            >
+              See More
+            </button>
           </div>
         </div>
       </div>

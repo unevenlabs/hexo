@@ -22,16 +22,31 @@ const AppReducer = (state: State, action: Actions) => {
         switch (state.show) {
           case "ALL":
             filteredItems = filterItems(state.items, action.payload);
-            return { ...state, filter: action.payload, filteredItems };
+            return {
+              ...state,
+              filter: action.payload,
+              filteredItems,
+              limit: 30,
+            };
           case "AVAILABLE":
             filteredItems = filterItems(state.availableItems, action.payload);
-            return { ...state, filter: action.payload, filteredItems };
+            return {
+              ...state,
+              filter: action.payload,
+              filteredItems,
+              limit: 30,
+            };
           case "OWNED":
             filteredItems = filterItems(state.ownedItems, action.payload);
-            return { ...state, filter: action.payload, filteredItems };
+            return {
+              ...state,
+              filter: action.payload,
+              filteredItems,
+              limit: 30,
+            };
         }
       }
-      return { ...state, filter: action.payload, filteredItems: [] };
+      return { ...state, filter: action.payload, filteredItems: [], limit: 30 };
     case "UPDATE_WEB3":
       return {
         ...state,
@@ -54,6 +69,8 @@ const AppReducer = (state: State, action: Actions) => {
         !!owner && owner.toLowerCase() === state.web3.address.toLowerCase();
       });
       return { ...state, items, availableItems, ownedItems };
+    case "UPDATE_LIMIT":
+      return { ...state, limit: state.limit + 30 };
     default:
       return state;
   }
