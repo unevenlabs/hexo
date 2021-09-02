@@ -52,14 +52,28 @@ async function mint(
   dispatch: Dispatch<Actions>
 ) {
   const {
-    web3: { web3Provider, web3Modal },
+    web3: { web3Provider, web3Modal, address },
   } = state;
   const { color, object } = itemProps;
 
   if (!web3Provider) {
     connect(web3Modal, dispatch);
   } else {
-    await mintItems(web3Provider.getSigner(), [{ color, object }]);
+    let tx = await mintItems(web3Provider.getSigner(), [{ color, object }]);
+
+    await tx.wait();
+
+    const newItems = state.items;
+
+    newItems[`${color}${object}`] = {
+      color,
+      customImageURI: null,
+      generation: null,
+      object,
+      owner: address,
+    };
+
+    dispatch({ type: "UPDATE_ITEMS", payload: newItems });
   }
 }
 
@@ -112,11 +126,22 @@ async function setEns(
     if (!owner || !address || owner.toLowerCase() !== address.toLowerCase()) {
       alert("You are not the owner");
     } else {
-      await setCustomImageURI(
+      let tx = await setCustomImageURI(
         web3Provider.getSigner(),
         { color, object },
         newCustomImageURI
       );
+
+      await tx.wait();
+
+      const newItems = state.items;
+
+      newItems[`${color}${object}`] = {
+        ...newItems[`${color}${object}`],
+        customImageURI: newCustomImageURI,
+      };
+
+      dispatch({ type: "UPDATE_ITEMS", payload: newItems });
     }
   }
 }
@@ -209,46 +234,41 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                       </p>
                       <p className="text-2xl text-gray-900">0.01 ETH</p>
 
-                      {!!data && !data.owner && (
+                      {data.owner === null ? (
                         <button
                           className="mt-5 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           onClick={async () => mint(itemProps, state, dispatch)}
                         >
                           Mint
                         </button>
-                      )}
-                      <div className="mt-5">
-                        {!!data && (
-                          <>
-                            {data.generation && (
-                              <p className="text-sm text-gray-700">
-                                Generation: {data.generation + 1}
-                              </p>
-                            )}
-                            {data.owner && (
-                              <p className="text-sm text-gray-700">
-                                Owner: {data.owner}
-                              </p>
-                            )}
+                      ) : (
+                        <div className="mt-4">
+                          <p className="text-sm text-gray-700">
+                            Generation: {data.generation + 1}
+                          </p>
+                          {data.owner && (
                             <p className="text-sm text-gray-700">
-                              Links:{" "}
-                              <a
-                                href="#"
-                                className="text-indigo-600 hover:text-indigo-500 mr-2"
-                              >
-                                OpenSea
-                              </a>
-                              |{" "}
-                              <a
-                                href="#"
-                                className="text-indigo-600 hover:text-indigo-500 ml-1"
-                              >
-                                Etherscan
-                              </a>
+                              Owner: {data.owner}
                             </p>
-                          </>
-                        )}
-                      </div>
+                          )}
+                          <p className="text-sm text-gray-700">
+                            Links:{" "}
+                            <a
+                              href="#"
+                              className="text-indigo-600 hover:text-indigo-500 mr-2"
+                            >
+                              OpenSea
+                            </a>
+                            |{" "}
+                            <a
+                              href="#"
+                              className="text-indigo-600 hover:text-indigo-500 ml-1"
+                            >
+                              Etherscan
+                            </a>
+                          </p>
+                        </div>
+                      )}
 
                       <div className="mt-3">
                         <span className="mr-2 text-sm text-gray-700">

@@ -89,7 +89,7 @@ export default function Index() {
 
       const items = colors.map((color) => {
         return objects.map((object) => {
-          const data = mintedItems[`${color}${object}`] || {
+          const data = localMintedItems[`${color}${object}`] || {
             color: null,
             customImageURI: null,
             generation: null,
@@ -181,7 +181,7 @@ export default function Index() {
                 ))
             )}
           </div>
-          <div className="flex justify-end mb-9">
+          <div className="flex justify-center mb-9">
             <button
               className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
               onClick={() => dispatch({ type: "UPDATE_LIMIT" })}
