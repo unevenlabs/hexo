@@ -10,6 +10,7 @@ import {
   setReverseRecord,
 } from "src/actions";
 import { connect } from "./ConnectWeb3";
+import Image from "next/image";
 
 type ItemProps = {
   color: string;
@@ -158,13 +159,17 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
 
   return (
     <>
-      <img
-        key={`${color}-${object}`}
-        className="float-left mr-2 mb-2 object-cover rounded-lg bg-white w-24 hover:shadow-xl"
-        src={`images/${color}/${object}.svg`}
-        alt={`${color}-${object}`}
-        onClick={() => setOpen(!open)}
-      />
+      <div className="float-left mr-2 mb-2 object-cover rounded-lg bg-white w-24 hover:shadow-xl">
+        <Image
+          key={`${color}-${object}`}
+          width={100}
+          height={100}
+          src={`/images/${color}/${object}.svg`}
+          alt={`${color}-${object}`}
+          onClick={() => setOpen(!open)}
+          quality={1}
+        />
+      </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
