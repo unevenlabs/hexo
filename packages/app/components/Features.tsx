@@ -13,11 +13,11 @@ const features = [
   {
     name: "Look Ma, I'm a DAO!",
     description:
-      'Vote on new colors / objects to add, or new default images, in the Snapshot voting portal',
+      'Community can <a class="underline" href="https://openmoji.org/">vote</a> to add new colors, objects default images',
   },
   {
     name: 'Updateable images!',
-    description: 'Owners can override the basic default image with their own',
+    description: 'Owners can override the default <a class="underline" href="https://openmoji.org/">OpenMoji</a> images with their own',
   },
 ]
 
@@ -42,9 +42,7 @@ const Features = () => (
                 {feature.name}
               </p>
             </dt>
-            <dd className="mt-2 ml-9 text-base text-gray-500">
-              {feature.description}
-            </dd>
+            <dd className="mt-2 ml-9 text-base text-gray-500" dangerouslySetInnerHTML={{__html: feature.description}}></dd>
           </div>
         ))}
       </dl>

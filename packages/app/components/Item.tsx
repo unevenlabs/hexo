@@ -11,6 +11,7 @@ import {
 } from "src/actions";
 import { connect } from "./ConnectWeb3";
 import Image from "next/image";
+import { getTokenId } from "../src/utils";
 
 type ItemProps = {
   color: string;
@@ -164,6 +165,7 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
           key={`${color}-${object}`}
           width={100}
           height={100}
+          title={`${color.charAt(0).toUpperCase() + color.slice(1)} ${object.charAt(0).toUpperCase() + object.slice(1)}`}
           src={`/images/${color}/${object}.svg`}
           alt={`${color}-${object}`}
           onClick={() => setOpen(!open)}
@@ -259,15 +261,17 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                           <p className="text-sm text-gray-700">
                             Links:{" "}
                             <a
-                              href="#"
+                              href={`https://opensea.io/assets/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8/${getTokenId(color, object)}`}
                               className="text-indigo-600 hover:text-indigo-500 mr-2"
+                              target="_blank"
                             >
                               OpenSea
                             </a>
                             |{" "}
                             <a
-                              href="#"
+                              href={`https://etherscan.io/token/0x819327e005a3ed85f7b634e195b8f25d4a2a45f8?a=${getTokenId(color, object)}`}
                               className="text-indigo-600 hover:text-indigo-500 ml-1"
+                              target="_blank"
                             >
                               Etherscan
                             </a>

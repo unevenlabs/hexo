@@ -15,6 +15,7 @@ import { connect } from "components/ConnectWeb3";
 import Item from "components/Item";
 import colors from "data/colors.json";
 import objects from "data/objects.json";
+import Head from 'next/head'
 
 const NotFound = ({ children }: { children: React.ReactNode }) => (
   <p className="w-full text-center font-semibold">{children}</p>
@@ -110,7 +111,11 @@ export default function Index() {
   }, [mintedItemsInfo]);
 
   return (
-    <div className="relative bg-gray-50">
+    <div className="relative bg-gray-50">  
+      <Head>
+        <title>Hexo</title>
+        <link rel="icon" type="image/jpeg" href="https://www.hexo.codes/images/logo.jpg"></link>
+      </Head>
       <Navbar />
 
       <HeroImages />
