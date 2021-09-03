@@ -19,7 +19,8 @@ const AppReducer = (state: State, action: Actions) => {
     case "UPDATE_COLOR":
       return { ...state, color: action.payload };
     case "FILTER":
-      if (action.payload !== "") {
+      if (action.payload && action.payload !== "") {
+        action.payload = action.payload.toLowerCase();
         let filteredItems: Item[] = [];
         switch (state.show) {
           case "ALL":
