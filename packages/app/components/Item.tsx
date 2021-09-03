@@ -34,7 +34,8 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
   const [open, setOpen] = useState(false);
 
   const [newCustomImageURI, setNewCustomImageURI] = useState(
-    (!!data && data.customImageURI) || `images/${color}/${object}.svg`
+    (!!data && data.customImageURI) ||
+      `https://hexo.codes/images/${color}/${object}.svg`
   );
 
   return (
