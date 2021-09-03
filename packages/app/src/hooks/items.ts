@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 
 const GET_ITEMS = gql`
-  query GetItems {
-    items(first: 1000) {
+  query GetItems($first: Int, $skip: Int) {
+    items(first: $first, skip: $skip) {
       id
       color
       object
@@ -13,4 +13,5 @@ const GET_ITEMS = gql`
   }
 `;
 
-export const useGetItems = () => useQuery(GET_ITEMS);
+export const useGetItems = (first: number, skip: number) =>
+  useQuery(GET_ITEMS, { variables: { first, skip } });

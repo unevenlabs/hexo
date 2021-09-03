@@ -44,7 +44,10 @@ export default function Index() {
   } = useContext(GlobalContext);
 
   // Get info about all minted items
-  const itemsData = useGetItems();
+  const itemsData1 = useGetItems(1000, 0);
+  const itemsData2 = useGetItems(1000, 1000);
+  const itemsData3 = useGetItems(1000, 2000);
+  const itemsData4 = useGetItems(1000, 3000);
 
   // Ensure all elements have access to web3Modal
   useEffect(() => {
@@ -64,10 +67,16 @@ export default function Index() {
 
     dispatch({ type: "UPDATE_WEB3", payload: { web3Modal } });
 
-    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData });
+    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData1 });
+    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData2 });
+    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData3 });
+    dispatch({ type: "UPDATE_MINTED_ITEMS", payload: itemsData4 });
 
-    dispatch({ type: "UPDATE_ITEMS", payload: itemsData });
-  }, [itemsData]);
+    dispatch({ type: "UPDATE_ITEMS", payload: itemsData1 });
+    dispatch({ type: "UPDATE_ITEMS", payload: itemsData2 });
+    dispatch({ type: "UPDATE_ITEMS", payload: itemsData3 });
+    dispatch({ type: "UPDATE_ITEMS", payload: itemsData4 });
+  }, [itemsData1, itemsData2, itemsData3, itemsData4]);
 
   // Re-run filter when show changes
   useEffect(() => dispatch({ type: "FILTER", payload: filter }), [show]);

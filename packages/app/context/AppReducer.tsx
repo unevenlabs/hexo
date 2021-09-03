@@ -66,7 +66,7 @@ const AppReducer = (state: State, action: Actions) => {
       // Clear everything, but the web3Modal
       return { ...state, web3: { web3Modal: state.web3.web3Modal } };
     case "UPDATE_MINTED_ITEMS":
-      const mintedItems = {};
+      const mintedItems = state.mintedItems || {};
       if (action.payload.data) {
         action.payload.data.items.forEach((item) => {
           let data = { ...item };
