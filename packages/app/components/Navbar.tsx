@@ -42,6 +42,13 @@ const Navbar = () => {
                   >
                     Github
                   </a>
+                  <a
+                    href="https://twitter.com/ptrwtts/status/1433857291841785859"
+                    target="_blank"
+                    className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    About
+                  </a>
                 </Popover.Group>
               </div>
               <div className="-mr-2 -my-2 md:hidden">
@@ -111,6 +118,13 @@ const Navbar = () => {
                       className="text-base font-medium text-gray-500 hover:text-gray-900"
                     >
                       Github
+                    </a>
+                    <a
+                      href="https://twitter.com/ptrwtts/status/1433857291841785859"
+                      target="_blank"
+                      className="text-base font-medium text-gray-500 hover:text-gray-900"
+                    >
+                      About
                     </a>
                   </div>
                   <div>
