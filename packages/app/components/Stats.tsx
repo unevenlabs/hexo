@@ -44,7 +44,9 @@ const Stats = () => {
                   Minted
                 </dt>
                 <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                  {mintedCount}
+                  <a href="https://opensea.io/collection/hexo-codes">
+                    {mintedCount}
+                  </a>
                 </dd>
               </div>
               <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
