@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 
 const GET_ITEMS = gql`
   query GetItems {
-    items {
+    items(first: 1000) {
       id
       color
       object
