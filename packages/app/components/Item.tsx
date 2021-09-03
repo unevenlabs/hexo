@@ -56,7 +56,7 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed inset-0 overflow-y-auto"
           onClose={setOpen}
         >
           <div
