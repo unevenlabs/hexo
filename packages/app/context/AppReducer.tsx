@@ -80,7 +80,9 @@ const AppReducer = (state: State, action: Actions) => {
       const items = colors
         .map((color) => {
           return objects.map((object) => {
-            const data = action.payload[`${color}${object}`] || {
+            const data = (action.payload || state.mintedItems)?.[
+              `${color}${object}`
+            ] || {
               color: null,
               customImageURI: null,
               generation: null,

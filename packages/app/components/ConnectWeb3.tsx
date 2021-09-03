@@ -25,6 +25,7 @@ export async function connect(
       chainId,
     },
   });
+  dispatch({ type: "UPDATE_ITEMS" });
 }
 
 export async function disconnect(

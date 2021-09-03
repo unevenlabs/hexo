@@ -7,6 +7,7 @@ import {
   mintItems,
   setCustomImageURI,
   setReverseRecord,
+  setAvatar,
 } from "src/actions";
 import { connect } from "./ConnectWeb3";
 import Image from "next/image";
@@ -226,6 +227,40 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                             }}
                           >
                             Resolver
+                          </button>
+                          <button
+                            type="button"
+                            className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            onClick={async () => {
+                              if (!web3Provider) {
+                                connect(web3Modal, dispatch);
+                              } else {
+                                if (
+                                  !data.owner ||
+                                  !address ||
+                                  data.owner.toLowerCase() !==
+                                    address.toLowerCase()
+                                ) {
+                                  alert("You are not the owner");
+                                } else {
+                                  if (data.customImageURI) {
+                                    await setAvatar(
+                                      web3Provider.getSigner(),
+                                      { color, object },
+                                      data.customImageURI
+                                    );
+                                  } else {
+                                    await setAvatar(
+                                      web3Provider.getSigner(),
+                                      { color, object },
+                                      `https://www.hexo.codes/images/${color}/${object}.svg`
+                                    );
+                                  }
+                                }
+                              }
+                            }}
+                          >
+                            Avatar
                           </button>
                           <button
                             type="button"
