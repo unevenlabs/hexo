@@ -13,7 +13,7 @@ const features = [
   {
     name: "Look Ma, I'm a DAO!",
     description:
-      'Community can <a class="underline" href="https://openmoji.org/">vote</a> to add new colors, objects default images',
+      'Community can <a class="underline" href="https://snapshot.org/#/hexocodes.eth">vote</a> to add new colors, objects default images',
   },
   {
     name: 'Updateable images!',
