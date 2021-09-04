@@ -59,6 +59,9 @@ const Stats = () => {
               </div>
             </dl>
           </div>
+      <div className="text-center text-2xl text-gray-900 mt-16">
+        All minted! Browse on <a className="underline" href="https://opensea.io/collection/hexo-codes">Open Sea</a>
+      </div>
         </div>
       </div>
     </div>
