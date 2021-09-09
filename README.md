@@ -11,3 +11,5 @@ Visit [hexo.codes](https://www.hexo.codes) to learn more.
 - [Front-End](https://github.com/unevenlabs/hexo/tree/main/packages/app)
 - [Contracts](https://github.com/unevenlabs/hexo/tree/main/packages/core)
 - [Subgraph](https://github.com/unevenlabs/hexo/tree/main/packages/subgraph)
+
+All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0
