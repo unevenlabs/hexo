@@ -121,7 +121,6 @@ export default function Item({ itemProps }: { itemProps: ItemProps }) {
                       <p className="text-gray-500">
                         {`${color}${object}.hexo.eth`}
                       </p>
-                      <p className="text-2xl text-gray-900">0.01 ETH</p>
 
                       {data.owner === null ? (
                         <button
